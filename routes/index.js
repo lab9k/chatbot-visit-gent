@@ -11,8 +11,8 @@ router.use("/", (req, res, next) => {
       return data.json();
     })
     .then(json => {
-      json = [json[0]];
       if (!verbose) {
+        json = [json[0]];
         json = json.map(el => {
           let { name, address, outDoors } = el;
           return { name, address, outDoors };
