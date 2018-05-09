@@ -2,8 +2,7 @@ const router = require("express").Router();
 const fetch = require("node-fetch");
 
 router.use("/", (req, res, next) => {
-  const verbose = req.query["v"];
-  console.log(verbose);
+  const nonverbose = req.query["v"];
   fetch(
     "https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json"
   )
@@ -11,11 +10,10 @@ router.use("/", (req, res, next) => {
       return data.json();
     })
     .then(json => {
-      if (!verbose) {
-        json = [json[0]];
+      if (nonverbose) {
         json = json.map(el => {
-          let { name, address, outDoors } = el;
-          return { name, address, outDoors };
+          delete el["@context"];
+          return el;
         });
       }
       return res.json(json);
