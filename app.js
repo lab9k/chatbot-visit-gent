@@ -9,6 +9,28 @@ dotenv.config();
 
 var app = express();
 
+const langMiddleware = (req, res, next) => {
+  let lang = req.query.lang;
+  switch (lang) {
+    case "Nederlands":
+      req.loc = "nl";
+      break;
+    case "English":
+      req.loc = "en";
+      break;
+    case "Français":
+      req.loc = "fr";
+      break;
+    case "Deutsch":
+      req.loc = "de";
+      break;
+    case "Español":
+      req.loc = "es";
+      break;
+  }
+  next();
+};
+
 const expressTranslate = new _ExpressTranslate({ localeKey: "loc" });
 expressTranslate.addLanguages({
   en: {
@@ -27,6 +49,7 @@ expressTranslate.addLanguages({
     test: "C'est un test"
   }
 });
+app.use(langMiddleware);
 app.use(expressTranslate.middleware());
 app.use(logger("dev"));
 app.use(express.json());

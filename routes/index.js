@@ -1,28 +1,6 @@
 const router = require("express").Router();
 const _ = require("../util/util");
 
-const langMiddleware = (req, res, next) => {
-  let lang = req.query.lang;
-  switch (lang) {
-    case "Nederlands":
-      req.loc = "nl";
-      break;
-    case "English":
-      req.loc = "en";
-      break;
-    case "Français":
-      req.loc = "fr";
-      break;
-    case "Deutsch":
-      req.loc = "de";
-      break;
-    case "Español":
-      req.loc = "es";
-      break;
-  }
-  next();
-};
-
 /**
  *
  */
@@ -38,7 +16,7 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 
-router.get("/places", langMiddleware, (req, res, next) => {
+router.get("/places", (req, res, next) => {
   _.fetchPointsOfInterest().then(json => {
     json = _.combineUrls(json);
     json = json.map(el => {
