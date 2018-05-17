@@ -66,18 +66,32 @@ router.get("/description", idMiddleware, (req, res, next) => {
     ) {
       body = mainEntityOfPage.hasPart[0].articleBody[req.loc][0];
     }
+
     let response = {
       messages: [
         {
-          text: description[req.loc][0]
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "generic",
+              image_aspect_ratio: "square",
+              elements: [
+                {
+                  title: poi.name[req.loc][0],
+                  image_url:
+                    poi.image[Math.floor(Math.random() * poi.image.length)].url,
+                  subtitle: "Size: M"
+                }
+              ]
+            }
+          }
         },
-        {
-          text: body
-        }
+        { text: description[req.loc][0] },
+        { text: body }
       ]
     };
 
-    res.json(response);
+    return res.json(response);
   });
 });
 
