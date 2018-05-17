@@ -32,11 +32,11 @@ router.get("/places", (req, res, next) => {
     response.messages.push({
       text: req.t("poi_find")
     });
-    // json.forEach(poi => {
-    //   response.messages.push({
-    //     text: poi.name[req.loc]
-    //   });
-    // });
+    json.forEach(poi => {
+      response.messages.push({
+        text: poi.name[req.loc][0]
+      });
+    });
     res.json(response);
   });
 });
