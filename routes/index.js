@@ -80,13 +80,12 @@ router.get("/description", idMiddleware, (req, res, next) => {
                   title: poi.name[req.loc][0],
                   image_url:
                     poi.image[Math.floor(Math.random() * poi.image.length)].url,
-                  subtitle: "Size: M"
+                  subtitle: description[req.loc][0]
                 }
               ]
             }
           }
         },
-        { text: description[req.loc][0] },
         { text: body }
       ]
     };
