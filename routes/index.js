@@ -5,22 +5,21 @@ const langMiddleware = (req, res, next) => {
   let lang = req.query.lang;
   switch (lang) {
     case "Nederlands":
-      lang = "nl";
+      req.loc = "nl";
       break;
     case "English":
-      lang = "en";
+      req.loc = "en";
       break;
     case "Français":
-      lang = "fr";
+      req.loc = "fr";
       break;
     case "Deutsch":
-      lang = "de";
+      req.loc = "de";
       break;
     case "Español":
-      lang = "es";
+      req.loc = "es";
       break;
   }
-  req.lang = lang;
   next();
 };
 
@@ -46,7 +45,8 @@ router.get("/places", langMiddleware, (req, res, next) => {
       return _.filterProperties(el);
     });
     let response = {
-      messages: [{ text: "Welcome to the Chatfuel Rockets!" }]
+      messages: [{ text: req.t("test") }],
+      locale: req.loc
     };
     return res.json(response);
   });
