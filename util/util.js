@@ -1,7 +1,15 @@
+const fetch = require("node-fetch");
+
 const findLang = url => {
   let pattern = /visit.gent.be\/([a-z]{2})\//g;
   let match = pattern.exec(url);
   return match[1];
+};
+
+const fetchPointsOfInterest = () => {
+  return fetch("https://visit.gent.be/en/lod/poi").then(data => {
+    return data.json();
+  });
 };
 
 const combineUrls = json => {
@@ -43,5 +51,6 @@ const filterProperties = element => {
 exports = module.exports = {
   combineUrls,
   findLang,
-  filterProperties
+  filterProperties,
+  fetchPointsOfInterest
 };
