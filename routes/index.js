@@ -22,11 +22,6 @@ router.get("/places", (req, res, next) => {
     json = json.map(el => {
       return _.filterProperties(el);
     });
-    // let response = {
-    //   messages: [{ text: req.t("test") }],
-    //   locale: req.loc
-    // };
-    // return res.json(response);
     let response = Object.create(null);
     response["messages"] = [];
     response.messages.push({
