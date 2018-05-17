@@ -66,10 +66,15 @@ router.get("/description", idMiddleware, (req, res, next) => {
     ) {
       body = mainEntityOfPage.hasPart[0].articleBody[req.loc][0];
     }
-
     let response = {
-      description: description[req.loc][0],
-      body
+      messages: [
+        {
+          text: description[req.loc][0]
+        },
+        {
+          text: body
+        }
+      ]
     };
 
     res.json(response);
