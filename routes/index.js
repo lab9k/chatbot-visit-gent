@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const _ = require("../util/util");
+const idMiddleware = require("../util/middleware");
 
 router.get("/", (req, res, next) => {
   _.fetchPointsOfInterest()
@@ -40,6 +41,37 @@ router.get("/places", (req, res, next) => {
       };
       message.quick_replies.push(btn);
     });
+    res.json(response);
+  });
+});
+
+router.get("/description", idMiddleware, (req, res, next) => {
+  _.fetchPointsOfInterest().then(json => {
+    json = _.combineUrls(json);
+    json = json.map(el => {
+      return _.filterProperties(el);
+    });
+    json = json.filter(poi => {
+      return poi["@id"] === req.poi_id;
+    });
+    const poi = json[0];
+    const { description, mainEntityOfPage } = poi;
+    let body = "";
+    if (
+      mainEntityOfPage.hasPart &&
+      mainEntityOfPage.hasPart.length > 0 &&
+      mainEntityOfPage.hasPart[0].articleBody &&
+      mainEntityOfPage.hasPart[0].articleBody[req.loc] &&
+      mainEntityOfPage.hasPart[0].articleBody[req.loc].length > 0
+    ) {
+      body = mainEntityOfPage.hasPart[0].articleBody[req.loc][0];
+    }
+
+    let response = {
+      description: description[req.loc][0],
+      body
+    };
+
     res.json(response);
   });
 });
