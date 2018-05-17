@@ -12,6 +12,9 @@ router.use("/", (req, res, next) => {
     })
     .then(json => {
       json = _.combineUrls(json);
+      json = json.map(el => {
+        return _.filterProperties(el);
+      });
       return res.json(json);
     })
     .catch(next);

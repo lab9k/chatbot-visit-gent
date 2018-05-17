@@ -25,7 +25,23 @@ const combineUrls = json => {
   return combinedLang;
 };
 
+const filterProperties = element => {
+  let i = {
+    "@id": element["@id"],
+    description: element.description,
+    keywords: element.keywords,
+    contactPoint: element.contactPoint,
+    image: element.image,
+    name: element.name,
+    url: element.url,
+    "@type": element["@type"],
+    mainEntityOfPage: element.mainEntityOfPage
+  };
+  return i;
+};
+
 exports = module.exports = {
   combineUrls,
-  findLang
+  findLang,
+  filterProperties
 };
