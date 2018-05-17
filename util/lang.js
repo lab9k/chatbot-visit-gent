@@ -22,19 +22,24 @@ const langMiddleware = (req, res, next) => {
 
 const translations = {
   en: {
-    test: "This is a test"
+    test: "This is a test",
+    poi_find: "These are the points of interest i could find"
   },
   nl: {
-    test: "Dit is een test"
+    test: "Dit is een test",
+    poi_find: "Dit zijn de bezienswaardigheden die ik kan vinden"
   },
   es: {
-    test: "Hablo Español?"
+    test: "Hablo Español?",
+    poi_find: "These are the points of interest i could find"
   },
   de: {
-    test: "Das ist einen test!".toUpperCase()
+    test: "Das ist einen test!".toUpperCase(),
+    poi_find: "These are the points of interest i could find"
   },
   fr: {
-    test: "C'est un test"
+    test: "C'est un test",
+    poi_find: "These are the points of interest i could find"
   }
 };
 
