@@ -5,8 +5,10 @@ var logger = require("morgan");
 const dotenv = require("dotenv");
 const _ExpressTranslate = require("express-translate");
 const lang = require("./util/lang");
-
+const mongoose = require("mongoose");
 dotenv.config();
+
+mongoose.connect(process.env.DB_CONNECTION_STRING);
 
 var app = express();
 

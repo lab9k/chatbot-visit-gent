@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const _ = require("../util/util");
-const idMiddleware = require("../util/middleware");
+const mw = require("../util/middleware");
 
 router.get("/", (req, res, next) => {
   _.fetchPointsOfInterest()
@@ -44,8 +44,16 @@ router.get("/places", (req, res, next) => {
     res.json(response);
   });
 });
-
-router.get("/description", idMiddleware, (req, res, next) => {
+router.post("/places", (req, res, next) => {
+  let response = {
+    user_id: req.body.user_id,
+    bot_id: req.body.bot_id,
+    module_id: req.body.module_id,
+    message: JSON.stringify(req.body)
+  };
+  res.json(response);
+});
+router.get("/description", mw.idMiddleWare, (req, res, next) => {
   _.fetchPointsOfInterest().then(json => {
     json = _.combineUrls(json);
     json = json.map(el => {
