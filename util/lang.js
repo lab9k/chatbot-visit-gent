@@ -1,8 +1,5 @@
 const langMiddleware = (req, res, next) => {
   let lang = req.query.lang;
-  if (!lang) {
-    res.json({ error: "Language was not specified" });
-  }
   switch (lang) {
     case "Nederlands":
       req.loc = "nl";

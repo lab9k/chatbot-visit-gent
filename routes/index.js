@@ -15,6 +15,9 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/places", (req, res, next) => {
+  if (!req.loc) {
+    req.loc = "en";
+  }
   _.fetchPointsOfInterest().then(json => {
     json = _.combineUrls(json);
     json = json.map(el => {
@@ -54,6 +57,9 @@ router.post("/places", (req, res, next) => {
   res.json(response);
 });
 router.get("/description", mw.idMiddleWare, (req, res, next) => {
+  if (!req.loc) {
+    req.loc = "en";
+  }
   _.fetchPointsOfInterest().then(json => {
     json = _.combineUrls(json);
     json = json.map(el => {
