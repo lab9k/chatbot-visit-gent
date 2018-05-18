@@ -14,7 +14,7 @@ var app = express();
 
 const expressTranslate = new _ExpressTranslate({ localeKey: "loc" });
 expressTranslate.addLanguages(lang.translations);
-app.use(lang.langMiddleware);
+//app.use(lang.langMiddleware);
 app.use(expressTranslate.middleware());
 app.use(logger("dev"));
 app.use(express.json());
