@@ -43,10 +43,23 @@ const filterProperties = (element) => {
   return i;
 };
 
+const isSquare = (element) => {
+  const square =
+    'https://gentsefeesten.stad.gent/api/v1/ns/location-type/square';
+  if (!element.additionalType) {
+    return false;
+  }
+  const ret =
+    element.containedInPlace === null &&
+    element.additionalType.includes(square);
+  return ret;
+};
+
 module.exports = {
   combineUrls,
   findLang,
   filterProperties,
   fetchPointsOfInterest,
   fetch,
+  isSquare,
 };
