@@ -100,7 +100,7 @@ const handleLocation = (req, res /* , next */) => {
     }
   };
   console.log(JSON.stringify(ret));
-  return res.json(ret);
+  return res.json({ payload: ret });
 };
 const handleEvents = (/* req, res  , next */) => { };
 
