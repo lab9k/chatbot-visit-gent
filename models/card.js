@@ -28,10 +28,10 @@ class Card {
     const cardObj = {
       buttons: [],
       image_url: this.imgUrl,
-      platform: 'facebook',
+      // platform: 'facebook',
       subtitle: this.subtitle || '',
       title: this.title,
-      type: 1,
+      // type: 1,
     };
     cardObj.buttons.push(...this.buttons.map((el) => el.getResponse()));
     return cardObj;
