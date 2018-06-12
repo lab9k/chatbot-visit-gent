@@ -7,8 +7,8 @@ class Button {
 
   getResponse() {
     return {
-      postback: this.postback,
-      text: this.text,
+      url: this.postback,
+      title: this.text,
       type: this.type,
     };
   }

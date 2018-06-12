@@ -27,7 +27,7 @@ class Card {
   getResponse() {
     const cardObj = {
       buttons: [],
-      imageUrl: this.imgUrl,
+      image_url: this.imgUrl,
       platform: 'facebook',
       subtitle: this.subtitle || '',
       title: this.title,

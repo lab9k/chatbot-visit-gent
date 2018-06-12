@@ -74,11 +74,11 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   return fn(req, res, next);
 });
 
-const handleLocation = (req, res, next) => {
+const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
-  console.log({ lat, long });
+
   const card = new Card(
     'http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png',
     'testing',
@@ -86,9 +86,22 @@ const handleLocation = (req, res, next) => {
     { subtitle: 'testSub' },
     [new Button('btnTest', 'https://google.be', 'web_url')]
   );
-  console.log(card.getResponse());
-  return res.json(card.getResponse());
+  const ret = {
+    facebook: {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'generic',
+          elements: [
+            card.getResponse()
+          ]
+        }
+      }
+    }
+  };
+  console.log(ret);
+  return res.json(ret);
 };
-const handleEvents = (req, res, next) => { };
+const handleEvents = (/* req, res  , next */) => { };
 
 module.exports = router;
