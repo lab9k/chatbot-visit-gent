@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mw = require('../../util/middleware');
 // const _ = require('../../util/util');
 // const locApi = require('../../util/location');
 // const mw = require('../../util/middleware');
@@ -55,10 +56,28 @@ const router = require('express').Router();
 //     .catch((err) => next(err));
 // });
 
-router.all('/', (req, res /* next */) => {
-  console.log(JSON.stringify(req.body));
-  console.log(req.params);
-  return res.json(req.body);
+router.all('/', mw.typeMiddleware, (req, res, next) => {
+  let fn;
+  switch (req.type) {
+    case 'location':
+      fn = handleLocation;
+      break;
+    case 'events':
+      fn = handleEvents;
+      break;
+    default:
+      return next(new Error('type not defined'));
+  }
+  return fn(req, res, next);
 });
+
+const handleLocation = (req, res, next) => {
+  const original = req.body.originalDetectIntentRequest;
+  const { payload } = original;
+  const { lat, long } = payload.data.postback.data;
+  console.log({ lat, long });
+  return res.json({ lat, long });
+};
+const handleEvents = (req, res, next) => {};
 
 module.exports = router;

@@ -1,0 +1,133 @@
+{
+  "responseId": "5ddf113f-2866-4bc1-924b-3306a1804947",
+  "queryResult": {
+    "queryText": "FACEBOOK_LOCATION",
+    "parameters": {
+      "test": "blqblqbqlqblqb"
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "de pleinen worden nog niet weergegeven",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": ["de pleinen worden nog niet weergegeven"]
+        },
+        "platform": "SLACK"
+      },
+      {
+        "card": {
+          "title": "Polé Polé",
+          "subtitle": "party hardy",
+          "imageUri":
+            "http://kloosterhuys.be/wp-content/uploads/bfi_thumb/67521-pole-pole-2014-1015423-n9jb7znpqredclernrljguld7t6br8gv5ruaw2wgr8.jpg",
+          "buttons": [
+            {
+              "text": "Bekijk Programma"
+            }
+          ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "card": {
+          "title": "test",
+          "subtitle": "test",
+          "imageUri": "https://pbs.twimg.com/media/C9SJdEgXoAAQr1z.jpg",
+          "buttons": [
+            {
+              "text": "Bekijk Programma"
+            }
+          ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "card": {
+          "title": "test",
+          "subtitle": "test",
+          "imageUri": "https://pbs.twimg.com/media/C9SJdEgXoAAQr1z.jpg"
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "payload": {
+          "facebook": {
+            "text": "Gelieve uw locatie te delen",
+            "quick_replies": [
+              {
+                "content_type": "location"
+              }
+            ]
+          }
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "payload": {
+          "slack": {
+            "text": "",
+            "attachments": []
+          }
+        },
+        "platform": "SLACK"
+      },
+      {
+        "text": {
+          "text": ["de pleinen worden nog niet weergegeven"]
+        }
+      }
+    ],
+    "outputContexts": [
+      {
+        "name":
+          "projects/small-talk-264a4/agent/sessions/b9a79483-88f6-4045-808c-bce0e991ec2e/contexts/facebook_location",
+        "parameters": {
+          "test": "blqblqbqlqblqb",
+          "test.original": "",
+          "long": 3.7316571,
+          "lat": 51.0474228
+        }
+      },
+      {
+        "name":
+          "projects/small-talk-264a4/agent/sessions/b9a79483-88f6-4045-808c-bce0e991ec2e/contexts/generic",
+        "lifespanCount": 4,
+        "parameters": {
+          "datum.original": "",
+          "datum": "",
+          "test": "blqblqbqlqblqb",
+          "test.original": "",
+          "facebook_sender_id": "1740329819378024"
+        }
+      }
+    ],
+    "intent": {
+      "name":
+        "projects/small-talk-264a4/agent/intents/5249e370-9639-430e-a872-28e93daaba8d",
+      "displayName": "pleinen_intent"
+    },
+    "intentDetectionConfidence": 1,
+    "diagnosticInfo": {},
+    "languageCode": "nl"
+  },
+  "originalDetectIntentRequest": {
+    "source": "facebook",
+    "payload": {
+      "data": {
+        "postback": {
+          "data": {
+            "lat": 51.0474228,
+            "long": 3.7316571
+          },
+          "payload": "FACEBOOK_LOCATION"
+        },
+        "sender": {
+          "id": "1740329819378024"
+        }
+      },
+      "source": "facebook"
+    }
+  },
+  "session":
+    "projects/small-talk-264a4/agent/sessions/b9a79483-88f6-4045-808c-bce0e991ec2e"
+}

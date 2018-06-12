@@ -22,9 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const indexRouter = require('./routes/index');
-
-app.use('/', indexRouter);
 const gfRouter = require('./routes/gf/index');
 
 app.use('/gentse_feesten', gfRouter);
