@@ -87,20 +87,22 @@ const handleLocation = (req, res /* , next */) => {
     [new Button('btnTest', 'https://google.be', 'web_url')]
   );
   const ret = {
-    facebook: {
-      attachment: {
-        type: 'template',
-        payload: {
-          template_type: 'generic',
-          elements: [
-            card.getResponse()
-          ]
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              card.getResponse()
+            ]
+          }
         }
       }
     }
   };
   console.log(JSON.stringify(ret));
-  return res.json({ payload: ret });
+  return res.json(ret);
 };
 const handleEvents = (/* req, res  , next */) => { };
 
