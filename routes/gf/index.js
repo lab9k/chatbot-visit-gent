@@ -99,7 +99,7 @@ const handleLocation = (req, res /* , next */) => {
       }
     }
   };
-  console.log(ret);
+  console.log(JSON.stringify(ret));
   return res.json(ret);
 };
 const handleEvents = (/* req, res  , next */) => { };
