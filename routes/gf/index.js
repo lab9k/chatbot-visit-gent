@@ -78,7 +78,7 @@ const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
-
+  console.log(JSON.stringify(req.body));
   const card = new Card(
     'http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png',
     'testing',
