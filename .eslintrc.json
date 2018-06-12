@@ -8,6 +8,7 @@
     "no-console": "off",
     "no-restricted-syntax": "off",
     "no-use-before-define": "off",
-    "guard-for-in": "off"
+    "guard-for-in": "off",
+    "no-param-reassign": "off"
   }
 }

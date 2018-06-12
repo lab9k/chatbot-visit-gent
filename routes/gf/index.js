@@ -54,4 +54,8 @@ router.all('/events', (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.all('/', (req, res, next) => {
+  return res.json(req.body);
+});
+
 module.exports = router;
