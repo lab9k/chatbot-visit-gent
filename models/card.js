@@ -29,7 +29,7 @@ class Card {
       buttons: [],
       image_url: this.imgUrl,
       // platform: 'facebook',
-      subtitle: this.subtitle || '',
+      subtitle: (this.subtitle || '') + this.location,
       title: this.title,
       // type: 1,
     };

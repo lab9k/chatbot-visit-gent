@@ -1,24 +1,147 @@
 {
-  "facebook": {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "generic",
-        "elements": [
-          {
-            "buttons": [
+  "responseId": "582b34a2-19f2-4bb5-bdbe-5c94e5fca287",
+  "queryResult": {
+    "queryText": "FACEBOOK_LOCATION",
+    "parameters": {
+      "test": "blqblqbqlqblqb"
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "de pleinen worden nog niet weergegeven",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "de pleinen worden nog niet weergegeven"
+          ]
+        },
+        "platform": "SLACK"
+      },
+      {
+        "card": {
+          "title": "Polé Polé",
+          "subtitle": "party hardy",
+          "imageUri": "http://kloosterhuys.be/wp-content/uploads/bfi_thumb/67521-pole-pole-2014-1015423-n9jb7znpqredclernrljguld7t6br8gv5ruaw2wgr8.jpg",
+          "buttons": [
+            {
+              "text": "Bekijk Programma"
+            },
+            {
+              "text": "Navigeer",
+              "postback": "https://www.google.be/maps/place/Graslei,+9000+Gent/@51.05471,3.7185713,17z/data=!3m1!4b1!4m5!3m4!1s0x47c371412b7a2a5f:0x5435a3ad04a37e60!8m2!3d51.05471!4d3.72076"
+            }
+          ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "card": {
+          "title": "test",
+          "subtitle": "test",
+          "imageUri": "https://pbs.twimg.com/media/C9SJdEgXoAAQr1z.jpg",
+          "buttons": [
+            {
+              "text": "Bekijk Programma"
+            },
+            {
+              "text": "Navigeer",
+              "postback": "https://www.google.be/maps/place/Graslei,+9000+Gent/@51.05471,3.7185713,17z/data=!3m1!4b1!4m5!3m4!1s0x47c371412b7a2a5f:0x5435a3ad04a37e60!8m2!3d51.05471!4d3.72076"
+            }
+          ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "card": {
+          "title": "test",
+          "subtitle": "test",
+          "imageUri": "https://pbs.twimg.com/media/C9SJdEgXoAAQr1z.jpg",
+          "buttons": [
+            {
+              "text": "Bekijk Programma"
+            },
+            {
+              "text": "Navigeer",
+              "postback": "https://www.google.be/maps/place/Graslei,+9000+Gent/@51.05471,3.7185713,17z/data=!3m1!4b1!4m5!3m4!1s0x47c371412b7a2a5f:0x5435a3ad04a37e60!8m2!3d51.05471!4d3.72076"
+            }
+          ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "payload": {
+          "facebook": {
+            "text": "Gelieve uw locatie te delen",
+            "quick_replies": [
               {
-                "url": "https://google.be",
-                "title": "btnTest",
-                "type": "web_url"
+                "content_type": "location"
               }
-            ],
-            "image_url": "http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png",
-            "subtitle": "testSub",
-            "title": "testing"
+            ]
           }
-        ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "payload": {
+          "slack": {
+            "text": "",
+            "attachments": []
+          }
+        },
+        "platform": "SLACK"
+      },
+      {
+        "text": {
+          "text": [
+            "de pleinen worden nog niet weergegeven"
+          ]
+        }
       }
+    ],
+    "outputContexts": [
+      {
+        "name": "projects/small-talk-264a4/agent/sessions/60aa0c3a-4caa-4914-a118-b94958250133/contexts/facebook_location",
+        "parameters": {
+          "test": "blqblqbqlqblqb",
+          "test.original": "",
+          "long": 3.7316967,
+          "lat": 51.0474759
+        }
+      },
+      {
+        "name": "projects/small-talk-264a4/agent/sessions/60aa0c3a-4caa-4914-a118-b94958250133/contexts/generic",
+        "lifespanCount": 4,
+        "parameters": {
+          "test": "blqblqbqlqblqb",
+          "test.original": "",
+          "facebook_sender_id": "1740329819378024"
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/small-talk-264a4/agent/intents/5249e370-9639-430e-a872-28e93daaba8d",
+      "displayName": "pleinen_intent"
+    },
+    "intentDetectionConfidence": 1,
+    "diagnosticInfo": {},
+    "languageCode": "nl"
+  },
+  "originalDetectIntentRequest": {
+    "source": "facebook",
+    "payload": {
+      "data": {
+        "postback": {
+          "data": {
+            "lat": 51.0474759,
+            "long": 3.7316967
+          },
+          "payload": "FACEBOOK_LOCATION"
+        },
+        "sender": {
+          "id": "1740329819378024"
+        }
+      },
+      "source": "facebook"
     }
-  }
+  },
+  "session": "projects/small-talk-264a4/agent/sessions/60aa0c3a-4caa-4914-a118-b94958250133"
 }
