@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const mw = require('../../util/middleware');
+const Card = require('../../models/card');
+const Button = require('../../models/button');
+
 // const _ = require('../../util/util');
 // const locApi = require('../../util/location');
 // const mw = require('../../util/middleware');
@@ -76,8 +79,16 @@ const handleLocation = (req, res, next) => {
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   console.log({ lat, long });
-  return res.json({ lat, long });
+  const card = new Card(
+    'http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png',
+    'testing',
+    [long, lat],
+    { subtitle: 'testSub' },
+    [new Button('btnTest', 'https://google.be', 'web_url')]
+  );
+  console.log(card.getResponse());
+  return res.json(card.getResponse());
 };
-const handleEvents = (req, res, next) => {};
+const handleEvents = (req, res, next) => { };
 
 module.exports = router;
