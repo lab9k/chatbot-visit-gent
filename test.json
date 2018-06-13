@@ -1,8 +1,8 @@
 {
-  "responseId": "a2767337-8417-48ce-904b-591a42dd8529",
+  "responseId": "ca8d5743-db93-4464-9aeb-2b14753fa472",
   "queryResult": {
     "queryText": "test something",
-    "action": "testaction",
+    "action": "get_all_squares",
     "parameters": {
       "intent_name": "testing_intent"
     },
@@ -49,11 +49,11 @@
           "id": "623706131325395"
         },
         "message": {
-          "mid": "mid.$cAAJtsvLzV41qKacWPVj-GHN-IkRI",
+          "mid": "mid.$cAAJtsvLzV41qKa0j6Fj-GfbomRr0",
           "text": "test something",
-          "seq": 586501
+          "seq": 586521
         },
-        "timestamp": 1528880549437
+        "timestamp": 1528880946152
       },
       "source": "facebook"
     }

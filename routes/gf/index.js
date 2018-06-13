@@ -138,6 +138,7 @@ const allSquares = (req, res, next) => {
           }
         }
       };
+      console.log({ body: req.body, returnValue: payload });
       return res.json(payload);
     }).catch((err) => next(err));
 };
