@@ -45,6 +45,10 @@ class LocationMapper {
 
     // Promise.all([squarePromise]).then(() => eb.dispatch('data_ready')).catch(console.error);
   }
+
+  getSquares() {
+    return this.squares;
+  }
 }
 
 module.exports = LocationMapper;

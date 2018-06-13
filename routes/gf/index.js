@@ -2,7 +2,8 @@ const router = require('express').Router();
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
-const _ = require('../../util/util');
+// const _ = require('../../util/util');
+const lm = require('../../util/locationmapper');
 
 // const _ = require('../../util/util');
 // const locApi = require('../../util/location');
@@ -109,57 +110,53 @@ const handleLocation = (req, res /* , next */) => {
 };
 const handleEvents = (/* req, res  , next */) => { };
 
-const allSquares = (req, res, next) => {
-  _.fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
-    .then((data) => data.json())
-    .then((locations) => {
-      const squares = locations.filter((el) => _.isSquare(el));
-      const elements = [];
-      const images = [
-        'http://focusonbelgium.be/sites/default/files/styles/big_article_image/public/events/gentse_feesten_avond_c_stad_gent.jpg?itok=5VUGrS2o',
-        'https://nbocdn.akamaized.net/Assets/Images_Upload/2017/07/14/ID-FVV_547c2b8ecf0a6535d0bca19654735180_201707136.jpg?maxheight=460&maxwidth=638',
-        'https://dekuipe.files.wordpress.com/2013/05/gentfotos3-008.jpg',
-        'https://www.belg.be/wp-content/uploads/2016/07/foto-stad-gent-gentse-feesten.jpg',
-        'http://i46.tinypic.com/2cf5eo2.jpg',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gentse_Belleman_2008.jpg/266px-Gentse_Belleman_2008.jpg',
-        'https://www.centrumvooravondonderwijs.be/wp-content/uploads/2013/01/Campussen_Gent_CVA.jpg',
-        'http://www.dewarande.be/sites/default/files/gent2.jpg',
-        'http://www.tvosken.be/wp-content/uploads/2014/08/gent_snachts.jpg',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Ghent_-_centre.jpg/1200px-Ghent_-_centre.jpg'
-      ];
-      let count = 1;
-      while (squares.length > 0) {
-        const three = squares.splice(0, 3);
-        const card = new Card(
-          images.splice(Math.floor(Math.random() * images.length), 1)[0],
-          'pleinen',
-          [0, 3],
-          { subtitle: `plein ${count} - ${count + 2}` },
-          three.map((el) => new Button(
-            el.name.nl,
-            `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
-            'web_url'
-          ))
-        );
-        elements.push(card);
-        count += 3;
-      }
-      const payload = {
-        payload: {
-          facebook: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                elements: elements.map((el) => el.getResponse())
-              }
-            }
+const allSquares = (req, res) => {
+  const squares = lm.getSquares();
+  const elements = [];
+  const images = [
+    'http://focusonbelgium.be/sites/default/files/styles/big_article_image/public/events/gentse_feesten_avond_c_stad_gent.jpg?itok=5VUGrS2o',
+    'https://nbocdn.akamaized.net/Assets/Images_Upload/2017/07/14/ID-FVV_547c2b8ecf0a6535d0bca19654735180_201707136.jpg?maxheight=460&maxwidth=638',
+    'https://dekuipe.files.wordpress.com/2013/05/gentfotos3-008.jpg',
+    'https://www.belg.be/wp-content/uploads/2016/07/foto-stad-gent-gentse-feesten.jpg',
+    'http://i46.tinypic.com/2cf5eo2.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gentse_Belleman_2008.jpg/266px-Gentse_Belleman_2008.jpg',
+    'https://www.centrumvooravondonderwijs.be/wp-content/uploads/2013/01/Campussen_Gent_CVA.jpg',
+    'http://www.dewarande.be/sites/default/files/gent2.jpg',
+    'http://www.tvosken.be/wp-content/uploads/2014/08/gent_snachts.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Ghent_-_centre.jpg/1200px-Ghent_-_centre.jpg'
+  ];
+  let count = 1;
+  while (squares.length > 0) {
+    const three = squares.splice(0, 3);
+    const card = new Card(
+      images.splice(Math.floor(Math.random() * images.length), 1)[0],
+      'pleinen',
+      [0, 3],
+      { subtitle: `plein ${count} - ${count + 2}` },
+      three.map((el) => new Button(
+        el.name.nl,
+        `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
+        'web_url'
+      ))
+    );
+    elements.push(card);
+    count += 3;
+  }
+  const payload = {
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: elements.map((el) => el.getResponse())
           }
         }
-      };
-      console.log(JSON.stringify({ type: 'all_squares', body: req.body, returnValue: payload }));
-      return res.json(payload);
-    }).catch((err) => next(err));
+      }
+    }
+  };
+  console.log(JSON.stringify({ type: 'all_squares', body: req.body, returnValue: payload }));
+  return res.json(payload);
 };
 
 module.exports = router;
