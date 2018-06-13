@@ -16,22 +16,12 @@ class Card {
     this.buttons = [...buttons];
   }
 
-  getObject() {
-    const obj = {};
-    obj.card = {
-      title: this.title,
-      subtitle: this.subtitle,
-    };
-    return this.imgUrl;
-  }
   getResponse() {
     const cardObj = {
       buttons: [],
       image_url: this.imgUrl,
-      // platform: 'facebook',
       subtitle: (this.subtitle || '') + this.location,
       title: this.title,
-      // type: 1,
     };
     cardObj.buttons.push(...this.buttons.map((el) => el.getResponse()));
     return cardObj;

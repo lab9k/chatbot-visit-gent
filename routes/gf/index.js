@@ -73,7 +73,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       fn = allSquares;
       break;
     default:
-      return next(new Error('type not defined'));
+      return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
   return fn(req, res, next);
 });
@@ -139,7 +139,7 @@ const allSquares = (req, res, next) => {
           }
         }
       };
-      console.log(JSON.stringify({ body: req.body, returnValue: payload }));
+      console.log(JSON.stringify({ type: 'all_squares', body: req.body, returnValue: payload }));
       return res.json(payload);
     }).catch((err) => next(err));
 };
