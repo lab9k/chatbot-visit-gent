@@ -32,7 +32,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
-  console.log(payload);
+  console.log(JSON.stringify(payload));
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
   const nearest = loc.closestLocation({ lat, long }, squares);
