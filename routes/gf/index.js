@@ -131,7 +131,7 @@ const allSquares = (req, res, next) => {
             type: 'template',
             payload: {
               template_type: 'generic',
-              elements
+              elements: elements.map((el) => el.getResponse())
             }
           }
         }

@@ -1,62 +1,230 @@
 {
-  "responseId": "ca8d5743-db93-4464-9aeb-2b14753fa472",
-  "queryResult": {
-    "queryText": "test something",
-    "action": "get_all_squares",
-    "parameters": {
-      "intent_name": "testing_intent"
+  "body": {
+    "responseId": "c5837b0f-ec4e-4645-b87e-3c7458bdaed9",
+    "queryResult": {
+      "queryText": "test something",
+      "action": "get_all_squares",
+      "parameters": {
+        "intent_name": "testing_intent"
+      },
+      "allRequiredParamsPresent": true,
+      "fulfillmentText": "testing something",
+      "fulfillmentMessages": [
+        {
+          "text": {
+            "text": [
+              "testing something"
+            ]
+          }
+        }
+      ],
+      "outputContexts": [
+        {
+          "name": "projects/small-talk-264a4/agent/sessions/4e2d4e4d-0780-4ac1-871a-223637e14750/contexts/generic",
+          "lifespanCount": 4,
+          "parameters": {
+            "intent_name.original": "",
+            "test": "pleinen_intent",
+            "test.original": "",
+            "facebook_sender_id": "1740329819378024",
+            "intent_name": "testing_intent"
+          }
+        }
+      ],
+      "intent": {
+        "name": "projects/small-talk-264a4/agent/intents/25b4a6be-c3cf-475a-99bc-05c1a9e14d22",
+        "displayName": "testing"
+      },
+      "intentDetectionConfidence": 1,
+      "diagnosticInfo": {},
+      "languageCode": "nl"
     },
-    "allRequiredParamsPresent": true,
-    "fulfillmentText": "testing something",
-    "fulfillmentMessages": [
-      {
-        "text": {
-          "text": [
-            "testing something"
+    "originalDetectIntentRequest": {
+      "source": "facebook",
+      "payload": {
+        "data": {
+          "sender": {
+            "id": "1740329819378024"
+          },
+          "recipient": {
+            "id": "623706131325395"
+          },
+          "message": {
+            "mid": "mid.$cAAJtsvLzV41qKbES_lj-GvKmnJzz",
+            "text": "test something",
+            "seq": 586527
+          },
+          "timestamp": 1528881203966
+        },
+        "source": "facebook"
+      }
+    },
+    "session": "projects/small-talk-264a4/agent/sessions/4e2d4e4d-0780-4ac1-871a-223637e14750"
+  },
+  "returnValue": {
+    "facebook": {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Sint-Baafsplein",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Korenmarkt",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Walter De Buckplein",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            },
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Baudelohof",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Korenlei-Graslei",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Groentenmarkt",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            },
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Sint-Veerleplein",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "François Laurentplein / Luisterplein",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Vlasmarkt",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            },
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Kouter",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Beverhoutplein / Place Musette",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Emile Braunplein / Mardi Gras",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            },
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Willem de Beersteeg",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Woodrow Wilsonplein",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Vrijdagmarkt",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            },
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Sint-Bavo Humaniora - Reep 4",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Centrum",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Portus Ganda",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            },
+            {
+              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "title": "pleinen",
+              "location": [],
+              "buttons": [
+                {
+                  "text": "Koningin Maria Hendrikaplein",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Watersportbaan",
+                  "postback": "",
+                  "type": "web_url"
+                },
+                {
+                  "text": "Walter De Buckplein/Beverhoutplein",
+                  "postback": "",
+                  "type": "web_url"
+                }
+              ]
+            }
           ]
         }
       }
-    ],
-    "outputContexts": [
-      {
-        "name": "projects/small-talk-264a4/agent/sessions/4e2d4e4d-0780-4ac1-871a-223637e14750/contexts/generic",
-        "lifespanCount": 4,
-        "parameters": {
-          "intent_name.original": "",
-          "test": "pleinen_intent",
-          "test.original": "",
-          "facebook_sender_id": "1740329819378024",
-          "intent_name": "testing_intent"
-        }
-      }
-    ],
-    "intent": {
-      "name": "projects/small-talk-264a4/agent/intents/25b4a6be-c3cf-475a-99bc-05c1a9e14d22",
-      "displayName": "testing"
-    },
-    "intentDetectionConfidence": 1,
-    "diagnosticInfo": {},
-    "languageCode": "nl"
-  },
-  "originalDetectIntentRequest": {
-    "source": "facebook",
-    "payload": {
-      "data": {
-        "sender": {
-          "id": "1740329819378024"
-        },
-        "recipient": {
-          "id": "623706131325395"
-        },
-        "message": {
-          "mid": "mid.$cAAJtsvLzV41qKa0j6Fj-GfbomRr0",
-          "text": "test something",
-          "seq": 586521
-        },
-        "timestamp": 1528880946152
-      },
-      "source": "facebook"
     }
-  },
-  "session": "projects/small-talk-264a4/agent/sessions/4e2d4e4d-0780-4ac1-871a-223637e14750"
+  }
 }
