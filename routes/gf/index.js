@@ -135,7 +135,11 @@ const allSquares = (req, res, next) => {
           'pleinen',
           [0, 3],
           { subtitle: `plein ${count} - ${count + 2}` },
-          three.map((el) => new Button(el.name.nl, 'https://www.google.be', 'web_url'))
+          three.map((el) => new Button(
+            el.name.nl,
+            `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
+            'web_url'
+          ))
         );
         elements.push(card);
         count += 3;
