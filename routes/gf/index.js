@@ -2,6 +2,7 @@ const router = require('express').Router();
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
+const _ = require('../../util/util');
 
 // const _ = require('../../util/util');
 // const locApi = require('../../util/location');
@@ -68,6 +69,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'events':
       fn = handleEvents;
       break;
+    case 'all_locations':
+      fn = allSquares;
+      break;
     default:
       return next(new Error('type not defined'));
   }
@@ -105,5 +109,37 @@ const handleLocation = (req, res /* , next */) => {
   return res.json(ret);
 };
 const handleEvents = (/* req, res  , next */) => { };
+
+const allSquares = (req, res, next) => {
+  _.fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
+    .then((data) => data.json())
+    .then((locations) => {
+      const squares = locations.filter((el) => _.isSquare(el));
+      const elements = [];
+      while (squares.length > 0) {
+        const three = squares.splice(0, 3);
+        const card = new Card(
+          'https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG',
+          'pleinen',
+          [],
+          {},
+          three.map((el) => new Button(el.name.nl, '', 'web_url'))
+        );
+        elements.push(card);
+      }
+      const payload = {
+        facebook: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements
+            }
+          }
+        }
+      };
+      return res.json(payload);
+    }).catch((err) => next(err));
+};
 
 module.exports = router;

@@ -28,7 +28,7 @@ const langMiddleWare = (req, res, next) => {
       req.error = 'Language was not found, defaulting to English';
       break;
   }
-  next();
+  return next();
 };
 
 const typeMiddleware = (req, res, next) => {
@@ -37,6 +37,9 @@ const typeMiddleware = (req, res, next) => {
     switch (qResult.queryText) {
       case 'FACEBOOK_LOCATION':
         req.type = 'location';
+        break;
+      case 'TEST_EVENT':
+        req.type = 'all_locations';
         break;
       default:
         req.type = 'None';
