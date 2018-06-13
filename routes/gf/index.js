@@ -3,7 +3,9 @@ const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
 // const _ = require('../../util/util');
-const lm = require('../../util/locationmapper');
+const LocationMapper = require('../../util/locationmapper');
+
+const locationMapper = new LocationMapper();
 
 // const _ = require('../../util/util');
 // const locApi = require('../../util/location');
@@ -111,7 +113,7 @@ const handleLocation = (req, res /* , next */) => {
 const handleEvents = (/* req, res  , next */) => { };
 
 const allSquares = (req, res) => {
-  const squares = lm.getSquares();
+  const squares = locationMapper.getSquares();
   const elements = [];
   const images = [
     'http://focusonbelgium.be/sites/default/files/styles/big_article_image/public/events/gentse_feesten_avond_c_stad_gent.jpg?itok=5VUGrS2o',
