@@ -1,6 +1,6 @@
 {
   "body": {
-    "responseId": "c5837b0f-ec4e-4645-b87e-3c7458bdaed9",
+    "responseId": "c2a5afa8-81e0-4e1c-bb35-95307e50628b",
     "queryResult": {
       "queryText": "test something",
       "action": "get_all_squares",
@@ -50,11 +50,11 @@
             "id": "623706131325395"
           },
           "message": {
-            "mid": "mid.$cAAJtsvLzV41qKbES_lj-GvKmnJzz",
+            "mid": "mid.$cAAJtsvLzV41qKbOO_1j-G5GtkdVC",
             "text": "test something",
-            "seq": 586527
+            "seq": 586533
           },
-          "timestamp": 1528881203966
+          "timestamp": 1528881366783
         },
         "source": "facebook"
       }
@@ -69,158 +69,158 @@
           "template_type": "generic",
           "elements": [
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Sint-Baafsplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "Sint-Baafsplein",
                   "type": "web_url"
                 },
                 {
-                  "text": "Korenmarkt",
-                  "postback": "",
+                  "url": "",
+                  "title": "Korenmarkt",
                   "type": "web_url"
                 },
                 {
-                  "text": "Walter De Buckplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "Walter De Buckplein",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             },
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Baudelohof",
-                  "postback": "",
+                  "url": "",
+                  "title": "Baudelohof",
                   "type": "web_url"
                 },
                 {
-                  "text": "Korenlei-Graslei",
-                  "postback": "",
+                  "url": "",
+                  "title": "Korenlei-Graslei",
                   "type": "web_url"
                 },
                 {
-                  "text": "Groentenmarkt",
-                  "postback": "",
+                  "url": "",
+                  "title": "Groentenmarkt",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             },
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Sint-Veerleplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "Sint-Veerleplein",
                   "type": "web_url"
                 },
                 {
-                  "text": "François Laurentplein / Luisterplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "François Laurentplein / Luisterplein",
                   "type": "web_url"
                 },
                 {
-                  "text": "Vlasmarkt",
-                  "postback": "",
+                  "url": "",
+                  "title": "Vlasmarkt",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             },
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Kouter",
-                  "postback": "",
+                  "url": "",
+                  "title": "Kouter",
                   "type": "web_url"
                 },
                 {
-                  "text": "Beverhoutplein / Place Musette",
-                  "postback": "",
+                  "url": "",
+                  "title": "Beverhoutplein / Place Musette",
                   "type": "web_url"
                 },
                 {
-                  "text": "Emile Braunplein / Mardi Gras",
-                  "postback": "",
+                  "url": "",
+                  "title": "Emile Braunplein / Mardi Gras",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             },
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Willem de Beersteeg",
-                  "postback": "",
+                  "url": "",
+                  "title": "Willem de Beersteeg",
                   "type": "web_url"
                 },
                 {
-                  "text": "Woodrow Wilsonplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "Woodrow Wilsonplein",
                   "type": "web_url"
                 },
                 {
-                  "text": "Vrijdagmarkt",
-                  "postback": "",
+                  "url": "",
+                  "title": "Vrijdagmarkt",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             },
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Sint-Bavo Humaniora - Reep 4",
-                  "postback": "",
+                  "url": "",
+                  "title": "Sint-Bavo Humaniora - Reep 4",
                   "type": "web_url"
                 },
                 {
-                  "text": "Centrum",
-                  "postback": "",
+                  "url": "",
+                  "title": "Centrum",
                   "type": "web_url"
                 },
                 {
-                  "text": "Portus Ganda",
-                  "postback": "",
+                  "url": "",
+                  "title": "Portus Ganda",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             },
             {
-              "imgUrl": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
-              "title": "pleinen",
-              "location": [],
               "buttons": [
                 {
-                  "text": "Koningin Maria Hendrikaplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "Koningin Maria Hendrikaplein",
                   "type": "web_url"
                 },
                 {
-                  "text": "Watersportbaan",
-                  "postback": "",
+                  "url": "",
+                  "title": "Watersportbaan",
                   "type": "web_url"
                 },
                 {
-                  "text": "Walter De Buckplein/Beverhoutplein",
-                  "postback": "",
+                  "url": "",
+                  "title": "Walter De Buckplein/Beverhoutplein",
                   "type": "web_url"
                 }
-              ]
+              ],
+              "image_url": "https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG",
+              "subtitle": "",
+              "title": "pleinen"
             }
           ]
         }

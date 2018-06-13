@@ -126,12 +126,14 @@ const allSquares = (req, res, next) => {
         elements.push(card);
       }
       const payload = {
-        facebook: {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'generic',
-              elements: elements.map((el) => el.getResponse())
+        payload: {
+          facebook: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'generic',
+                elements: elements.map((el) => el.getResponse())
+              }
             }
           }
         }
