@@ -11,8 +11,6 @@
     "debug": "~2.6.9",
     "dotenv": "^5.0.1",
     "express": "~4.16.0",
-    "express-translate": "^0.4.0",
-    "jsonld": "^1.0.2",
     "morgan": "~1.9.0",
     "node-fetch": "^2.1.2"
   },

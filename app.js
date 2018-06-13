@@ -1,20 +1,12 @@
 const express = require('express');
-// const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv');
-const ExpressTranslate = require('express-translate');
-const lang = require('./util/lang');
-
 
 dotenv.config();
 
 const app = express();
 
-const expressTranslate = new ExpressTranslate({ localeKey: 'loc' });
-expressTranslate.addLanguages(lang.translations);
-app.use(lang.langMiddleware);
-app.use(expressTranslate.middleware());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
