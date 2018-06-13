@@ -14,7 +14,7 @@ class LocationMapper {
       .then((squares) => {
         const promises = [];
         squares.forEach((square) => {
-          // get long and lat for each square
+          // get a clean name for every square (one that returns results on the api)
           const name = `Gent ${square.name.nl.split('/')[0]
             .trim()
             .replace(/ /g, '+')
@@ -26,6 +26,9 @@ class LocationMapper {
             .then((data) => data.json());
           promises.push(locPromise);
         });
+        // when all coordinates have been fetched,
+        // we can map the fetched data into the current squares array.
+        // We start the server by dispatching the data_ready event.
         Promise.all(promises).then((data) => {
           this.squares = this.squares.map((info, i) => {
             const { lat, lon, display_name } = data[i][0];
@@ -41,9 +44,6 @@ class LocationMapper {
         return this.squares;
       })
       .catch(console.error);
-    // const toiletsPromise = _.fetch();
-
-    // Promise.all([squarePromise]).then(() => eb.dispatch('data_ready')).catch(console.error);
   }
 
   getSquares() {

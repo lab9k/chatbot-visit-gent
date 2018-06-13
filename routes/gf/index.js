@@ -57,8 +57,10 @@ const handleLocation = (req, res /* , next */) => {
 const handleEvents = (/* req, res  , next */) => { };
 
 const allSquares = (req, res) => {
+  // We cached the squares with their locations in the locationMapper before the server started.
   const squares = locationMapper.getSquares();
   const elements = [];
+  // Some sample images to be used in the cards.
   const images = [
     'http://focusonbelgium.be/sites/default/files/styles/big_article_image/public/events/gentse_feesten_avond_c_stad_gent.jpg?itok=5VUGrS2o',
     'https://nbocdn.akamaized.net/Assets/Images_Upload/2017/07/14/ID-FVV_547c2b8ecf0a6535d0bca19654735180_201707136.jpg?maxheight=460&maxwidth=638',
@@ -73,12 +75,16 @@ const allSquares = (req, res) => {
   ];
   let count = 1;
   while (squares.length > 0) {
+    // take 3 square objects
     const three = squares.splice(0, 3);
+    // construct a Card object with the 3 squares we just sampled
     const card = new Card(
+      // sample a random image from the list.
       images.splice(Math.floor(Math.random() * images.length), 1)[0],
       'pleinen',
       [0, 3],
       { subtitle: `plein ${count} - ${count + 2}` },
+      // create buttons from the 3 square objects, with a google maps link to their location.
       three.map((el) => new Button(
         el.name.nl,
         `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
@@ -95,6 +101,7 @@ const allSquares = (req, res) => {
           type: 'template',
           payload: {
             template_type: 'generic',
+            // get the json structure for the card
             elements: elements.map((el) => el.getResponse())
           }
         }
