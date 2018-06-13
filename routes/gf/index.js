@@ -69,7 +69,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'events':
       fn = handleEvents;
       break;
-    case 'all_locations':
+    case 'all_squares':
       fn = allSquares;
       break;
     default:

@@ -35,12 +35,12 @@ const typeMiddleware = (req, res, next) => {
   console.log(JSON.stringify(req.body));
   const qResult = req.body.queryResult;
   if (qResult) {
-    switch (qResult.queryText) {
-      case 'FACEBOOK_LOCATION':
+    switch (qResult.action) {
+      case 'get_location_action':
         req.type = 'location';
         break;
-      case 'TEST_EVENT':
-        req.type = 'all_locations';
+      case 'get_all_squares':
+        req.type = 'all_squares';
         break;
       default:
         req.type = 'None';
