@@ -131,7 +131,7 @@ const allSquares = (req, res, next) => {
       while (squares.length > 0) {
         const three = squares.splice(0, 3);
         const card = new Card(
-          images.splice(Math.floor(Math.random() * images.length), 1),
+          images.splice(Math.floor(Math.random() * images.length), 1)[0],
           'pleinen',
           [0, 3],
           { subtitle: `plein ${count} - ${count + 2}` },
