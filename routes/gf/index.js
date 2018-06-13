@@ -82,7 +82,6 @@ const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
-  console.log(JSON.stringify(req.body));
   const card = new Card(
     'http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png',
     'testing',
@@ -105,7 +104,6 @@ const handleLocation = (req, res /* , next */) => {
       }
     }
   };
-  console.log(JSON.stringify(ret));
   return res.json(ret);
 };
 const handleEvents = (/* req, res  , next */) => { };
@@ -138,7 +136,7 @@ const allSquares = (req, res, next) => {
           }
         }
       };
-      console.log({ body: req.body, returnValue: payload });
+      console.log(JSON.stringify({ body: req.body, returnValue: payload }));
       return res.json(payload);
     }).catch((err) => next(err));
 };
