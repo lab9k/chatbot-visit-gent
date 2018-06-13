@@ -116,7 +116,7 @@ const allSquares = (req, res, next) => {
       const squares = locations.filter((el) => _.isSquare(el));
       const elements = [];
       while (squares.length > 0) {
-        const three = squares.splice(0, 5);
+        const three = squares.splice(0, 4);
         const card = new Card(
           'https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG',
           'pleinen',
