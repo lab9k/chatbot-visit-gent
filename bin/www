@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('chatbot-gentse-feesten:server');
 var http = require('http');
+var eb = require('../util/eventBus');
 
 /**
  * Get port from environment and store in Express.
@@ -24,10 +25,11 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+eb.on('data_ready', () => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+});
 
 /**
  * Normalize a port into a number, string, or false.

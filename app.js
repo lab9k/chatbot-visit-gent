@@ -5,10 +5,13 @@ const logger = require('morgan');
 const dotenv = require('dotenv');
 const ExpressTranslate = require('express-translate');
 const lang = require('./util/lang');
+const LocationMapper = require('./util/locationmapper');
 
 dotenv.config();
 
 const app = express();
+
+const locationMapper = new LocationMapper();
 
 const expressTranslate = new ExpressTranslate({ localeKey: 'loc' });
 expressTranslate.addLanguages(lang.translations);
@@ -22,5 +25,10 @@ app.use(cookieParser());
 const gfRouter = require('./routes/gf/index');
 
 app.use('/gentse_feesten', gfRouter);
+
+
+app.get('/', (req, res) => {
+  res.json(locationMapper.squares);
+});
 
 module.exports = app;
