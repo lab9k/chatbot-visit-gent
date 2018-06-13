@@ -120,9 +120,9 @@ const allSquares = (req, res, next) => {
         const card = new Card(
           'https://visit.gent.be/sites/default/files/img/article/hero/Gent_Graslei_zonsondergang.JPG',
           'pleinen',
-          [],
-          {},
-          three.map((el) => new Button(el.name.nl, '', 'web_url'))
+          [0, 3],
+          { subtitle: 'subtitle' },
+          three.map((el) => new Button(el.name.nl, 'https://www.google.be', 'web_url'))
         );
         elements.push(card);
       }
