@@ -60,7 +60,6 @@ const handleLocation = (req, res /* , next */) => {
       }
     }
   };
-  console.log(JSON.stringify({ body: req.body, returnValue: ret }));
   return res.json(ret);
 };
 const handleEvents = (/* req, res  , next */) => { };
@@ -94,7 +93,6 @@ const searchToiletten = (req, res) => {
       }
     }
   };
-  console.log(JSON.stringify({ body: req.body, returnValue: ret }));
   return res.json(ret);
 };
 
@@ -150,11 +148,6 @@ const allSquares = (req, res) => {
       }
     }
   };
-  console.log(JSON.stringify({
-    type: 'all_squares',
-    body: req.body,
-    returnValue: payload,
-  }));
   return res.json(payload);
 };
 

@@ -33,7 +33,6 @@ const langMiddleWare = (req, res, next) => {
 
 const typeMiddleware = (req, res, next) => {
   const qResult = req.body.queryResult;
-  console.log(JSON.stringify(req.body));
   if (qResult) {
     switch (qResult.action) {
       case 'get_location_action':
