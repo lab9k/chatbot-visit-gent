@@ -120,7 +120,12 @@ const allSquares = (req, res) => {
       }
     }
   };
-  console.log(JSON.stringify({ type: 'all_squares', body: req.body, returnValue: payload }));
+  console.log(JSON.stringify({
+    type: 'all_squares',
+    body: req.body,
+    returnValue: payload,
+    allSquares: locationMapper.getSquares()
+  }));
   return res.json(payload);
 };
 
