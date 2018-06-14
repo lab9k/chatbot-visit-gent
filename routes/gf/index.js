@@ -4,6 +4,7 @@ const Card = require('../../models/card');
 const Button = require('../../models/button');
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
+const loc = require('../../util/location');
 
 const locationMapper = new LocationMapper();
 
@@ -19,6 +20,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'all_squares':
       fn = allSquares;
       break;
+    case 'toiletten.search':
+      fn = searchToiletten;
+      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -28,12 +32,16 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
+  console.log(JSON.stringify(payload));
   const { lat, long } = payload.data.postback.data;
+  const squares = locationMapper.getSquares();
+  const nearest = loc.closestLocation({ lat, long }, squares);
+
   const card = new Card(
     'http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png',
-    'testing',
+    `${nearest.name.nl}`,
     [long, lat],
-    { subtitle: 'testSub' },
+    { subtitle: `${nearest.display_name}` },
     [new Button('btnTest', 'https://google.be', 'web_url')]
   );
   const ret = {
@@ -55,6 +63,8 @@ const handleLocation = (req, res /* , next */) => {
   return res.json(ret);
 };
 const handleEvents = (/* req, res  , next */) => { };
+
+const searchToiletten = (req, res, next) => next(new Error('Can\'t search for toilets yet'));
 
 const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.

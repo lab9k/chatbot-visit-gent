@@ -10,11 +10,11 @@ class EventBus {
     this.events[type].push(cb);
   }
 
-  dispatch(type) {
+  dispatch(type, data) {
     if (!this.events[type]) {
       return;
     }
-    this.events[type].forEach((cb) => cb());
+    this.events[type].forEach((cb) => cb(data));
   }
 }
 
