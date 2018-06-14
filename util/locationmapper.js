@@ -5,7 +5,7 @@ class LocationMapper {
   constructor() {
     this.toilets = [];
     this.squares = [];
-    _.fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
+    const l1 = _.fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
       .then((data) => data.json())
       .then((json) => {
         this.squares.push(...json.filter((el) => _.isSquare(el)));
@@ -39,15 +39,30 @@ class LocationMapper {
               display_name
             };
           });
-          eb.dispatch('data_ready');
         });
         return this.squares;
       })
       .catch(console.error);
+    const t1 = _.fetch('https://datatank.stad.gent/4/infrastructuur/publieksanitair.geojson')
+      .then((data) => data.json())
+      .then((json) => {
+        this.toilets.push(...json.coordinates.map((el) => ({ lat: el[1], long: el[0] })));
+      });
+    const t2 = _.fetch('https://datatank.stad.gent/4/infrastructuur/publieksanitair.geojson').then((data) => data.json())
+      .then((json) => {
+        this.toilets.push(...json.coordinates.map((el) => ({ lat: el[1], long: el[0] })));
+      });
+    Promise.all([l1, t1, t2]).then(() => {
+      eb.dispatch('data_ready');
+      console.log(JSON.stringify(this.toilets));
+    }).catch(console.log);
   }
 
   getSquares() {
     return this.squares.slice();
+  }
+  getToilets() {
+    return this.toilets.slice();
   }
 }
 

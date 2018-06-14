@@ -34,7 +34,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
-  console.log(JSON.stringify(payload));
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
   const nearest = loc.closestLocation({ lat, long }, squares);
@@ -66,7 +65,38 @@ const handleLocation = (req, res /* , next */) => {
 };
 const handleEvents = (/* req, res  , next */) => { };
 
-const searchToiletten = (req, res, next) => next(new Error('Can\'t search for toilets yet'));
+const searchToiletten = (req, res) => {
+  const original = req.body.originalDetectIntentRequest;
+  const { payload } = original;
+  const { lat, long } = payload.data.postback.data;
+  const toiletten = locationMapper.getToilets();
+  const nearest = loc.closestLocation({ lat, long }, toiletten);
+
+  const card = new Card(
+    'https://images.homedepot-static.com/productImages/f932bfbe-8a27-4a8e-acba-e056b55b4516/svn/cotton-white-toto-two-piece-toilets-cst744s-01-64_1000.jpg',
+    'dichtste toilet',
+    [long, lat],
+    { subtitle: 'dichtste toilet test' },
+    [new Button('vind wc', `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`, 'web_url')]
+  );
+  const ret = {
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              card.getResponse()
+            ]
+          }
+        }
+      }
+    }
+  };
+  console.log(JSON.stringify({ body: req.body, returnValue: ret }));
+  return res.json(ret);
+};
 
 const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
@@ -124,7 +154,6 @@ const allSquares = (req, res) => {
     type: 'all_squares',
     body: req.body,
     returnValue: payload,
-    allSquares: locationMapper.getSquares()
   }));
   return res.json(payload);
 };
