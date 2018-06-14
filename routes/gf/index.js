@@ -75,7 +75,7 @@ const searchToiletten = (req, res) => {
     'https://images.homedepot-static.com/productImages/f932bfbe-8a27-4a8e-acba-e056b55b4516/svn/cotton-white-toto-two-piece-toilets-cst744s-01-64_1000.jpg',
     'dichtste toilet',
     [long, lat],
-    { subtitle: 'dichtste toilet test' },
+    { subtitle: 'dit is het dichtsbijzijnde toilet' },
     [new Button('vind wc', `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`, 'web_url')]
   );
   const ret = {
