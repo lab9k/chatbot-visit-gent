@@ -48,7 +48,7 @@ class LocationMapper {
       .then((json) => {
         this.toilets.push(...json.coordinates.map((el) => ({ lat: el[1], long: el[0] })));
       });
-    const t2 = _.fetch('https://datatank.stad.gent/4/infrastructuur/publieksanitair.geojson').then((data) => data.json())
+    const t2 = _.fetch('https://datatank.stad.gent/4/toerisme/mobieletoilettengentsefeesten.geojson').then((data) => data.json())
       .then((json) => {
         this.toilets.push(...json.coordinates.map((el) => ({ lat: el[1], long: el[0] })));
       });
