@@ -33,7 +33,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 
 const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
-  console.log(original);
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
