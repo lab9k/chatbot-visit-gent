@@ -1,3 +1,10 @@
+/**
+ *
+ *
+ * @param {{lat:number,long:number}} targetLocation object with at least lat and long properties.
+ * @param {[{lat:number,long:number}]} locationData array of objects. should have at least lat and long properties
+ * @returns object from locationData which is closest to the targetLocation.
+ */
 function closestLocation(targetLocation, locationData) {
   function vectorDistance(dx, dy) {
     return Math.sqrt((dx * dx) + (dy * dy));
