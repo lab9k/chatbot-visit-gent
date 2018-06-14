@@ -36,16 +36,16 @@ eb.on('data_ready', () => {
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+  const port1 = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (isNaN(port1)) { // eslint-disable-line no-restricted-globals
     // named pipe
     return val;
   }
 
-  if (port >= 0) {
+  if (port1 >= 0) {
     // port number
-    return port;
+    return port1;
   }
 
   return false;
@@ -67,11 +67,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind } requires elevated privileges`);
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${bind } is already in use`);
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
