@@ -14,7 +14,7 @@ class EventBus {
     if (!this.events[type]) {
       return;
     }
-    this.events[type].forEach((cb) => cb(data));
+    this.events[type].forEach(cb => cb(data));
   }
 }
 

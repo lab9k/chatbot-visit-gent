@@ -9,6 +9,7 @@
     "no-use-before-define": "off",
     "guard-for-in": "off",
     "comma-dangle": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-mixed-operators": "off"
   }
 }
