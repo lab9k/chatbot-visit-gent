@@ -14,6 +14,7 @@ class EventBus {
     if (!this.events[type]) {
       return;
     }
+    console.log(`Dispatching events of type: ${type}`);
     this.events[type].forEach((cb) => cb(data));
   }
 }

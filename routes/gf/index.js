@@ -8,6 +8,8 @@ const loc = require('../../util/location');
 
 const locationMapper = new LocationMapper();
 
+router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
+
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
