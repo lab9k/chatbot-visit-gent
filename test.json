@@ -1,0 +1,68 @@
+{
+  "responseId": "b22c05a5-e1a8-4393-ad5d-c001c34e3dae",
+  "queryResult": {
+    "queryText": "pleinen",
+    "action": "get_all_squares",
+    "parameters": {
+      "intent_name": "get_all_squares_intent"
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Hier zijn alle feestlocaties voor de Gentse feesten....",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "Hier zijn alle feestlocaties voor de Gentse feesten...."
+          ]
+        },
+        "platform": "FACEBOOK"
+      },
+      {
+        "text": {
+          "text": [
+            "Hier zijn alle feestlocaties voor de Gentse feesten...."
+          ]
+        }
+      }
+    ],
+    "outputContexts": [
+      {
+        "name": "projects/small-talk-264a4/agent/sessions/907a6c10-6b46-405d-8baf-a8fa273ca017/contexts/generic",
+        "lifespanCount": 4,
+        "parameters": {
+          "intent_name.original": "",
+          "facebook_sender_id": "2153269038046776",
+          "intent_name": "get_all_squares_intent"
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/small-talk-264a4/agent/intents/25b4a6be-c3cf-475a-99bc-05c1a9e14d22",
+      "displayName": "alle_pleinen_intent"
+    },
+    "intentDetectionConfidence": 1,
+    "diagnosticInfo": {},
+    "languageCode": "nl"
+  },
+  "originalDetectIntentRequest": {
+    "source": "facebook",
+    "payload": {
+      "data": {
+        "sender": {
+          "id": "2153269038046776"
+        },
+        "recipient": {
+          "id": "623706131325395"
+        },
+        "message": {
+          "mid": "mid.$cAAI3Qb0Z2hpqL0-cN1j_gpF1n0Ub",
+          "text": "pleinen",
+          "seq": 175186
+        },
+        "timestamp": 1528975479863
+      },
+      "source": "facebook"
+    }
+  },
+  "session": "projects/small-talk-264a4/agent/sessions/907a6c10-6b46-405d-8baf-a8fa273ca017"
+}
