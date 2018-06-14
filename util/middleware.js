@@ -36,7 +36,7 @@ const typeMiddleware = (req, res, next) => {
   if (qResult) {
     switch (qResult.action) {
       case 'get_plein_location':
-        req.type = 'location';
+        req.type = 'get_plein_location';
         break;
       case 'get_all_squares':
         req.type = 'all_squares';

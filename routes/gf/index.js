@@ -13,7 +13,7 @@ router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSqua
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
-    case 'location':
+    case 'get_plein_location':
       fn = handleLocation;
       break;
     case 'events':
