@@ -33,6 +33,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 
 const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
+  console.log(original);
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
@@ -123,7 +124,7 @@ const allSquares = (req, res) => {
       images.splice(Math.floor(Math.random() * images.length), 1)[0],
       'pleinen',
       [0, 3],
-      { subtitle: `plein ${count} - ${count + 2}` },
+      { subtitle: `pleinen ${count} - ${count + 2}` },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map((el) => new Button(
         el.name.nl,
