@@ -4,10 +4,6 @@
     "ecmaVersion": 6
   },
   "rules": {
-    "arrow-parens": [
-      "error",
-      "always"
-    ],
     "no-console": "off",
     "no-restricted-syntax": "off",
     "no-use-before-define": "off",
