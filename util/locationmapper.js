@@ -47,7 +47,7 @@ class LocationMapper {
   }
 
   getSquares() {
-    return this.squares;
+    return this.squares.slice();
   }
 }
 

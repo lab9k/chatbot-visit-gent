@@ -8,7 +8,7 @@ const loc = require('../../util/location');
 
 const locationMapper = new LocationMapper();
 
-router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares().slice() }));
+router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
@@ -36,7 +36,7 @@ const handleLocation = (req, res /* , next */) => {
   const { payload } = original;
   console.log(JSON.stringify(payload));
   const { lat, long } = payload.data.postback.data;
-  const squares = locationMapper.getSquares().slice();
+  const squares = locationMapper.getSquares();
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
@@ -70,7 +70,7 @@ const searchToiletten = (req, res, next) => next(new Error('Can\'t search for to
 
 const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
-  const squares = locationMapper.getSquares().slice();
+  const squares = locationMapper.getSquares();
   const elements = [];
   // Some sample images to be used in the cards.
   const images = [
@@ -124,7 +124,7 @@ const allSquares = (req, res) => {
     type: 'all_squares',
     body: req.body,
     returnValue: payload,
-    allSquares: locationMapper.getSquares().slice()
+    allSquares: locationMapper.getSquares()
   }));
   return res.json(payload);
 };
