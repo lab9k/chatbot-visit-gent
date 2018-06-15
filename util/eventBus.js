@@ -18,6 +18,7 @@ class EventBus {
   }
 
   /**
+   *  This is a hack, use with caution.
    *  reverse observer. You can use this function if you want to wait for multiple events,
    *  originating in different parts of your application.
    *
