@@ -10,6 +10,7 @@
     "guard-for-in": "off",
     "comma-dangle": "off",
     "camelcase": "off",
-    "no-mixed-operators": "off"
+    "no-mixed-operators": "off",
+    "no-underscore-dangle": "off"
   }
 }

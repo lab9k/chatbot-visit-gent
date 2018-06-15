@@ -60,7 +60,7 @@ class LocationMapper {
       });
     Promise.all([l1, t1, t2])
       .then(() => {
-        eb.dispatch('data_ready');
+        eb.multiDispatch('data_ready');
       })
       .catch(console.error);
   }
