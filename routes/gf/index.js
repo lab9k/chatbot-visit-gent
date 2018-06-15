@@ -5,7 +5,9 @@ const Button = require('../../models/button');
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
+const EventMapper = require('../../util/eventmapper');
 
+const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
@@ -155,5 +157,28 @@ const allSquares = (req, res) => {
   };
   return res.json(payload);
 };
+
+router.get('/debug', (req, res) => {
+  const { events } = eventMapper;
+  const ret = [];
+  events.forEach((ev) => {
+    const included = ret.findIndex(el => el.name.nl === ev.name.nl);
+    if (included === -1) {
+      return ret.push({ ...ev, startDates: [ev.startDate] });
+    }
+    if (!ret[included].startDates) {
+      ret[included].startDates = [];
+    }
+    return ret[included].startDates.push(ev.startDate);
+  });
+  res.json({
+    count: ret.length,
+    items: ret.map(el => ({
+      name: el.name.nl,
+      startDates: el.startDates,
+      location: el.location
+    }))
+  });
+});
 
 module.exports = router;

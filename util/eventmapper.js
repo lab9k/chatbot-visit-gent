@@ -4,9 +4,6 @@ const eb = require('./eventBus');
 class EventMapper {
   constructor() {
     this._events = [];
-  }
-
-  init() {
     _.fetch('https://datatank.stad.gent/4/toerisme/gentsefeestenevents.json')
       .then(data => data.json())
       .then((json) => {
