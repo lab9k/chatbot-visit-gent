@@ -73,9 +73,9 @@ const searchToiletten = (req, res) => {
 
   const card = new Card(
     'https://visit.gent.be/sites/default/files/images-article/openbaretoiletten_gent1.JPG',
-    'dichtstbijzijnde toilet',
+    'Dichtstbijzijnde toilet',
     [long, lat],
-    { subtitle: 'dit is het dichtsbijzijnde toilet' },
+    { subtitle: 'Klik op navigeer om naar het dichtsbijzijnde toilet te navigeren' },
     [
       new Button(
         'Navigeer',
