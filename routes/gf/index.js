@@ -72,8 +72,8 @@ const searchToiletten = (req, res) => {
   const nearest = loc.closestLocation({ lat, long }, toiletten);
 
   const card = new Card(
-    'https://images.homedepot-static.com/productImages/f932bfbe-8a27-4a8e-acba-e056b55b4516/svn/cotton-white-toto-two-piece-toilets-cst744s-01-64_1000.jpg',
-    'dichtste toilet',
+    'https://visit.gent.be/sites/default/files/images-article/openbaretoiletten_gent1.JPG',
+    'dichtstbijzijnde toilet',
     [long, lat],
     { subtitle: 'dit is het dichtsbijzijnde toilet' },
     [
