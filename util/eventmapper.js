@@ -8,8 +8,13 @@ class EventMapper {
       .then(data => data.json())
       .then((json) => {
         console.log('data loaded');
-        this.events = json.filter(el => el.location !== null && el.isAccessibleForFree);
-        eb.multiDispatch('data_ready');
+        try {
+          this.events = json.filter(el => el.location !== null && el.isAccessibleForFree);
+          eb.multiDispatch('data_ready');
+        }
+        catch(error) {
+          console.error(error);
+        }
       })
       .catch(error => 
         console.log(error)
