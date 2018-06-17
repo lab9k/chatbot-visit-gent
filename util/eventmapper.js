@@ -10,7 +10,10 @@ class EventMapper {
         console.log('data loaded');
         this.events = json.filter(el => el.location !== null && el.isAccessibleForFree);
         eb.multiDispatch('data_ready');
-      });
+      })
+      .catch(error => 
+        console.log(error)
+      )
   }
 
   get events() {
