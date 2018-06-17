@@ -43,6 +43,7 @@ class LocationMapper {
             };
           });
         });
+        console.log(this.squares)
         return this.squares;
       })
       .catch(console.error);
