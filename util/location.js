@@ -8,7 +8,7 @@
  */
 function closestLocation(targetLocation, locationData) {
   function vectorDistance(dx, dy) {
-    return Math.sqrt((dx * dx) + (dy * dy));
+    return Math.sqrt(dx * dx + dy * dy);
   }
 
   function locationDistance(location1, location2) {
@@ -20,10 +20,10 @@ function closestLocation(targetLocation, locationData) {
   return locationData.reduce((prev, curr) => {
     const prevDistance = locationDistance(targetLocation, prev);
     const currDistance = locationDistance(targetLocation, curr);
-    return (prevDistance < currDistance) ? prev : curr;
+    return prevDistance < currDistance ? prev : curr;
   });
 }
 
 module.exports = {
-  closestLocation,
+  closestLocation
 };

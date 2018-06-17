@@ -7,12 +7,12 @@ const findLang = (url) => {
 };
 
 const fetchPointsOfInterest = () =>
-  fetch('https://visit.gent.be/en/lod/poi').then((data) => data.json());
+  fetch('https://visit.gent.be/en/lod/poi').then(data => data.json());
 
 const combineUrls = (json) => {
   const combinedLang = [];
   json.forEach((el) => {
-    const exists = combinedLang.find((i) => i['@id'] === el['@id']);
+    const exists = combinedLang.find(i => i['@id'] === el['@id']);
     if (exists) {
       const lang = findLang(el.url);
       exists.url[lang] = [el.url];
@@ -38,20 +38,17 @@ const filterProperties = (element) => {
     name: element.name,
     url: element.url,
     '@type': element['@type'],
-    mainEntityOfPage: element.mainEntityOfPage,
+    mainEntityOfPage: element.mainEntityOfPage
   };
   return i;
 };
 
 const isSquare = (element) => {
-  const square =
-    'https://gentsefeesten.stad.gent/api/v1/ns/location-type/square';
+  const square = 'https://gentsefeesten.stad.gent/api/v1/ns/location-type/square';
   if (!element.additionalType) {
     return false;
   }
-  const ret =
-    element.containedInPlace === null &&
-    element.additionalType.includes(square);
+  const ret = element.containedInPlace === null && element.additionalType.includes(square);
   return ret;
 };
 
@@ -61,5 +58,5 @@ module.exports = {
   filterProperties,
   fetchPointsOfInterest,
   fetch,
-  isSquare,
+  isSquare
 };

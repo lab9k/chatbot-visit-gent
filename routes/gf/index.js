@@ -5,7 +5,9 @@ const Button = require('../../models/button');
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
+const EventMapper = require('../../util/eventmapper');
 
+const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
@@ -52,9 +54,7 @@ const handleLocation = (req, res /* , next */) => {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [
-              card.getResponse()
-            ]
+            elements: [card.getResponse()]
           }
         }
       }
@@ -62,7 +62,7 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
-const handleEvents = (/* req, res  , next */) => { };
+const handleEvents = (/* req, res  , next */) => {};
 
 const searchToiletten = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
@@ -75,8 +75,16 @@ const searchToiletten = (req, res) => {
     'https://images.homedepot-static.com/productImages/f932bfbe-8a27-4a8e-acba-e056b55b4516/svn/cotton-white-toto-two-piece-toilets-cst744s-01-64_1000.jpg',
     'dichtste toilet',
     [long, lat],
-    { subtitle: 'Dit is het dichtsbijzijnde toilet' },
-    [new Button('Navigeer', `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`, 'web_url')]
+    { subtitle: 'dit is het dichtsbijzijnde toilet' },
+    [
+      new Button(
+        'Navigeer',
+        `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
+          nearest.long
+        }&travelmode=walking`,
+        'web_url'
+      )
+    ]
   );
   const ret = {
     payload: {
@@ -85,9 +93,7 @@ const searchToiletten = (req, res) => {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [
-              card.getResponse()
-            ]
+            elements: [card.getResponse()]
           }
         }
       }
@@ -125,11 +131,12 @@ const allSquares = (req, res) => {
       [0, 3],
       { subtitle: `pleinen ${count} - ${count + 2}` },
       // create buttons from the 3 square objects, with a google maps link to their location.
-      three.map((el) => new Button(
-        el.name.nl,
-        `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
-        'web_url'
-      ))
+      three.map(el =>
+        new Button(
+          el.name.nl,
+          `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
+          'web_url'
+        ))
     );
     elements.push(card);
     count += 3;
@@ -142,7 +149,7 @@ const allSquares = (req, res) => {
           payload: {
             template_type: 'generic',
             // get the json structure for the card
-            elements: elements.map((el) => el.getResponse())
+            elements: elements.map(el => el.getResponse())
           }
         }
       }
@@ -150,5 +157,28 @@ const allSquares = (req, res) => {
   };
   return res.json(payload);
 };
+
+router.get('/debug', (req, res) => {
+  const { events } = eventMapper;
+  const ret = [];
+  events.forEach((ev) => {
+    const included = ret.findIndex(el => el.name.nl === ev.name.nl);
+    if (included === -1) {
+      return ret.push({ ...ev, startDates: [ev.startDate] });
+    }
+    if (!ret[included].startDates) {
+      ret[included].startDates = [];
+    }
+    return ret[included].startDates.push(ev.startDate);
+  });
+  res.json({
+    count: ret.length,
+    items: ret.map(el => ({
+      name: el.name.nl,
+      startDates: el.startDates,
+      location: el.location
+    }))
+  });
+});
 
 module.exports = router;
