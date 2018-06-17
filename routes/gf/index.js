@@ -38,7 +38,9 @@ const handleLocation = (req, res /* , next */) => {
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
-  console.log(squares);
+  
+  squares.filter(square => console.log(square.display_name));
+  
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
