@@ -76,7 +76,7 @@ const searchToiletten = (req, res) => {
   const nearest = loc.closestLocation({ lat, long }, toiletten);
 
   const card = new Card(
-    'https://visit.gent.be/sites/default/files/images-article/openbaretoiletten_gent1.JPG',
+    'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
     'Dichtstbijzijnde toilet',
     [long, lat],
     { subtitle: 'Klik op navigeer om naar het dichtsbijzijnde toilet te navigeren' },
