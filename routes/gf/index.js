@@ -39,6 +39,7 @@ const handleLocation = (req, res /* , next */) => {
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
   
+  //log all squares
   squares.filter(square => console.log(square.display_name));
   
   const nearest = loc.closestLocation({ lat, long }, squares);
