@@ -63,7 +63,6 @@ class LocationMapper {
         eb.multiDispatch('data_ready');
       })
       .catch(console.error);
-    this.squares = Array.from(new Set(this.squares));
   }
 
   getSquares() {
