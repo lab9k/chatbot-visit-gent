@@ -12,7 +12,6 @@ class LocationMapper {
         this.squares.push(...json
           .filter(el => _.isSquare(el))
           .filter(el => el.name.nl !== "Walter De Buckplein/Beverhoutplein")
-          .map(el => console.log(el.name.nl))      
         );
         return this.squares;
       })
