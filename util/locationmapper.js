@@ -4,7 +4,7 @@ const _ = require('./util');
 class LocationMapper {
   constructor() {
     this.toilets = [];
-    this.squares = [];
+    this.squares = new Set();
     const l1 = _
       .fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
       .then(data => data.json())
