@@ -9,7 +9,11 @@ class LocationMapper {
       .fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
       .then(data => data.json())
       .then((json) => {
-        this.squares.push(...json.filter(el => _.isSquare(el)));
+        this.squares.push(...json
+          .filter(el => _.isSquare(el))
+          //filter out "Bij Sint-Jacobs 18/Walter De Buckplein 4" because it's a double
+          .filter(el => el.address.streetAddress !== "Bij Sint-Jacobs 18/Walter De Buckplein 4")      
+        );
         return this.squares;
       })
       .then((squares) => {
