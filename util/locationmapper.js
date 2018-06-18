@@ -4,12 +4,12 @@ const _ = require('./util');
 class LocationMapper {
   constructor() {
     this.toilets = [];
-    this.squares = new Set();
+    this.squares = [];
     const l1 = _
       .fetch('https://datatank.stad.gent/4/cultuursportvrijetijd/gentsefeestenlocaties.json')
       .then(data => data.json())
       .then((json) => {
-        this.squares.add(...json.filter(el => _.isSquare(el)));
+        this.squares.push(...json.filter(el => _.isSquare(el)));
         return this.squares;
       })
       .then((squares) => {
