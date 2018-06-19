@@ -14,7 +14,7 @@ const locationMapper = new LocationMapper();
 const pg = require('knex')({
   client: 'pg',
   connection: process.env.DATABASE_URL,
-  searchPath: ['knex', 'public'],
+  searchPath: ['knex', 'public']
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
@@ -33,6 +33,7 @@ router.get('/feedback', (req, res) => {
 });
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
+  res.json({'test':'test'});
   let fn;
   switch (req.type) {
     case 'get_plein_location':
@@ -167,7 +168,6 @@ const feedbackSatisfaction = (req, res, next) => {
 
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
-  console.log(req.body.queryResult.parameters.improvement_proposal);
   pg
     .insert({
       uuid: uuidV1(),
