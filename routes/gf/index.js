@@ -24,6 +24,7 @@ router.get('/feedback', (req, res) => {
     .select()
     .table('feedback')
     .then((results) => {
+      console.log('success get all feedback');
       res.json(results);
     })
     .catch((e) => {
