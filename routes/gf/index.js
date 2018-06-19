@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
@@ -17,6 +18,14 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
+router.get('/feedback', (req, res) => {
+  pg
+    .select()
+    .table('feedback')
+    .then((results) => {
+      res.json(results);
+    })
+})
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
@@ -78,14 +87,34 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
+const checkConnectionAndTable = () => {
+  console.log('Connection string', process.env.DATABASE_URL);
+
+  if (process.env.DATABASE_URL) {
+    pg.schema.hasTable('feedback').then((exists) => {
+      console.log('feedbackTableExists', exists);
+      if (!exists) {
+        console.log('creating table...');
+        pg.schema
+          .createTable('feedback', (table) => {
+            table.increments();
+            table.uuid('uuid');
+            table.string('body', 'longtext');
+            table.timestamps(true, false);
+          })
+          .then(() => {
+            console.log('feedback table succesfully created!');
+          })
+      } else {
+        console.log('table feedback already exists');
+      }
+    });
+  } else {
+    console.log('no connection with pg')
+  }
+};
 const handleEvents = (/* req, res  , next */) => {
   //sort programma by location
-
-
-
-
-
-
 };
 
 const searchToiletten = (req, res) => {
@@ -128,30 +157,24 @@ const searchToiletten = (req, res) => {
 
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
-  console.log(process.env.DATABASE_URL);
-  
-  pg.schema.hasTable('feedback').then((exists) => {
-    console.log('feedbackTableExists', exists);
-    if (!exists) {
-      console.log('creating table...');
-      pg.schema
-        .createTable('feedback', (table) => {
-          table.increments();
-          table.uuid('uuid');
-          table.string('body', 'longtext');
-          table.timestamps(true, false);
-        })
-        .then(() => {
-          console.log('feedback table succesfully created!');
-        })
-    } else {
-      console.log('table feedback already exists');
-    }
-  });
+  checkConnectionAndTable();
 }
 
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
+  console.log(req.body.queryResult.parameters.improvement_proposal);
+  pg
+    .insert({
+      uuid: uuidV1(),
+      body: req.body.queryResult.parameters.improvement_proposal
+    })
+    .into('feedback')
+    .then(() => {
+      console.log('feedback data insterted!');
+    })
+    .catch((e) => {
+      console.log(e);
+    })
 }
 
 const allSquares = (req, res) => {
