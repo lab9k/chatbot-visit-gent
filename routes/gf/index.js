@@ -55,7 +55,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'feedback.improvement':
       fn = feedbackImprovement;
       break;
-    case 'plein_card' :
+    case 'plein_card':
       fn = getPleinCard;
       break;
     default:
@@ -256,8 +256,8 @@ const getPleinCard = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
   const { name } = payload.data.postback.data;
-  const square = loc.squares.filter(square => square.display_name == name);
-  
+  const square = loc.squares.filter(square => square.display_name.toLowerCase() == name.toLowerCase());
+  console.log("get plein card");
   //log all squares
   //squares.filter(square => console.log(square.address));
   
