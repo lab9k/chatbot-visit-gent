@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const express = require('express');
 const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
@@ -18,7 +19,7 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-require('express').get('/feedback', (req, res) => {
+express().get('/feedback', (req, res) => {
   console.log('success get all feedback');
   pg
     .select()
