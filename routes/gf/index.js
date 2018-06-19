@@ -118,13 +118,13 @@ const searchToiletten = (req, res) => {
   return res.json(ret);
 };
 
-const feedbackSatisfaction = (req, res) => {
+const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
   console.log('req', req);
   console.log('res', res);
 }
 
-const feedbackImprovement = (req, res) => {
+const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
   console.log('req', req);
   console.log('res', res);
