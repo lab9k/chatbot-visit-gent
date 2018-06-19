@@ -162,8 +162,7 @@ const feedbackSatisfaction = (req, res, next) => {
 
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
-  console.log('new uuid', uuidV1());
-  console.log(req.body);
+  console.log(req.body.parameters.improvement_proposal);
   pg
     .insert({
       uuid: uuidV1(),
@@ -171,7 +170,7 @@ const feedbackImprovement = (req, res, next) => {
     })
     .into('feedback')
     .then((results) => {
-      console.log('data insterted!', results);
+      console.log('data insterted!', results.fields);
     })
     .catch((e) => {
       console.log(e);
