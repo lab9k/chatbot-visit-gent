@@ -29,8 +29,10 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       break;
     case 'feedback.satisfaction':
       fn = feedbackSatisfaction;
+      break;
     case 'feedback.improvement':
       fn = feedbackImprovement;
+      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
