@@ -14,7 +14,8 @@
     "knex": "^0.14.6",
     "morgan": "~1.9.0",
     "node-fetch": "^2.1.2",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
