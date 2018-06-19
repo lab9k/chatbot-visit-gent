@@ -19,19 +19,19 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-express().get('/feedback', (req, res) => {
-  console.log('success get all feedback');
-  pg
-    .select()
-    .table('feedback')
-    .then((results) => {
-      console.log('success get all feedback');
-      res.json(results);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-});
+express()
+  .get('/feedback', (req, res) => {
+    console.log('success get all feedback');
+    pg
+      .select()
+      .table('feedback')
+      .then((results) => {
+        res.json(results);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  });
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   res.json({'test':'test'});
