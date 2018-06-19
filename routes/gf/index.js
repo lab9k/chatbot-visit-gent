@@ -18,6 +18,14 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
+router.get('/feedback', (req, res) => {
+  pg
+    .select()
+    .table('feedback')
+    .then((results) => {
+      res.json(results);
+    })
+})
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
@@ -155,9 +163,10 @@ const feedbackSatisfaction = (req, res, next) => {
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
   console.log('new uuid', uuidV1());
+  console.log(req.body);
   pg
     .insert({
-      uuid: 'd9b67ae9-8cae-4463-8995-76669330c3df',
+      uuid: uuidV1(),
       body: 'qhdjqsd gqjshdg qshd gqjs'
     })
     .into('feedback')
