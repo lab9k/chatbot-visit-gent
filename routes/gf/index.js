@@ -18,19 +18,18 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-// router.get('/test', (req, res) => res.json({'test':'test'}));
-// router.get('/feedback', (req, res) => {
-//   pg
-//     .select()
-//     .table('feedback')
-//     .then((results) => {
-//       res.json(results);
-//     })
-// })
-
-router.all('/feedback', (req, res, next) => {
-  res.json({'test':'test'});
-});
+router.get('/test', (req, res) => res.json({'test':'test'}));
+router.get('/feedback', (req, res) => {
+  pg
+    .select()
+    .table('feedback')
+    .then((results) => {
+      res.json(results);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+})
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
