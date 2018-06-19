@@ -201,8 +201,8 @@ const allSquares = (req, res) => {
       three.map(el =>
         new Button(
           el.name.nl,
-          `https://www.google.com/maps/search/?api=1&query=${el.lat},${el.long}`,
-          'web_url'
+          el.name.nl,
+          'postback'
         ))
     );
     elements.push(card);
