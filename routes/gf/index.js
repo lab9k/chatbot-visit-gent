@@ -3,6 +3,7 @@ const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
+const CardButton = require('../../models/card_button');
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
@@ -212,10 +213,10 @@ const allSquares = (req, res) => {
       { subtitle: `Klik op één van de pleinen om het programma te bekijken of om te navigeren` },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
-        new Button(
+        new CardButton(
           el.name.nl,
           el.name.nl,
-          'web_url'    
+          'postback'    
         ))
     );
     elements.push(card);
