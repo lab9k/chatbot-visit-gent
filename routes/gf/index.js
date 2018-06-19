@@ -18,7 +18,7 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-router.get('/feedback', (req, res) => {
+require('express').get('/feedback', (req, res) => {
   console.log('success get all feedback');
   pg
     .select()

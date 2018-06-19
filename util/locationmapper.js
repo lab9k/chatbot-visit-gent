@@ -11,9 +11,8 @@ class LocationMapper {
       .then((json) => {
         this.squares.push(...json
           .filter(el => _.isSquare(el))
-          //filter out walter de buckplein because It's a duplicate
-          .filter(el => el.name.nl !== "Walter De Buckplein/Beverhoutplein")
-        );
+          // filter out walter de buckplein because It's a duplicate
+          .filter(el => el.name.nl !== 'Walter De Buckplein/Beverhoutplein'));
         return this.squares;
       })
       .then((squares) => {
@@ -26,10 +25,8 @@ class LocationMapper {
             .replace(/ /g, '+')
             .replace(/ç/g, 'c')
             .replace('Korenlei-Graslei', 'Graslei')
-            .replace('Sint-Bavo+Humaniora+-+Reep+4', 'Sint-Bavohumaniora')}`
-           
-            //filter out "Bij Sint-Jacobs 18/Walter De Buckplein 4" because it's a double
-            //
+            .replace('Sint-Bavo+Humaniora+-+Reep+4', 'Sint-Bavohumaniora')}`;
+          // filter out "Bij Sint-Jacobs 18/Walter De Buckplein 4" because it's a double
           // fetch
           const locPromise = _
             .fetch(`https://nominatim.openstreetmap.org/search?q=${name}&format=json&polygon=1&addressdetails=1`)
