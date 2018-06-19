@@ -27,6 +27,8 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'toiletten.search':
       fn = searchToiletten;
       break;
+    case 'send.feedback':
+     fn = sendFeedback;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -66,7 +68,15 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
-const handleEvents = (/* req, res  , next */) => {};
+const handleEvents = (/* req, res  , next */) => {
+  //sort programma by location
+
+
+
+
+
+
+};
 
 const searchToiletten = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
@@ -105,6 +115,11 @@ const searchToiletten = (req, res) => {
   };
   return res.json(ret);
 };
+
+const sendFeedback = (req, res) => {
+
+
+}
 
 const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
