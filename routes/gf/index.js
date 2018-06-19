@@ -1,10 +1,8 @@
 const router = require('express').Router();
-const express = require('express');
 const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
-const CardButton = require('../../models/card_button');
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
@@ -19,23 +17,22 @@ const pg = require('knex')({
   searchPath: ['knex', 'public']
 });
 
-router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-express()
-  .get('/feedback', (req, res) => {
-    console.log('success get all feedback');
-    pg
-      .select()
-      .table('feedback')
-      .then((results) => {
-        res.json(results);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  });
+// router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
+// router.get('/feedback', (req, res) => {
+//   console.log('getting all feedback...');
+//   pg
+//     .select()
+//     .table('feedback')
+//     .then((results) => {
+//       console.log('success getting all feedback');
+//       res.json(results);
+//     })
+//     .catch((e) => {
+//       console.log(e);
+//     });
+// });
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
-  res.json({'test':'test'});
   let fn;
   switch (req.type) {
     case 'get_plein_location':
@@ -223,10 +220,10 @@ const allSquares = (req, res) => {
       { subtitle: `Klik op één van de pleinen om het programma te bekijken of om te navigeren` },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
-        new CardButton(
+        new Button(
           el.name.nl,
-          el.name.nl,
-          'postback'    
+          "facebook.com",
+          "web_url"    
         ))
     );
     elements.push(card);
