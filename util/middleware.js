@@ -44,6 +44,12 @@ const typeMiddleware = (req, res, next) => {
       case 'toiletten.search':
         req.type = 'toiletten.search';
         break;
+      case 'feedback.satisfaction':
+        req.type = 'feedback.satisfaction';
+        break;
+      case 'feedback.improvement':
+        req.type = 'feedback.improvement';
+        break;
       default:
         req.type = 'None';
         break;

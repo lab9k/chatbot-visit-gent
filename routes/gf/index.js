@@ -10,6 +10,12 @@ const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
+const pg = require('knex')({
+  client: 'pg',
+  connection: process.env.DATABASE_URL,
+  searchPath: ['knex', 'public'],
+});
+
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
@@ -27,8 +33,12 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'toiletten.search':
       fn = searchToiletten;
       break;
-    case 'send.feedback':
-     fn = sendFeedback;
+    case 'feedback.satisfaction':
+      fn = feedbackSatisfaction;
+      break;
+    case 'feedback.improvement':
+      fn = feedbackImprovement;
+      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -116,9 +126,32 @@ const searchToiletten = (req, res) => {
   return res.json(ret);
 };
 
-const sendFeedback = (req, res) => {
-  //connect with database 
+const feedbackSatisfaction = (req, res, next) => {
+  console.log('feedback satisfaction triggered');
+  console.log(process.env.DATABASE_URL);
+  
+  pg.schema.hasTable('feedback').then((exists) => {
+    console.log('feedbackTableExists', exists);
+    if (!exists) {
+      console.log('creating table...');
+      pg.schema
+        .createTable('feedback', (table) => {
+          table.increments();
+          table.uuid('uuid');
+          table.string('body', 'longtext');
+          table.timestamps(true, false);
+        })
+        .then(() => {
+          console.log('feedback table succesfully created!');
+        })
+    } else {
+      console.log('table feedback already exists');
+    }
+  });
+}
 
+const feedbackImprovement = (req, res, next) => {
+  console.log('feedback improvement triggered');
 }
 
 const allSquares = (req, res) => {
