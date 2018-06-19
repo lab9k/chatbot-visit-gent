@@ -10,6 +10,12 @@ const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
+const pg = require('knex')({
+  client: 'pg',
+  connection: process.env.DATABASE_URL,
+  searchPath: ['knex', 'public'],
+});
+
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
@@ -122,6 +128,26 @@ const searchToiletten = (req, res) => {
 
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
+  console.log(process.env.DATABASE_URL);
+  
+  pg.schema.hasTable('feedback').then((exists) => {
+    console.log('feedbackTableExists', exists);
+    if (!exists) {
+      console.log('creating table...');
+      pg.schema
+        .createTable('feedback', (table) => {
+          table.increments();
+          table.uuid('uuid');
+          table.string('body', 'longtext');
+          table.timestamps(true, false);
+        })
+        .then(() => {
+          console.log('feedback table succesfully created!');
+        })
+    } else {
+      console.log('table feedback already exists');
+    }
+  });
 }
 
 const feedbackImprovement = (req, res, next) => {
