@@ -220,7 +220,7 @@ const allSquares = (req, res) => {
       { subtitle: `Klik op één van de pleinen om het programma te bekijken of om te navigeren` },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
-        new Button(
+        new CardButton(
           el.name.nl,
           el.name.nl,
           "postback"    
