@@ -166,11 +166,11 @@ const feedbackImprovement = (req, res, next) => {
   pg
     .insert({
       uuid: uuidV1(),
-      body: 'qhdjqsd gqjshdg qshd gqjs'
+      body: req.body.queryResult.parameters.improvement_proposal
     })
     .into('feedback')
-    .then((results) => {
-      console.log('data insterted!', results.fields);
+    .then(() => {
+      console.log('feedback data insterted!');
     })
     .catch((e) => {
       console.log(e);
