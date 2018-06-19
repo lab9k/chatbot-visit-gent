@@ -187,7 +187,7 @@ const allSquares = (req, res) => {
         new Button(
           el.name.nl,
           el.name.nl,
-          'postback'
+          'web_url'
         ))
     );
     elements.push(card);
