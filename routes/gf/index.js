@@ -222,8 +222,8 @@ const allSquares = (req, res) => {
       three.map(el =>
         new Button(
           el.name.nl,
-          "facebook.com",
-          "web_url"    
+          el.name.nl,
+          "postback"    
         ))
     );
     elements.push(card);
