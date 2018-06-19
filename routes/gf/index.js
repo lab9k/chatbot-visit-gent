@@ -18,20 +18,7 @@ const pg = require('knex')({
 });
 
 router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-router.get('/test', (req, res) => res.json({'test':'test'}));
-router.get('/feedback', (req, res) => {
-  console.log('getting all feedback...');
-  pg
-    .select()
-    .table('feedback')
-    .then((results) => {
-      console.log('success get all feedback');
-      res.json(results);
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-})
+
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
@@ -57,6 +44,19 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
   return fn(req, res, next);
+});
+router.get('/feedback', (req, res) => {
+  console.log('getting all feedback...');
+  pg
+    .select()
+    .table('feedback')
+    .then((results) => {
+      console.log('success get all feedback');
+      res.json(results);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 const handleLocation = (req, res /* , next */) => {
