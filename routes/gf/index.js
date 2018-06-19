@@ -27,8 +27,10 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'toiletten.search':
       fn = searchToiletten;
       break;
-    case 'send.feedback':
-     fn = sendFeedback;
+    case 'feedback.satisfaction':
+      fn = feedbackSatisfaction;
+    case 'feedback.improvement':
+      fn = feedbackImprovement;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -116,8 +118,14 @@ const searchToiletten = (req, res) => {
   return res.json(ret);
 };
 
-const sendFeedback = (req, res) => {
-  console.log('feedback triggered');
+const feedbackSatisfaction = (req, res) => {
+  console.log('feedback satisfaction triggered');
+  console.log('req', req);
+  console.log('res', res);
+}
+
+const feedbackImprovement = (req, res) => {
+  console.log('feedback improvement triggered');
   console.log('req', req);
   console.log('res', res);
 }
