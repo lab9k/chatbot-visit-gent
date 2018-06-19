@@ -117,8 +117,9 @@ const searchToiletten = (req, res) => {
 };
 
 const sendFeedback = (req, res) => {
-
-
+  console.log('feedback triggered');
+  console.log('req', req);
+  console.log('res', res);
 }
 
 const allSquares = (req, res) => {
