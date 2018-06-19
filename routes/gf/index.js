@@ -45,19 +45,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   }
   return fn(req, res, next);
 });
-router.get('/feedback', (req, res) => {
-  console.log('getting all feedback...');
-  pg
-    .select()
-    .table('feedback')
-    .then((results) => {
-      console.log('success get all feedback');
-      res.json(results);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-});
 
 const handleLocation = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
@@ -176,6 +163,15 @@ const feedbackImprovement = (req, res, next) => {
     .into('feedback')
     .then(() => {
       console.log('feedback data insterted!');
+      pg
+        .select()
+        .table('feedback')
+        .then((results) => {
+          console.log(results);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     })
     .catch((e) => {
       console.log(e);
@@ -214,8 +210,8 @@ const allSquares = (req, res) => {
       three.map(el =>
         new Button(
           el.name.nl,
-          el.name.nl,
-          'web_url'    
+          "facebook.com",
+          "web_url"    
         ))
     );
     elements.push(card);
