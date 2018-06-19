@@ -53,6 +53,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'feedback.improvement':
       fn = feedbackImprovement;
       break;
+    case 'plein_card' :
+      fn = getPleinCard;
+      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -92,6 +95,7 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
+
 const checkConnectionAndTable = () => {
   console.log('Connection string', process.env.DATABASE_URL);
 
@@ -244,6 +248,44 @@ const allSquares = (req, res) => {
     }
   };
   return res.json(payload);
+};
+
+const getPleinCard = (req, res /* , next */) => {
+  const original = req.body.originalDetectIntentRequest;
+  const { payload } = original;
+  const { name } = payload.data.postback.data;
+  const square = loc.squares.filter(square => square.display_name == name);
+  
+  //log all squares
+  //squares.filter(square => console.log(square.address));
+  
+  //const nearest = loc.closestLocation({ lat, long }, squares);
+
+  const card = new Card(
+    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.name.nl}.jpg`,
+    `${square.name.nl}`,
+    [long, lat],
+    { subtitle: `${square.display_name}` },
+    [new Button('Navigeer', 
+      `https://www.google.com/maps/dir/?api=1&destination=${square.lat},${
+        square.long}&travelmode=walking`, 
+      'web_url')
+    ]
+  );
+  const ret = {
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [card.getResponse()]
+          }
+        }
+      }
+    }
+  };
+  return res.json(ret);
 };
 
 router.get('/debug', (req, res) => {
