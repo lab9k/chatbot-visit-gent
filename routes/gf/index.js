@@ -155,7 +155,8 @@ const feedbackImprovement = (req, res, next) => {
   pg
     .insert({
       uuid: uuidV1(),
-      body: req.body.queryResult.parameters.improvement_proposal
+      body: req.body.queryResult.parameters.improvement_proposal,
+      created_at: new Date().toLocaleString()
     })
     .into('feedback')
     .then(() => {
