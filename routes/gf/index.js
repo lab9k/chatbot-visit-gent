@@ -269,8 +269,7 @@ const getPleinCard = (req, res /* , next */) => {
     [long, lat],
     { subtitle: `${square.display_name}` },
     [new Button('Navigeer', 
-      `https://www.google.com/maps/dir/?api=1&destination=${square.lat},${
-        square.long}&travelmode=walking`, 
+      `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`, 
       'web_url')
     ]
   );
