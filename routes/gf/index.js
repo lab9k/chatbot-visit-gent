@@ -253,7 +253,7 @@ const allSquares = (req, res) => {
 };
 
 const getPleinCard = (req, res /* , next */) => {
-  const pleinName = req.queryResult.parameters.plein;
+  const pleinName = req.body.queryResult.parameters.plein;
   const square = loc.squares.filter(square => square.display_name.toLowerCase() == pleinName.toLowerCase());
   console.log("get plein card");
   //log all squares
