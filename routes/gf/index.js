@@ -255,7 +255,7 @@ const allSquares = (req, res) => {
 const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
   const square = locationMapper.getSquares().filter(square => square.display_name.toLowerCase() == pleinName.toLowerCase());
-  console.log("get plein card test", square);
+  console.log("get plein card test. prop:", pleinName, " value ", square[pleinName]);
   const lat = square.lat;
   const long = square.lon;
   //log all squares
@@ -265,7 +265,7 @@ const getPleinCard = (req, res /* , next */) => {
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.display_name}.jpg`,
-    `${square}`,
+    `${square.name}`,
     [long, lat],
     { subtitle: `${square.display_name}` },
     [new Button('Navigeer', 
