@@ -3,6 +3,8 @@ const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
+const CardButton = require('../../models/card_button');
+
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
@@ -36,6 +38,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       break;
     case 'feedback.improvement':
       fn = feedbackImprovement;
+      break;
+    case 'plein_card':
+      fn = getPleinCard;
       break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
@@ -76,6 +81,7 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
+
 const checkConnectionAndTable = () => {
   console.log(process.env.CONNECTION_STRING);
 
@@ -206,10 +212,10 @@ const allSquares = (req, res) => {
       { subtitle: `Klik op één van de pleinen om het programma te bekijken of om te navigeren` },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
-        new Button(
+        new CardButton(
           el.name.nl,
-          "facebook.com",
-          "web_url"    
+          el.name.nl,
+          "postback"    
         ))
     );
     elements.push(card);
@@ -230,6 +236,52 @@ const allSquares = (req, res) => {
     }
   };
   return res.json(payload);
+};
+
+const getPleinCard = (req, res /* , next */) => {
+  const pleinName = req.body.queryResult.parameters.plein;
+  const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
+  //console.log("get plein card test. prop: ", square, " value ", square.lat);
+  const lat = square.lat;
+  const long = square.long;
+  //log all squares
+  //squares.filter(square => console.log(square.address));
+  
+  //const nearest = loc.closestLocation({ lat, long }, squares);
+  const imageName = square.name.nl.replace(" ", "_");
+
+  const card = new Card(
+    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+    `${square.name.nl}`,
+    [long, lat],
+    { subtitle: `${square.display_name}` },
+    [
+      new Button(
+        'Navigeer', 
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`, 
+        'web_url'
+      ),
+      new CardButton(
+        `Programma ${square.name.nl}`,
+        `Programma ${square.name.nl}`,
+        "postback"
+    )
+    ]
+  );
+  const ret = {
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [card.getResponse()]
+          }
+        }
+      }
+    }
+  };
+  return res.json(ret);
 };
 
 router.get('/debug', (req, res) => {

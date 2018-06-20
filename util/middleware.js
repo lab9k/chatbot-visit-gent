@@ -50,6 +50,9 @@ const typeMiddleware = (req, res, next) => {
       case 'feedback.improvement':
         req.type = 'feedback.improvement';
         break;
+      case 'plein_card':
+        req.type = 'plein_card';
+        break;
       default:
         req.type = 'None';
         break;
