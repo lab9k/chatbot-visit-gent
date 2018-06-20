@@ -1,38 +1,20 @@
 const router = require('express').Router();
-const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
-const CardButton = require('../../models/card_button');
-
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
 const EventMapper = require('../../util/eventmapper');
-
+const CardButton = require('../../models/card_button');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
 const pg = require('knex')({
   client: 'pg',
-  connection: process.env.DATABASE_URL,
+  connection: process.env.CONNECTION_STRING,
   searchPath: ['knex', 'public']
 });
-
-// router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-// router.get('/feedback', (req, res) => {
-//   console.log('getting all feedback...');
-//   pg
-//     .select()
-//     .table('feedback')
-//     .then((results) => {
-//       console.log('success getting all feedback');
-//       res.json(results);
-//     })
-//     .catch((e) => {
-//       console.log(e);
-//     });
-// });
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
@@ -69,10 +51,8 @@ const handleLocation = (req, res /* , next */) => {
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
-  
-  //log all squares
-  //squares.filter(square => console.log(square.address));
-  
+  // log all squares
+  // squares.filter(square => console.log(square.address)); 
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
@@ -97,11 +77,10 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
-
 const checkConnectionAndTable = () => {
-  console.log('Connection string', process.env.DATABASE_URL);
+  console.log(process.env.CONNECTION_STRING);
 
-  if (process.env.DATABASE_URL) {
+  if (process.env.CONNECTION_STRING) {
     pg.schema.hasTable('feedback').then((exists) => {
       console.log('feedbackTableExists', exists);
       if (!exists) {
@@ -109,23 +88,24 @@ const checkConnectionAndTable = () => {
         pg.schema
           .createTable('feedback', (table) => {
             table.increments();
-            table.uuid('uuid');
-            table.string('body', 'longtext');
-            table.timestamps(true, false);
+            table.text('body', 'longtext');
+            table.string('created_at').defaultTo(new Date());
           })
           .then(() => {
             console.log('feedback table succesfully created!');
-          })
+          });
       } else {
         console.log('table feedback already exists');
       }
     });
   } else {
-    console.log('no connection with pg')
+    console.log('no connection with pg');
   }
 };
+checkConnectionAndTable();
+
 const handleEvents = (/* req, res  , next */) => {
-  //sort programma by location
+  // sort programma by location
 };
 
 const searchToiletten = (req, res) => {
@@ -169,14 +149,14 @@ const searchToiletten = (req, res) => {
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
   checkConnectionAndTable();
-}
+};
 
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
   pg
     .insert({
-      uuid: uuidV1(),
-      body: req.body.queryResult.parameters.improvement_proposal
+      body: req.body.queryResult.parameters.improvement_proposal,
+      created_at: new Date().toLocaleString()
     })
     .into('feedback')
     .then(() => {
@@ -193,8 +173,8 @@ const feedbackImprovement = (req, res, next) => {
     })
     .catch((e) => {
       console.log(e);
-    })
-}
+    });
+};
 
 const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
@@ -223,7 +203,7 @@ const allSquares = (req, res) => {
       images.splice(Math.floor(Math.random() * images.length), 1)[0],
       'Pleinen',
       [0, 3],
-      { subtitle: `Klik op één van de pleinen om het programma te bekijken of om te navigeren` },
+      { subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren' },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
         new CardButton(
@@ -257,7 +237,6 @@ const getPleinCard = (req, res /* , next */) => {
   const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
   //console.log("get plein card test. prop: ", square, " value ", square.lat);
   const lat = square.lat;
-  
   const long = square.long;
   //log all squares
   //squares.filter(square => console.log(square.address));
