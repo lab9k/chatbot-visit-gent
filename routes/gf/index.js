@@ -77,6 +77,7 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
+
 const checkConnectionAndTable = () => {
   console.log(process.env.CONNECTION_STRING);
 
@@ -89,7 +90,7 @@ const checkConnectionAndTable = () => {
           .createTable('feedback', (table) => {
             table.increments();
             table.text('body', 'longtext');
-            table.string('created_at').defaultTo(new Date());
+            table.string('created_at');
           })
           .then(() => {
             console.log('feedback table succesfully created!');
@@ -153,10 +154,19 @@ const feedbackSatisfaction = (req, res, next) => {
 
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
+  const getTimezoneDate = () => {
+    const date = new Date();
+    const hours = date.getHours() + 2;
+    const minutes = date.getMinutes();
+    const miliseconds = date.getMilliseconds();
+    const fullDateString = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${hours}:${minutes}:${miliseconds}`;
+    console.log(fullDateString);
+    return fullDateString;
+  };
   pg
     .insert({
       body: req.body.queryResult.parameters.improvement_proposal,
-      created_at: new Date().toLocaleString()
+      created_at: getTimezoneDate()
     })
     .into('feedback')
     .then(() => {
