@@ -256,8 +256,8 @@ const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
   const square = locationMapper.getSquares().filter(square => square.display_name.toLowerCase() == pleinName.toLowerCase());
   console.log("get plein card test");
-  let lat = square.lat;
-  let long = square.long;
+  const lat = square.lat;
+  const long = square.long;
   //log all squares
   //squares.filter(square => console.log(square.address));
   
