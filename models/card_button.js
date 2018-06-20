@@ -14,8 +14,8 @@ class CardButton {
 
   getResponse() {
     return {
-      payload: this.payload,
       title: this.text,
+      payload: this.payload,
       type: this.type,
     };
   }
