@@ -257,20 +257,20 @@ const getPleinCard = (req, res /* , next */) => {
   const square = locationMapper.getSquares().filter(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
   console.log("get plein card test. prop: ", square, " value ", square.lat);
   const lat = square.lat;
-  const long = square.lon;
+  const long = square.long;
   //log all squares
   //squares.filter(square => console.log(square.address));
   
   //const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
-    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.display_name}.jpg`,
-    `${square.name}`,
+    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.name.nl}.jpg`,
+    `${square.name.nl}`,
     [long, lat],
-    { subtitle: `${square.display_name}` },
+    { subtitle: `${square.name.nl}` },
     [new Button('Navigeer', 
       `https://www.google.com/maps/dir/?api=1&destination=${square.lat},${
-        square.lon}&travelmode=walking`, 
+        square.long}&travelmode=walking`, 
       'web_url')
     ]
   );
