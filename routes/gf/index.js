@@ -87,8 +87,8 @@ const checkConnectionAndTable = () => {
           .createTable('feedback', (table) => {
             table.increments();
             table.uuid('uuid');
-            table.string('body', 'longtext');
-            table.timestamps(true, false);
+            table.string('body', 512);
+            table.timestamps(true);
           })
           .then(() => {
             console.log('feedback table succesfully created!');
