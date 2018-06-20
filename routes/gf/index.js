@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
@@ -86,8 +85,7 @@ const checkConnectionAndTable = () => {
         pg.schema
           .createTable('feedback', (table) => {
             table.increments();
-            table.uuid('uuid');
-            table.string('body', 1024);
+            table.string('body', 'longtext');
             table.date('created_at');
           })
           .then(() => {
@@ -154,7 +152,6 @@ const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
   pg
     .insert({
-      uuid: uuidV1(),
       body: req.body.queryResult.parameters.improvement_proposal,
       created_at: new Date().toLocaleString()
     })
