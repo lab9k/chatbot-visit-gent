@@ -276,7 +276,7 @@ const getPleinCard = (req, res /* , next */) => {
       ),
       new CardButton(
         'Programma',
-        `Programma ${square.display_name}`,
+        `${square.display_name}`,
         'postback'
     )
     ]
