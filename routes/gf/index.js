@@ -256,6 +256,8 @@ const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
   const square = locationMapper.getSquares().filter(square => square.display_name.toLowerCase() == pleinName.toLowerCase());
   console.log("get plein card test");
+  let lat = square.lat;
+  let long = square.long;
   //log all squares
   //squares.filter(square => console.log(square.address));
   
@@ -268,7 +270,7 @@ const getPleinCard = (req, res /* , next */) => {
     { subtitle: `${square.display_name}` },
     [new Button('Navigeer', 
       `https://www.google.com/maps/dir/?api=1&destination=${square.lat},${
-        square.lon}&travelmode=walking`, 
+        square.long}&travelmode=walking`, 
       'web_url')
     ]
   );
