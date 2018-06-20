@@ -275,7 +275,7 @@ const getPleinCard = (req, res /* , next */) => {
         'web_url'
       ),
       new CardButton(
-        "Programma",
+        `${square.name.nl}`,
         `Programma ${square.display_name}`,
         "postback"
     )
