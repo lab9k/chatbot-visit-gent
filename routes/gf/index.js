@@ -86,7 +86,7 @@ const checkConnectionAndTable = () => {
           .createTable('feedback', (table) => {
             table.increments();
             table.text('body', 'longtext');
-            table.timestamp('created_at').defaultTo(pg.fn.now());
+            table.timestamp('created_at').defaultTo(new Date());
           })
           .then(() => {
             console.log('feedback table succesfully created!');
