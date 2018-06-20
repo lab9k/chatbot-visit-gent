@@ -255,15 +255,15 @@ const allSquares = (req, res) => {
 const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
   const square = locationMapper.getSquares().filter(square => square.display_name.toLowerCase() == pleinName.toLowerCase());
-  console.log("get plein card");
+  console.log("get plein card test");
   //log all squares
   //squares.filter(square => console.log(square.address));
   
   //const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
-    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.name.nl}.jpg`,
-    `${square.name.nl}`,
+    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.display_name}.jpg`,
+    `${square.display_name}`,
     [long, lat],
     { subtitle: `${square.display_name}` },
     [new Button('Navigeer', 
