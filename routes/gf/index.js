@@ -3,8 +3,6 @@ const uuidV1 = require('uuid/v1');
 const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
-const CardButton = require('../../models/card_button');
-
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
@@ -15,7 +13,8 @@ const locationMapper = new LocationMapper();
 
 const pg = require('knex')({
   client: 'pg',
-  connection: process.env.CONNECTION_STRING
+  connection: process.env.CONNECTION_STRING,
+  searchPath: ['knex', 'public']
 });
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
@@ -39,9 +38,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'feedback.improvement':
       fn = feedbackImprovement;
       break;
-    case 'plein_card':
-      fn = getPleinCard;
-      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -53,10 +49,8 @@ const handleLocation = (req, res /* , next */) => {
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
-  
-  //log all squares
-  //squares.filter(square => console.log(square.address));
-  
+  // log all squares
+  // squares.filter(square => console.log(square.address)); 
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
@@ -81,7 +75,6 @@ const handleLocation = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
-
 const checkConnectionAndTable = () => {
   console.log(process.env.CONNECTION_STRING);
 
@@ -111,7 +104,7 @@ const checkConnectionAndTable = () => {
 checkConnectionAndTable();
 
 const handleEvents = (/* req, res  , next */) => {
-  //sort programma by location
+  // sort programma by location
 };
 
 const searchToiletten = (req, res) => {
@@ -209,13 +202,13 @@ const allSquares = (req, res) => {
       images.splice(Math.floor(Math.random() * images.length), 1)[0],
       'Pleinen',
       [0, 3],
-      { subtitle: `Klik op één van de pleinen om het programma te bekijken of om te navigeren` },
+      { subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren' },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
-        new CardButton(
+        new Button(
           el.name.nl,
-          el.name.nl,
-          "postback"    
+          'facebook.com',
+          'web_url'
         ))
     );
     elements.push(card);
@@ -236,52 +229,6 @@ const allSquares = (req, res) => {
     }
   };
   return res.json(payload);
-};
-
-const getPleinCard = (req, res /* , next */) => {
-  const pleinName = req.body.queryResult.parameters.plein;
-  const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
-  //console.log("get plein card test. prop: ", square, " value ", square.lat);
-  const lat = square.lat;
-  const long = square.long;
-  //log all squares
-  //squares.filter(square => console.log(square.address));
-  
-  //const nearest = loc.closestLocation({ lat, long }, squares);
-  const imageName = square.name.nl.replace(" ", "_");
-
-  const card = new Card(
-    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    `${square.name.nl}`,
-    [long, lat],
-    { subtitle: `${square.display_name}` },
-    [
-      new Button(
-        'Navigeer', 
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`, 
-        'web_url'
-      ),
-      new CardButton(
-        `Programma ${square.name.nl}`,
-        `Programma ${square.name.nl}`,
-        "postback"
-    )
-    ]
-  );
-  const ret = {
-    payload: {
-      facebook: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: [card.getResponse()]
-          }
-        }
-      }
-    }
-  };
-  return res.json(ret);
 };
 
 router.get('/debug', (req, res) => {
