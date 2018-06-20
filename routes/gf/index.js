@@ -13,24 +13,8 @@ const locationMapper = new LocationMapper();
 
 const pg = require('knex')({
   client: 'pg',
-  connection: process.env.DATABASE_URL,
-  searchPath: ['knex', 'public']
+  connection: process.env.CONNECTION_STRING
 });
-
-// router.get('/allData', (req, res) => res.json({ locaties: locationMapper.getSquares() }));
-// router.get('/feedback', (req, res) => {
-//   console.log('getting all feedback...');
-//   pg
-//     .select()
-//     .table('feedback')
-//     .then((results) => {
-//       console.log('success getting all feedback');
-//       res.json(results);
-//     })
-//     .catch((e) => {
-//       console.log(e);
-//     });
-// });
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
@@ -93,9 +77,9 @@ const handleLocation = (req, res /* , next */) => {
   return res.json(ret);
 };
 const checkConnectionAndTable = () => {
-  console.log('Connection string', process.env.DATABASE_URL);
+  console.log(process.env.CONNECTION_STRING);
 
-  if (process.env.DATABASE_URL) {
+  if (process.env.CONNECTION_STRING) {
     pg.schema.hasTable('feedback').then((exists) => {
       console.log('feedbackTableExists', exists);
       if (!exists) {
@@ -109,15 +93,17 @@ const checkConnectionAndTable = () => {
           })
           .then(() => {
             console.log('feedback table succesfully created!');
-          })
+          });
       } else {
         console.log('table feedback already exists');
       }
     });
   } else {
-    console.log('no connection with pg')
+    console.log('no connection with pg');
   }
 };
+checkConnectionAndTable();
+
 const handleEvents = (/* req, res  , next */) => {
   //sort programma by location
 };
@@ -163,7 +149,7 @@ const searchToiletten = (req, res) => {
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
   checkConnectionAndTable();
-}
+};
 
 const feedbackImprovement = (req, res, next) => {
   console.log('feedback improvement triggered');
@@ -187,8 +173,8 @@ const feedbackImprovement = (req, res, next) => {
     })
     .catch((e) => {
       console.log(e);
-    })
-}
+    });
+};
 
 const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
