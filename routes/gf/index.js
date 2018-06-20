@@ -85,7 +85,7 @@ const checkConnectionAndTable = () => {
         pg.schema
           .createTable('feedback', (table) => {
             table.increments();
-            table.string('body', 'longtext');
+            table.text('body', 'longtext');
             table.date('created_at');
           })
           .then(() => {
