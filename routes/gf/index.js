@@ -88,7 +88,7 @@ const checkConnectionAndTable = () => {
             table.increments();
             table.uuid('uuid');
             table.string('body', 1024);
-            table.date('date');
+            table.date('created_at');
           })
           .then(() => {
             console.log('feedback table succesfully created!');
