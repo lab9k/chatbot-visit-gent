@@ -268,9 +268,17 @@ const getPleinCard = (req, res /* , next */) => {
     `${square.name.nl}`,
     [long, lat],
     { subtitle: `${square.display_name}` },
-    [new Button('Navigeer', 
-      `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`, 
-      'web_url')
+    [
+      new Button(
+        'Navigeer', 
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`, 
+        'web_url'
+      ),
+      new CardButton(
+        'Programma',
+        `Programma ${square.name.nl}`,
+        'postback'
+    )
     ]
   );
   const ret = {
