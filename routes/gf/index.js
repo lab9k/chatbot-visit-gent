@@ -254,7 +254,7 @@ const allSquares = (req, res) => {
 
 const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
-  const square = locationMapper.getSquares().filter(square => square.name.nl.toLowerCase() == pleinName.toLowerCase())[0];
+  const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
   console.log("get plein card test. prop: ", square, " value ", square.lat);
   const lat = square.lat;
   const long = square.long;
@@ -267,7 +267,7 @@ const getPleinCard = (req, res /* , next */) => {
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${square.name.nl}.jpg`,
     `${square.name.nl}`,
     [long, lat],
-    { subtitle: `${square.name.nl}` },
+    { subtitle: `${square.display_name}` },
     [new Button('Navigeer', 
       `https://www.google.com/maps/dir/?api=1&destination=${square.lat},${
         square.long}&travelmode=walking`, 
