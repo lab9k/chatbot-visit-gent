@@ -269,11 +269,11 @@ const getPleinCard = (req, res /* , next */) => {
         `Programma ${square.name.nl}`,
         `Programma ${square.name.nl}`,
         "postback"
-    ),
+      )/*,
     new Button("Terug naar hoofdmenu", 
                 "menu", 
                 "postback"
-    )
+    )*/
     ]
   );
   const ret = {
