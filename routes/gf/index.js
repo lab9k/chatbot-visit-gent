@@ -271,14 +271,10 @@ const getPleinCard = (req, res /* , next */) => {
         "postback"
       ),
       new CardButton(
-        `Programma ${square.name.nl}`,
-        `Programma ${square.name.nl}`,
+        "Terug naar hoofdmenu", 
+        "menu", 
         "postback"
-      )/*,
-    new Button("Terug naar hoofdmenu", 
-                "menu", 
-                "postback"
-    )*/
+    )
     ]
   );
   const ret = {
