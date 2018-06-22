@@ -129,8 +129,14 @@ const searchToiletten = (req, res) => {
           nearest.long
         }&travelmode=walking`,
         'web_url'
-      )
-    ]
+      ),
+      new CardButton(
+        "Terug naar hoofdmenu", 
+        "menu", 
+        "postback"
+    )
+    ],
+
   );
 
   const quickReply = new QuickReply();
