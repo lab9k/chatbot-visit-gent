@@ -1,4 +1,4 @@
-const CardButton = require('../../models/card_button');
+const CardButton = require('card_button');
 
 
 class QuickReply {
