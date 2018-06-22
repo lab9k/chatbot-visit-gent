@@ -335,12 +335,14 @@ const getDays = (req, res /* , next */) => {
 
   const gentseFeestenDays = [];
   
+  // If today is during Gentsefeesten then return the remaining days else show all days
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
 
   console.log("today:",tmpDate)
   
   while (tmpDate <= endGf) {
-    const date = new Date(tmpDate).getDate().toString() +" Juli"
+    const date = new Date(tmpDate).getDate().toString() +" Juli";
+    console.log(date)
     gentseFeestenDays.push(date);
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
