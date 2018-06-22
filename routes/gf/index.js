@@ -336,11 +336,12 @@ const getDays = (req, res /* , next */) => {
   const gentseFeestenDays = [];
   
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
+
+  console.log("today:",tmpDate)
   
   while (tmpDate <= endGf) {
-    const date = new Date(tmpDate).getDay().toString() +" Juli"
-    console.log(date)
-    gentseFeestenDays.push(new CardButton(date,date,"postback"));
+    const date = new Date(tmpDate).getDate().toString() +" Juli"
+    gentseFeestenDays.push(date);
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
