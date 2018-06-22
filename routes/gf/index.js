@@ -345,22 +345,15 @@ const getDays = (req, res /* , next */) => {
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
-  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays);
+  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays).getResponse();
 
   console.log("quickReply ", quickReply.getResponse());//, " days ", gentseFeestenDays);
 
   const ret = {
     payload: {
       facebook: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: [
-              quickReply.getResponse()
-            ]
-          }
-        }
+        "text": quickReply.text,
+        "quick_replies": quickReply.quick_replies
       }
     }
   };
