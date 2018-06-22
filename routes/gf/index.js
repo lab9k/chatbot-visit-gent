@@ -337,9 +337,9 @@ const getDays = (req, res /* , next */) => {
   
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
   
-  while (dt <= endGf) {
-    days.push(new Date(dt).getDay().toString() +" Juli");
-    dt.setDate(dt.getDate() + 1);
+  while (tmpDate <= endGf) {
+    days.push(new Date(tmpDate).getDay().toString() +" Juli");
+    dt.setDate(tmpDate.getDate() + 1);
   }
 
   const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", days);
