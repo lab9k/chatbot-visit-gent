@@ -41,6 +41,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'plein_card':
       fn = getPleinCard;
       break;
+    case 'get_Days':
+      fn = getDays;
+      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -307,6 +310,42 @@ const getPleinCard = (req, res /* , next */) => {
   };
   return res.json(ret);
 };
+
+
+const getDays = (req, res /* , next */) => {
+  const today = new Date().getDate;  
+  const startGf = new Date("13-07-2018");
+  const endGf = new Date("22-07-2018");
+
+  const days = [];
+  
+  let tmpDate = startGf < today && today <= endGf ? today : startGf;
+  
+  while (dt <= endGf) {
+    days.push(new Date(dt).getDay().toString() +" Juli");
+    dt.setDate(dt.getDate() + 1);
+  }
+
+  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", days);
+
+  const ret = {
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [
+              days.getResponse()
+            ]
+          }
+        }
+      }
+    }
+  };
+
+  return res.json(ret);
+}
 
 router.get('/debug', (req, res) => {
   const { events } = eventMapper;

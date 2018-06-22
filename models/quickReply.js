@@ -7,9 +7,10 @@ class QuickReply {
      * @param {Array.<Button>} buttons Array of Button objects you want included in this quickreply.
      * @memberof QuickReply
      */
-    constructor(title = "Waarmee kan ik jou nog verder helpen?", buttons = [new CardButton("feestpleinen","feestpleinen","postback"),new CardButton("toiletten","toiletten","postback"),new CardButton("feedback","feedback","postback")]) {
+    constructor(title, buttonsTitles) {
       this.title = title;
-      this.buttons = [...buttons];
+      this.buttons = [];
+      buttonsTitles.forEach(buttonTitle => buttons.push(new CardButton(buttonTitle, buttonTitle, "postback")));
     }
   
     getResponse() {
