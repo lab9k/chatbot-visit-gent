@@ -46,7 +46,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'plein_card':
       fn = getPleinCard;
       break;
-    case 'get_Days':
+    case 'get_days':
       fn = getDays;
       break;
     default:

@@ -53,8 +53,8 @@ const typeMiddleware = (req, res, next) => {
       case 'plein_card':
         req.type = 'plein_card';
         break;
-      case 'get_Days':
-        req.type = 'get_Days';
+      case 'get_days':
+        req.type = 'get_days';
         break;
       default:
         req.type = 'None';
