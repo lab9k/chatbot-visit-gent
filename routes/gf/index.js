@@ -150,6 +150,9 @@ const searchToiletten = (req, res) => {
       )
     ]
   );
+  
+  const quickReply = new QuickReply();
+
   const ret = {
     payload: {
       facebook: {
@@ -157,7 +160,7 @@ const searchToiletten = (req, res) => {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [card.getResponse()]
+            elements: [card.getResponse(),quickReply.getResponse()]
           }
         }
       }
