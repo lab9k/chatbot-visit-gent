@@ -347,9 +347,9 @@ const getDays = (req, res /* , next */) => {
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
-  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays);
+  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays)
 
-  console.log("quickReply ", quickReply.getResponse(), " days ", gentseFeestenDays, )
+  console.log("quickReply ", quickReply.getResponse(), " days ", gentseFeestenDays)
 
   const ret = {
     payload: {
