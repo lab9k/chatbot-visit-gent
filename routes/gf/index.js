@@ -338,19 +338,16 @@ const getDays = (req, res /* , next */) => {
   
   // If today is during Gentsefeesten then return the remaining days else show all days
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
-
-  console.log("today: ",tmpDate);
   
   while (tmpDate <= endGf) {
     const date = new Date(tmpDate).getDate().toString() +" Juli";
-    console.log(date)
     gentseFeestenDays.push(date);
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
   const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays);
 
-  console.log("quickReply ", quickReply.getResponse(), " days ", gentseFeestenDays);
+  console.log("quickReply ", quickReply.getResponse());//, " days ", gentseFeestenDays);
 
   const ret = {
     payload: {
