@@ -352,7 +352,7 @@ const getDays = (req, res /* , next */) => {
           payload: {
             template_type: 'generic',
             elements: [
-              days.getResponse()
+              quickReply.getResponse()
             ]
           }
         }
