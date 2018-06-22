@@ -150,8 +150,10 @@ const searchToiletten = (req, res) => {
       )
     ]
   );
-  
+
   const quickReply = new QuickReply();
+
+  console.log(quickReply.getResponse())
 
   const ret = {
     payload: {
@@ -160,7 +162,7 @@ const searchToiletten = (req, res) => {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [card.getResponse(),quickReply.getResponse()]
+            elements: [card.getResponse()]
           }
         }
       }
