@@ -341,7 +341,7 @@ const getDays = (req, res /* , next */) => {
     const date = new Date(tmpDate).getDay().toString() +" Juli"
     console.log(date)
     gentseFeestenDays.push(new CardButton(date,date,"postback"));
-    dt.setDate(tmpDate.getDate() + 1);
+    tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
   const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays);
