@@ -333,16 +333,18 @@ const getDays = (req, res /* , next */) => {
   const startGf = new Date("13-07-2018");
   const endGf = new Date("22-07-2018");
 
-  const days = [];
+  const gentseFeestenDays = [];
   
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
   
   while (tmpDate <= endGf) {
-    days.push(new Date(tmpDate).getDay().toString() +" Juli");
+    const date = new Date(tmpDate).getDay().toString() +" Juli"
+    console.log(date)
+    gentseFeestenDays.push(new CardButton(date,date,"postback"));
     dt.setDate(tmpDate.getDate() + 1);
   }
 
-  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", days);
+  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays);
 
   console.log(quickReply.getResponse())
 
