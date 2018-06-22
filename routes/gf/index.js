@@ -329,6 +329,7 @@ const getPleinCard = (req, res /* , next */) => {
 
 
 const getDays = (req, res /* , next */) => {
+  console.log("test");
   const today = new Date().getDate;  
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
@@ -338,7 +339,7 @@ const getDays = (req, res /* , next */) => {
   // If today is during Gentsefeesten then return the remaining days else show all days
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
 
-  console.log("today:",tmpDate);
+  console.log("today: ",tmpDate);
   
   while (tmpDate <= endGf) {
     const date = new Date(tmpDate).getDate().toString() +" Juli";
