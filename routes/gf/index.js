@@ -111,15 +111,18 @@ const checkConnectionAndTable = () => {
 };
 checkConnectionAndTable();
 
-const handleEvents = (req, res /*, next */) => {
+const handleEvents = (req, res, next ) => {
   // Use connect method to connect to the server
-  MongoClient.connect(process.env.COSMOS_DB_URL, function(err, client) {
+
+  console.log("event action triggered")
+  /* MongoClient.connect(process.env.COSMOS_DB_URL, function(err, client) {
     assert.equal(null, err);
     console.log("Connected successfully to server");
+    
   
     const db = client.db(process.env.COSMOS_DB_NAME);
     client.close();
-  });
+  }); */
 
 };
 
