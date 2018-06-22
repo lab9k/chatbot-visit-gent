@@ -333,7 +333,7 @@ const getDays = (req, res /* , next */) => {
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
 
-  const days = [];
+  const gentseFeestenDays = [];
   
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
   
@@ -342,7 +342,7 @@ const getDays = (req, res /* , next */) => {
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
-  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", days);
+  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays);
 
   console.log("quickReply ", quickReply.getResponse(), " days ", days, )
 
