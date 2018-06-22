@@ -133,7 +133,7 @@ const searchToiletten = (req, res) => {
     ]
   );
 
-  const quickReply = new QuickReply();
+  //const quickReply = new QuickReply();
 
   //console.log(quickReply.getResponse())
 
@@ -145,14 +145,14 @@ const searchToiletten = (req, res) => {
           payload: {
             template_type: 'generic',
             elements: [
-              card.getResponse(),
-              quickReply.getResponse()
+              card.getResponse()
             ]
           }
         }
       }
     }
   };
+
   return res.json(ret);
 };
 
