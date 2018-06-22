@@ -3,13 +3,18 @@ const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
-const QuickReply = require('../../models/quickReply')
+// const QuickReply = require('../../models/quickReply')
 // const _ = require('../../util/util');
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
 const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+// environment variables for connection with DB
+require('dotenv').config()
+
 
 const pg = require('knex')({
   client: 'pg',
@@ -109,8 +114,19 @@ const checkConnectionAndTable = () => {
 };
 checkConnectionAndTable();
 
-const handleEvents = (/* req, res  , next */) => {
-  // sort programma by location
+const handleEvents = (req, res, next ) => {
+  // Use connect method to connect to the server
+
+  console.log("event action triggered")
+  /* MongoClient.connect(process.env.COSMOS_DB_URL, function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+    
+  
+    const db = client.db(process.env.COSMOS_DB_NAME);
+    client.close();
+  }); */
+
 };
 
 const searchToiletten = (req, res) => {
