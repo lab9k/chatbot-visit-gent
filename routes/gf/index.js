@@ -344,6 +344,8 @@ const getDays = (req, res /* , next */) => {
 
   const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", days);
 
+  console.log(quickReply.getResponse())
+
   const ret = {
     payload: {
       facebook: {
