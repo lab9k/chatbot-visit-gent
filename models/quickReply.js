@@ -16,7 +16,7 @@ class QuickReply {
     getResponse() {
       const quickReplyObj = {
         title: this.title,
-        buttons: []
+        buttons: this.buttons
       };
       quickReplyObj.buttons.push(...this.buttons.map((el) => el.getResponse()));
       // use JSON.parse(JSON.stringify(object)) to remove all undefined properties.
