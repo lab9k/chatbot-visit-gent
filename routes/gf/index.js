@@ -330,8 +330,8 @@ const getPleinCard = (req, res /* , next */) => {
 
 const getDays = (req, res /* , next */) => {
   const today = new Date().getDate;  
-  const startGf = new Date("13-07-2018");
-  const endGf = new Date("22-07-2018");
+  const startGf = new Date("2018-07-13");
+  const endGf = new Date("2018-07-22");
 
   const days = [];
   
@@ -344,7 +344,7 @@ const getDays = (req, res /* , next */) => {
 
   const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", days);
 
-  console.log(quickReply.getResponse())
+  console.log("quickReply ", quickReply.getResponse(), " days ", days, )
 
   const ret = {
     payload: {
