@@ -338,7 +338,9 @@ const getDays = (req, res /* , next */) => {
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
   
   while (tmpDate <= endGf) {
-    days.push(new Date(tmpDate).getDay().toString() +" Juli");
+    const date = new Date(tmpDate).getDay().toString() +" Juli";
+    console.log(date)
+    gentseFeestenDays.push(new Date(tmpDate).getDay().toString() +" Juli");
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
