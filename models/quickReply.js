@@ -18,10 +18,30 @@ class QuickReply {
         title: this.title,
         buttons: this.buttons
       };
-      quickReplyObj.buttons.push(...this.buttons.map((el) => el.getResponse()));
+      quickReplyObj.buttons.push(...this.buttons.map((el) => el.getResponseQuickReply()));
       // use JSON.parse(JSON.stringify(object)) to remove all undefined properties.
       return JSON.parse(JSON.stringify(quickReplyObj));
     }
   }
   
+
+  /*
+  "facebook": {
+         "text": "Pick a color:",
+         "quick_replies": [
+            {
+               "content_type": "text",
+               "title": "Red",
+               "payload": "red"
+            },
+            {
+               "content_type": "text",
+               "title": "Green",
+               "payload": "green"
+            }
+         ]
+      }
+
+
+  */
   module.exports = QuickReply;
