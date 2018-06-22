@@ -10,7 +10,7 @@ class QuickReply {
     constructor(title, buttonsTitles) {
       this.title = title;
       this.buttons = [];
-      buttonsTitles.forEach(buttonTitle => this.buttons.push(new CardButton(buttonTitle, buttonTitle, "postback")));
+      buttonsTitles.forEach(buttonTitle => this.buttons.push(new CardButton(buttonTitle, buttonTitle, "text")));
     }
   
     getResponse() {
