@@ -1,5 +1,4 @@
-const CardButton = require('card_button');
-
+//const CardButton = require('./card_button');
 
 class QuickReply {
     /**
