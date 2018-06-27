@@ -122,7 +122,7 @@ const checkConnectionAndTable = () => {
         console.log('table feedback already exists');
       }
     });
-    
+
   } else {
     console.log('no connection with pg');
   }
@@ -133,6 +133,7 @@ const handleEvents = (req, res) => {
   // Use connect method to connect to the server
   console.log("************************ test event is called :) ****************")
   cosmosDB.testDBconnection()
+  return res.json("OK");
 };
 
 const searchToiletten = (req, res) => {
