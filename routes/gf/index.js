@@ -72,7 +72,25 @@ const handleLocation = (req, res /* , next */) => {
     `${nearest.name.nl}`,
     [long, lat],
     { subtitle: `${nearest.display_name}` },
-    [new Button('btnTest', 'https://google.be', 'web_url')]
+    [
+      new Button(
+        'Navigeer',
+        `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
+          nearest.long
+        }&travelmode=walking`,
+        'web_url'
+      ),
+      new CardButton(
+        `Programma ${nearest.name.nl}`,
+        `Programma ${nearest.name.nl}`,
+        "postback"
+      ),
+      new CardButton(
+        "Terug naar hoofdmenu", 
+        "menu", 
+        "postback"
+      )
+    ]
   );
   const ret = {
     payload: {
