@@ -26,7 +26,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       fn = handleLocation;
       break;
     case 'get_events':
-      fn = allSquares;
+      fn = handleEvents;
       break;
     case 'all_squares':
       fn = allSquares;
@@ -130,8 +130,9 @@ const checkConnectionAndTable = () => {
 checkConnectionAndTable();
 
 const handleEvents = (req, res) => {
+  const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  console.log("************************ test event is called :) ****************")
+  console.log("************************ test event is called :) ****************",date)
   cosmosDB.testDBconnection()
   return res.json("OK");
 };
