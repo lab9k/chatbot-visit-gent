@@ -304,8 +304,6 @@ const getPleinCard = (req, res /* , next */) => {
   //console.log("get plein card test. prop: ", square, " value ", square.lat);
   const lat = square.lat;
   const long = square.long;
-  //log all squares
-  //squares.filter(square => console.log(square.address));
   
   //const nearest = loc.closestLocation({ lat, long }, squares);
   const imageName = square.name.nl.split(' ').join('_');
