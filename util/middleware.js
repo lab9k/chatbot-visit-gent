@@ -41,6 +41,9 @@ const typeMiddleware = (req, res, next) => {
       case 'get_all_squares':
         req.type = 'all_squares';
         break;
+      case 'get_events':
+        req.type = 'get_events';
+        break;
       case 'toiletten.search':
         req.type = 'toiletten.search';
         break;
