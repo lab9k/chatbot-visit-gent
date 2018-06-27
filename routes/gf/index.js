@@ -25,7 +25,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'get_plein_location':
       fn = handleLocation;
       break;
-    case 'events':
+    case 'get_events':
       fn = handleEvents;
       break;
     case 'all_squares':
