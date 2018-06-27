@@ -310,13 +310,11 @@ const getPleinCard = (req, res /* , next */) => {
   //const nearest = loc.closestLocation({ lat, long }, squares);
   const imageName = square.name.nl.split(' ').join('_');
 
-  console.log(`https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`)
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    `Klik op Navigeer om naar het plein te navigeren of op Programma als u het programma van deze locatie wil zien.`,
     [long, lat],
-    { subtitle: `${square.display_name}` },
+    { subtitle: `Klik op Navigeer om naar het plein te navigeren of op Programma als u het programma van deze locatie wil zien.` },
     [
       new Button(
         'Navigeer', 
