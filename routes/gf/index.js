@@ -109,11 +109,11 @@ const handleLocation = (req, res /* , next */) => {
 };
 
 const checkConnectionAndTable = () => {
-  console.log(process.env.CONNECTION_STRING);
+  //console.log(process.env.CONNECTION_STRING);
 
   if (process.env.CONNECTION_STRING) {
     pg.schema.hasTable('feedback').then((exists) => {
-      console.log('feedbackTableExists', exists);
+      //console.log('feedbackTableExists', exists);
       if (!exists) {
         console.log('creating table...');
         pg.schema
@@ -308,6 +308,8 @@ const getPleinCard = (req, res /* , next */) => {
   
   //const nearest = loc.closestLocation({ lat, long }, squares);
   const imageName = square.name.nl.replace(" ", "_");
+
+  console.log(`https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`)
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
