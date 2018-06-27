@@ -307,7 +307,7 @@ const getPleinCard = (req, res /* , next */) => {
   //squares.filter(square => console.log(square.address));
   
   //const nearest = loc.closestLocation({ lat, long }, squares);
-  const imageName = square.name.nl.replace(" ", "_");
+  const imageName = square.name.nl.split(' ').join('_');
 
   console.log(`https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`)
 
