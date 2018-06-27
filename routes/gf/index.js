@@ -72,7 +72,7 @@ const handleLocation = (req, res /* , next */) => {
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
     `${nearest.name.nl}`,
     [long, lat],
-    { subtitle: `${nearest.display_name}` },
+    { subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken." },
     [
       new Button(
         'Navigeer',
@@ -314,7 +314,7 @@ const getPleinCard = (req, res /* , next */) => {
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
     square.name.nl,
     [long, lat],
-    { subtitle: `Klik op Navigeer om naar het plein te navigeren of op Programma als u het programma van deze locatie wil zien.` },
+    { subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.` },
     [
       new Button(
         'Navigeer', 
