@@ -10,10 +10,7 @@ const loc = require('../../util/location');
 const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-// environment variables for connection with DB
-require('dotenv').config()
+const cosmosDB = require("../../db/cosmosDBManager");
 
 
 const pg = require('knex')({
@@ -138,17 +135,7 @@ checkConnectionAndTable();
 
 const handleEvents = (req, res, next ) => {
   // Use connect method to connect to the server
-
-  console.log("event action triggered")
-  /* MongoClient.connect(process.env.COSMOS_DB_URL, function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
-    
-  
-    const db = client.db(process.env.COSMOS_DB_NAME);
-    client.close();
-  }); */
-
+  cosmosDB.testDBconnection()
 };
 
 const searchToiletten = (req, res) => {
@@ -179,10 +166,6 @@ const searchToiletten = (req, res) => {
     ],
 
   );
-
-  //const quickReply = new QuickReply();
-
-  //console.log(quickReply.getResponse())
 
   const ret = {
     payload: {
