@@ -65,7 +65,7 @@ const handleLocation = (req, res /* , next */) => {
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   urlName = nearest.name.nl.replace(" ", "_")
-  console.log(urlName)
+  console.log(`https://github.com/lab9k/chatbot-visit-gent/blob/master/img/pleinen/${urlName}.jpg`)
 
   const card = new Card(
     `https://github.com/lab9k/chatbot-visit-gent/blob/master/img/pleinen/${urlName}.jpg`,
