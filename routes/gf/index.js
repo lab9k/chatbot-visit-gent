@@ -65,7 +65,7 @@ const handleLocation = (req, res /* , next */) => {
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   const card = new Card(
-    'http://www.martinvrijland.nl/archief/wp-content/uploads/2015/01/charliehebdo_large-200x200.png',
+    `https://github.com/lab9k/chatbot-visit-gent/blob/master/img/pleinen/${nearest.name.nl}.jpg`,
     `${nearest.name.nl}`,
     [long, lat],
     { subtitle: `${nearest.display_name}` },
