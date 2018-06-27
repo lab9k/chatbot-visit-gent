@@ -128,9 +128,9 @@ const checkConnectionAndTable = () => {
 };
 checkConnectionAndTable();
 
-const handleEvents = (req, res, next ) => {
+const handleEvents = (req, res) => {
   // Use connect method to connect to the server
-  console.log("test event is called :)")
+  console.log("************************ test event is called :) ****************")
   cosmosDB.testDBconnection()
 };
 
