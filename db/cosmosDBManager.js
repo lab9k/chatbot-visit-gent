@@ -4,9 +4,12 @@ const hostname = process.env.COSMOSDB_HOST_NAME
 const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD  
 const client = new DocumentClient(hostname, {"masterKey": masterKey});
 
+var collectionDefinition = { id: "inventory" };
+
+
 
 const testDBconnection = () => {
-    client.queryDocuments(collection._self, "SELECT * FROM inventory").toArray(function(err, results) {
+    client.queryDocuments(collectionDefinition, "SELECT * FROM inventory").toArray(function(err, results) {
         if (err) {
             console.log(err)
         } else {
