@@ -57,14 +57,10 @@ const handleLocation = (req, res /* , next */) => {
   const { payload } = original;
   const { lat, long } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
-  // log all squares
-  // squares.filter(square => console.log(square.address)); 
   const nearest = loc.closestLocation({ lat, long }, squares);
 
   urlName = nearest.name.nl.split(' ').join('_')
   
-  console.log(`https://github.com/lab9k/chatbot-visit-gent/blob/master/img/pleinen/${urlName}.jpg`)
-
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
     `${nearest.name.nl}`,
@@ -107,7 +103,6 @@ const handleLocation = (req, res /* , next */) => {
 };
 
 const checkConnectionAndTable = () => {
-  //console.log(process.env.CONNECTION_STRING);
 
   if (process.env.CONNECTION_STRING) {
     pg.schema.hasTable('feedback').then((exists) => {
@@ -135,6 +130,7 @@ checkConnectionAndTable();
 
 const handleEvents = (req, res, next ) => {
   // Use connect method to connect to the server
+  console.log("test event is called :)")
   cosmosDB.testDBconnection()
 };
 
@@ -229,19 +225,7 @@ const allSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
   const squares = locationMapper.getSquares();
   const elements = [];
-  // Some sample images to be used in the cards.
-  const images = [
-    'http://focusonbelgium.be/sites/default/files/styles/big_article_image/public/events/gentse_feesten_avond_c_stad_gent.jpg?itok=5VUGrS2o',
-    'https://nbocdn.akamaized.net/Assets/Images_Upload/2017/07/14/ID-FVV_547c2b8ecf0a6535d0bca19654735180_201707136.jpg?maxheight=460&maxwidth=638',
-    'https://dekuipe.files.wordpress.com/2013/05/gentfotos3-008.jpg',
-    'https://www.belg.be/wp-content/uploads/2016/07/foto-stad-gent-gentse-feesten.jpg',
-    'http://i46.tinypic.com/2cf5eo2.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gentse_Belleman_2008.jpg/266px-Gentse_Belleman_2008.jpg',
-    'https://www.centrumvooravondonderwijs.be/wp-content/uploads/2013/01/Campussen_Gent_CVA.jpg',
-    'http://www.dewarande.be/sites/default/files/gent2.jpg',
-    'http://www.tvosken.be/wp-content/uploads/2014/08/gent_snachts.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Ghent_-_centre.jpg/1200px-Ghent_-_centre.jpg'
-  ];
+
   let count = 1;
   while (squares.length > 0) {
     // take 3 square objects
@@ -332,7 +316,6 @@ const getPleinCard = (req, res /* , next */) => {
 
 
 const getDays = (req, res /* , next */) => {
-  console.log("test");
   const today = new Date().getDate;  
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
@@ -349,8 +332,6 @@ const getDays = (req, res /* , next */) => {
   }
 
   const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays).getResponse();
-
-  console.log("quickReply ", quickReply);//, " days ", gentseFeestenDays);
 
   const ret = {
     payload: {
