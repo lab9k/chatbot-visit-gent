@@ -13,6 +13,9 @@ class LocationMapper {
           .filter(el => _.isSquare(el))
           // filter out walter de buckplein because It's a duplicate
           .filter(el => el.name.nl !== 'Walter De Buckplein/Beverhoutplein'));
+          
+          console.log(this.squares)
+
         return this.squares;
       })
       .then((squares) => {
