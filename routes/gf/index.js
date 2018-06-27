@@ -314,7 +314,7 @@ const getPleinCard = (req, res /* , next */) => {
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    `${square.name.nl}`,
+    `Klik op Navigeer om naar het plein te navigeren of op Programma als u het programma van deze locatie wil zien.`,
     [long, lat],
     { subtitle: `${square.display_name}` },
     [
