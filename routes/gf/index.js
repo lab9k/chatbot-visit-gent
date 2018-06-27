@@ -266,7 +266,7 @@ const allSquares = (req, res) => {
     // construct a Card object with the 3 squares we just sampled
     const card = new Card(
       // sample a random image from the list.
-      images.splice(Math.floor(Math.random() * images.length), 1)[0],
+      "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
       'Pleinen',
       [0, 3],
       { subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren' },
