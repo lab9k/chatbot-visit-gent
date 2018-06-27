@@ -68,7 +68,7 @@ const handleLocation = (req, res /* , next */) => {
   console.log(`https://github.com/lab9k/chatbot-visit-gent/blob/master/img/pleinen/${urlName}.jpg`)
 
   const card = new Card(
-    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`
+    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
     `${nearest.name.nl}`,
     [long, lat],
     { subtitle: `${nearest.display_name}` },
