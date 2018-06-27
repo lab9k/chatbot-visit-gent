@@ -6,7 +6,7 @@ const client = new DocumentClient(hostname, {"masterKey": masterKey});
 
 
 const testDBconnection = () => {
-    client.queryDocuments("inventory", "SELECT * FROM events").toArray(function(err, results) {
+    client.queryDocuments(collection._self, "SELECT * FROM inventory").toArray(function(err, results) {
         if (err) {
             console.log(err)
         } else {
