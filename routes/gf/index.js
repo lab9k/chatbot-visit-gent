@@ -122,6 +122,7 @@ const checkConnectionAndTable = () => {
         console.log('table feedback already exists');
       }
     });
+    
   } else {
     console.log('no connection with pg');
   }
