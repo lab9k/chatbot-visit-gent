@@ -132,7 +132,7 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  console.log("************************ test event is called :) ****************",date)
+  console.log(date)
   cosmosDB.testDBconnection()
   return res.json("OK");
 };

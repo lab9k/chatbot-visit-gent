@@ -17,4 +17,6 @@ const testDBconnection = () => {
 }
 
 
-module.exports = testDBconnection;
+module.exports = {
+    testDBconnection
+}
