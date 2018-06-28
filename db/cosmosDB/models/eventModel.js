@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
-const eventSchema = new Schema({
+
+var eventSchema = new Schema({
+    _id : ObjectId,
     name: String,
     startDate: Date,
     endDate: Date,
