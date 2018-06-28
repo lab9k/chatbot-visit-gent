@@ -6,7 +6,7 @@ const username = process.env.COSMOSDB_USERNAME
 const password = process.env.COSMOSDB_PASSWORD
 
 // schemas for querying db
-const gentseFeestenEvent = require('./models/eventModel');
+const Events = require('./models/eventModel');
 
 
 
@@ -18,7 +18,7 @@ const testDBconnection = () => {
                 dbName: dbName
             })
             .then(() => { // if connection with DB is succesful
-                gentseFeestenEvent.find({}, function(err, events) {             
+                Events.find({}, function(err, events) {             
                     if(err) throw err;
                     console.log(events)  
                 });
@@ -28,7 +28,6 @@ const testDBconnection = () => {
                 console.error('App starting error:', err.stack);
                 process.exit(1);
             });
-        
 }
 
 /* const getAllEventsFromNow = () => {
