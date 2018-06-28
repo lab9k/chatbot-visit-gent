@@ -6,26 +6,53 @@ const username = process.env.COSMOSDB_USERNAME
 const password = process.env.COSMOSDB_PASSWORD
 
 // schemas for querying db
-const event = require('./models/eventModel');
+const gentseFeestenEvent = require('./models/eventModel');
 
+
+mongoose.connect('mongodb://127.0.0.2/test').exec()
+    .then(() => { // if all is ok we will be here
+        return server.start();
+    })
+    .catch(err => { // if error we will be here
+        console.error('App starting error:', err.stack);
+        process.exit(1);
+    });
 
 const testDBconnection = () => {
-    mongoose.connect(connectionString, {
-        user: username,
-        pass: password,
-        dbName: dbName
-    }, function (err, db) {
-        // find each person with a last name matching 'Ghost', selecting the `name` and `occupation` fields
-        console.log('********************')        
-        console.log("Connected to DB");
-        db.close();
-    });
+    mongoose.connect(
+            connectionString, 
+            {
+                user: username,
+                pass: password,
+                dbName: dbName
+            }).exec()
+            .then(() => { // if all is ok we will be here
+                console.log("connected")
+                return server.start();
+            })
+            .catch(err => { // if error we will be here
+                console.error('App starting error:', err.stack);
+                process.exit(1);
+            });
+        
+        
+       /*  then((db) => 
+            console.log(db)
+            db.close()
+        ).catch(
+            err => console.log(err)
+        );
+
+
+        console.log('********************')
+            console.log("Connected to DB");
+            db.close(); */
 }
 
 /* const getAllEventsFromNow = () => {
     //current datetime
-    const currentDateTime = new Date(); 
-    
+    const currentDateTime = new Date();
+
     client.queryDocuments(collectionDefinition, "SELECT * FROM inventory").toArray(function(err, results) {
         if (err) {
             console.log(err)
