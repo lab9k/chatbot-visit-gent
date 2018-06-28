@@ -44,7 +44,7 @@ const getAllEventsFromNow = () => {
 const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => { 
    
 
-    let startDate = dateTimeStart.toISOString();
+    let startDate = new ISODate(dateTimeStart);
    /* let dateTimeEnd
     // add a day
     date.setDate(date.getDate() + 1); */
