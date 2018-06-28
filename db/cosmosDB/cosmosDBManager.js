@@ -64,7 +64,7 @@ const getEventsSelectedStageAndDate = (dateTime,stageName) => {
                         //  NOW 14 juli 0:00 
                         "startDate": 
                             { 
-                                $dayOfMonth: dayMonth 
+                                $dayOfMonth: dateTime 
                             }    
                    },
                    function(err,events) {
