@@ -17,10 +17,9 @@ const testDBconnection = () => {
                 user: username,
                 pass: password,
                 dbName: dbName
-            }).exec()
+            })
             .then(() => { // if all is ok we will be here
                 console.log("connected")
-                return server.start();
             })
             .catch(err => { // if error we will be here
                 console.error('App starting error:', err.stack);
