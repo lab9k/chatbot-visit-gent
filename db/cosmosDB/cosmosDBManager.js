@@ -72,7 +72,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         } 
         */
     }, function (err, events) {
-        if (err) return handleError(err);
+        if (err) throw err;
         // Prints "Space Ghost is a talk show host".
         return events
     });
