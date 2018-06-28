@@ -41,8 +41,10 @@ const getAllEventsFromNow = () => {
             });
 }
 
-const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
-   let dateTimeEnd = dateTimeEnd.setDate(dateTimeStart.getDate() + 1)
+const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => { 
+   let dateTimeEnd = dateTimeStart;
+   dateTimeEnd.setDate(dateTimeEnd.getDate() + 1);
+
    console.log("start:",dateTimeStart)
    console.log("end:",dateTimeEnd)
    mongoose.connect(connectionString, 
