@@ -65,14 +65,14 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
                                 "$eq": stageName 
                             }, */
 
-                            "startDate": 
+                            /* "startDate": 
                             {
                                 "$gte": startDate/* ,
-                                "$lt": dateTimeEnd */
-                            }
-                        
-                         
-                   },
+                                "$lt": dateTimeEnd
+                            } 
+                            */
+                   }       
+                   ,
                    function(err,events) {
                        if(err) throw err;
                        console.log(events) 
