@@ -46,8 +46,8 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
    dateTimeEnd.setDate(dateTimeStart.getDate() + 1);
    
 
-   console.log("start:",dateTimeStart)
-   console.log("end:",dateTimeEnd)
+   console.log("start:",dateTimeStart, typeof(dateTimeStart))
+   console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
    mongoose.connect(connectionString, 
            {
                user: username,
