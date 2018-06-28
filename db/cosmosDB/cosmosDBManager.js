@@ -15,7 +15,7 @@ const testDBconnection = () => {
             {
                 user: username,
                 pass: password,
-                dbName: dbName
+                dbName: "sdfsd"
             })
             .then(() => { // if connection with DB is succesful
                 Events.find({}, function(err, events) {             
@@ -33,26 +33,10 @@ const testDBconnection = () => {
 /* const getAllEventsFromNow = () => {
     //current datetime
     const currentDateTime = new Date();
-
-    client.queryDocuments(collectionDefinition, "SELECT * FROM inventory").toArray(function(err, results) {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("it works :)")
-            console.log(results);
-        }
-    });
 }
 
 const getEventsSelectedStageAndDate = (dateTime,stage) => {
-    client.queryDocuments(collectionDefinition, "SELECT * FROM inventory").toArray(function(err, results) {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("it works :)")
-            console.log(results);
-        }
-    });
+   
 }
  */
 
