@@ -3,8 +3,9 @@ const DocumentClient = require('documentdb').DocumentClient;
 const hostname = process.env.COSMOSDB_HOST_NAME
 const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD
 const client = new DocumentClient(hostname, {
-    "masterKey": masterKey
+    masterKey: masterKey
 });
+
 
 
 
