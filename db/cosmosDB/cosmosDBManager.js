@@ -45,6 +45,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
 
    var dateTimeEnd = dateTimeStart;
    dateTimeEnd.setDate(dateTimeStart.getDate() + 1);
+   dateTimeEnd.toLocaleDateString();
 
    console.log("start:",dateTimeStart, typeof(dateTimeStart))
    console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
