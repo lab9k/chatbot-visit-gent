@@ -16,10 +16,7 @@ const testDBconnection = () => {
         dbName: dbName
     }, function (err, db) {
         // find each person with a last name matching 'Ghost', selecting the `name` and `occupation` fields
-        //console.log(db.find().limit(10))
-        console.log('********************')
-        console.log(event.find().limit(10));
-        
+        console.log('********************')        
         console.log("Connected to DB");
         db.close();
     });
