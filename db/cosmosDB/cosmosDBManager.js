@@ -62,7 +62,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
                             "startDate": 
                             {
                                 "$gte": dateTimeStart,
-                                "$lt": 
+                                "$lt": dateTimeEnd
                             }
                         
                          
