@@ -42,7 +42,8 @@ const getAllEventsFromNow = () => {
 }
 
 const getEventsSelectedStageAndDate = (dateTime,stageName) => {
-   console.log(dateTime)
+   const dayMonth = dateTime.getDate()
+   console.log(dayMonth)
    mongoose.connect(connectionString, 
            {
                user: username,
@@ -63,7 +64,7 @@ const getEventsSelectedStageAndDate = (dateTime,stageName) => {
                         //  NOW 14 juli 0:00 
                         "startDate": 
                             { 
-                                $dayOfMonth: "$date" 
+                                $dayOfMonth: dayMonth 
                             }    
                    },
                    function(err,events) {
