@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-COSMOSDB_CONNSTR = process.env.COSMOSDB_CONNECTION_STRING
-COSMOSDB_DBNAME = process.env.COSMOSDB_DBNAME
+const connectionString = process.env.COSMOSDB_CONNECTION_STRING
+const dbName = process.env.COSMOSDB_DBNAME
 
 
 /* const hostname = process.env.COSMOSDB_HOST_NAME
@@ -12,7 +12,9 @@ const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD */
 
 
 const testDBconnection = () => {
-    mongoose.connect(process.env.COSMOSDB_CONNSTR + process.env.COSMOSDB_DBNAME + "?ssl=true&replicaSet=globaldb"); //Creates a new DB, if it doesn't already exist
+    console.log(connectionString);
+    console.log(dbName)
+    mongoose.connect(connectionString  + dbName + "?ssl=true&replicaSet=globaldb"); //Creates a new DB, if it doesn't already exist
 
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
