@@ -40,6 +40,16 @@ const getAllEventsFromNow = () => {
 
 const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
 
+    // Or using promises
+    mongoose.connect(connectionString, {
+        user: username,
+        pass: password,
+        dbName: dbName
+    }).then(
+        () => { console.log("connected to DB") },
+        err => { console.log(err) }
+    );
+
 
     //let startDate = new ISODate(dateTimeStart);
     /* let dateTimeEnd
@@ -48,35 +58,34 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
 
     //console.log("start:",startDate, typeof(startDate))
     //console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
-    mongoose.connect(connectionString, {
-            user: username,
-            pass: password,
-            dbName: dbName
-        })
-        .then(() => {
-            Events.find({
-                /* "address": 
-                     {
-                         "$eq": stageName 
-                     }, */
 
-                /* "startDate": 
-                {
-                    "$gte": startDate/* ,
-                    "$lt": dateTimeEnd
-                } 
-                */
-            })
-            .limit(5)
-            .then(events=> {
-                return events
-            })
-            .catch(error => console.log(error))
-        })
-        .catch(err => { // if error while connecting with DB
-            console.error('App starting error:', err.stack);
-            process.exit(1);
-        });
+    Events.find({
+        /* "address": 
+             {
+                 "$eq": stageName 
+             }, */
+
+        /* "startDate": 
+        {
+            "$gte": startDate/* ,
+            "$lt": dateTimeEnd
+        } 
+        */
+    }, function (err, events) {
+        if (err) return handleError(err);
+        // Prints "Space Ghost is a talk show host".
+        return events
+    });
+
+   
+      
+
+
+
+
+
+    
+        
 }
 
 
