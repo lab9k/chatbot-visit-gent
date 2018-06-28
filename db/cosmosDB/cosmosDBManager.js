@@ -48,7 +48,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
 
     //console.log("start:",startDate, typeof(startDate))
     //console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
-    return mongoose.connect(connectionString, {
+    mongoose.connect(connectionString, {
             user: username,
             pass: password,
             dbName: dbName
@@ -68,6 +68,9 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
                 */
             })
             .limit(5)
+            .then(events=> {
+                return events
+            })
             .catch(error => console.log(error))
         })
         .catch(err => { // if error while connecting with DB

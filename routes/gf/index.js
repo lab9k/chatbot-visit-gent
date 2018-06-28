@@ -138,8 +138,9 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
-    .then((event) =>
+  const allEvents = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
+  console.log(allEvents);
+    /* .then((event) =>
       console.log(event)
       // construct a Card object with the 3 squares we just sampled
       /* const card = new Card(
@@ -155,7 +156,7 @@ const handleEvents = (req, res) => {
           el.name.nl,
           "postback"
         )) */
-    )/* .then(() => {
+    /* .then(() => {
         const payload = {
           payload: {
             facebook: {
@@ -173,9 +174,7 @@ const handleEvents = (req, res) => {
         return res.json(payload);
       }
 
-    ) */.catch(err => console.log(err))
-
-
+    ) */
 
 
     return res.json("")
