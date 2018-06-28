@@ -1,30 +1,23 @@
-const DocumentClient = require('documentdb').DocumentClient;
+const mongoose = require('mongoose');
+COSMOSDB_CONNSTR = process.env.COSMOSDB_CONNECTION_STRING
+COSMOSDB_DBNAME = process.env.COSMOSDB_DBNAME
 
-const hostname = process.env.COSMOSDB_HOST_NAME
-const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD
-const client = new DocumentClient(hostname, {
-    masterKey: masterKey
-});
+
+/* const hostname = process.env.COSMOSDB_HOST_NAME
+const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD */
+
 
 
 
 
 
 const testDBconnection = () => {
-    const querySpec = "SELECT * FROM inventory"
-    client.queryDatabases(querySpec).toArray((err, results) => {
-        if (err) {
-            console.log(err);
-        } else {
-            if (results.length === 0) {
-                console.log("***************")
-                console.log("results is empty")
-                console.log("***************")
-            } else {
-                console.log("QUERY RESULTS:")
-                console.log(results)
-            }
-        }
+    mongoose.connect(process.env.COSMOSDB_CONNSTR + process.env.COSMOSDB_DBNAME + "?ssl=true&replicaSet=globaldb"); //Creates a new DB, if it doesn't already exist
+
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function () {
+        console.log("Connected to DB");
     });
 }
 
