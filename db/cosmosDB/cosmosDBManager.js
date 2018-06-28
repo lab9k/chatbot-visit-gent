@@ -6,7 +6,7 @@ const username = process.env.COSMOSDB_USERNAME
 const password = process.env.COSMOSDB_PASSWORD
 
 // schemas for querying db
-const event = require('models/eventModel');
+const event = require('./models/eventModel');
 
 
 const testDBconnection = () => {
