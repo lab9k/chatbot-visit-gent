@@ -12,7 +12,6 @@ const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 const cosmosDB = require("../../db/cosmosDBManager");
 
-
 const pg = require('knex')({
   client: 'pg',
   connection: process.env.CONNECTION_STRING,
