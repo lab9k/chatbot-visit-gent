@@ -42,7 +42,7 @@ const getAllEventsFromNow = () => {
 }
 
 const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => { 
-   let dateTimeEnd = "";
+   let dateTimeEnd;
    dateTimeEnd.setDate(dateTimeStart.getDate() + 1);
    
 
