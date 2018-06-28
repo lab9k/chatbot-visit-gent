@@ -19,15 +19,7 @@ const testDBconnection = () => {
                 pass: password,
                 dbName: dbName
             })
-            .then(() => { // if connection with DB is succesful
-                /* Events.find({}, function(err, events) {             
-                    if(err) throw err;
-                    console.log(events)  
-                }); */
-                
-                
-                //now => 6 uren
-
+            .then(() => { 
                 Events.find(
                     {
                         "startDate": 
@@ -52,13 +44,39 @@ const testDBconnection = () => {
 /* const getAllEventsFromNow = () => {
     //current datetime
     const currentDateTime = new Date();
-}
+} */
 
-const getEventsSelectedStageAndDate = (dateTime,stage) => {
-   
+const getEventsSelectedStageAndDate = (dateTime,stageName) => {
+   mongoose.connect(connectionString, 
+           {
+               user: username,
+               pass: password,
+               dbName: dbName
+           })
+           .then(() => { 
+               Events.find(
+                   {
+                       "address": 
+                           {
+                               "$eq": stageName 
+                           }
+                   },
+                   function(err,events) {
+                       if(err) throw err;
+                       console.log(events) 
+                       console.log("length:",events.length)
+                   }
+               )
+
+           })
+           .catch(err => { // if error while connecting with DB
+               console.error('App starting error:', err.stack);
+               process.exit(1);
+           });
 }
- */
+ 
 
 module.exports = {
-    testDBconnection
+    testDBconnection,
+    getEventsSelectedStageAndDate
 }

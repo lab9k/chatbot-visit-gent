@@ -131,7 +131,7 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  cosmosDB.testDBconnection()
+  cosmosDB.getEventsSelectedStageAndDate(date,"Korenmarkt")
   return res.json("OK");
 };
 
