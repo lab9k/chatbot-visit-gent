@@ -10,7 +10,7 @@ const eventSchema = new Schema({
     image_url: String
 });
 
-const Events = mongoose.model("Inventory",eventSchema)
+const Events = mongoose.model("inventory",eventSchema)
 
 
 module.exports = Events
