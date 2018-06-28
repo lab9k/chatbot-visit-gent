@@ -64,7 +64,9 @@ const getEventsSelectedStageAndDate = (dateTime,stageName) => {
                         //  NOW 14 juli 0:00 
                         "startDate": 
                             { 
-                                $dayOfMonth: dateTime.toISOString() 
+                                $where: function() {
+                                    return (new Date(this.startDate).getDate() == dayMonth)
+                                }
                             }    
                    },
                    function(err,events) {
