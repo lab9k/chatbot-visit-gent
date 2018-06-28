@@ -72,6 +72,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
                             } 
                             */
                    }       
+                   //then and return limit(4)
                    ,
                    function(err,events) {
                        if(err) throw err;
