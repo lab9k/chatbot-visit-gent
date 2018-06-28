@@ -4,16 +4,17 @@ const hostname = process.env.COSMOSDB_HOST_NAME
 const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD  
 const client = new DocumentClient(hostname, {"masterKey": masterKey});
 
-var collectionDefinition = { id: "inventory" };
 
 
 
 const testDBconnection = () => {
-    client.queryDocuments(collectionDefinition, "SELECT * FROM inventory").toArray(function(err, results) {
+    console.log('****************************')
+    console.log(hostname)
+    console.log(masterKey)
+    console.log('****************************')
+    client.queryDocuments("inventory", "SELECT * FROM inventory").toArray(function(err, results) {
         if (err) {
             console.log('****************************')
-            console.log(hostname)
-            console.log(masterKey)
             console.log(err)
             console.log('****************************')
         } else {
@@ -23,7 +24,7 @@ const testDBconnection = () => {
     });
 }
 
-const getAllEventsFromNow = () => {
+/* const getAllEventsFromNow = () => {
     //current datetime
     const currentDateTime = new Date(); 
     
@@ -47,7 +48,7 @@ const getEventsSelectedStageAndDate = (dateTime,stage) => {
         }
     });
 }
-
+ */
 
 module.exports = {
     testDBconnection
