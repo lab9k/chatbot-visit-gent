@@ -9,14 +9,6 @@ const password = process.env.COSMOSDB_PASSWORD
 const gentseFeestenEvent = require('./models/eventModel');
 
 
-mongoose.connect('mongodb://127.0.0.2/test').exec()
-    .then(() => { // if all is ok we will be here
-        return server.start();
-    })
-    .catch(err => { // if error we will be here
-        console.error('App starting error:', err.stack);
-        process.exit(1);
-    });
 
 const testDBconnection = () => {
     mongoose.connect(
