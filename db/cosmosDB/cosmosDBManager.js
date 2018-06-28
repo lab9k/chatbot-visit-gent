@@ -11,83 +11,71 @@ const Events = require('./models/eventModel');
 
 const getAllEventsFromNow = () => {
     //current datetime
-    const currentDateTime = new Date(2018,7,15);
-    
-    mongoose.connect(connectionString, 
-            {
-                user: username,
-                pass: password,
-                dbName: dbName
-            })
-            .then(() => { 
-                Events.find(
-                    {
-                        "startDate": 
-                            {
-                                "$eq": new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate()) 
-                            }
-                    },
-                    function(err,events) {
-                        if(err) throw err;
-                        console.log(events) 
-                        console.log("length:",events.length)
-                    }
-                )
+    const currentDateTime = new Date(2018, 7, 15);
 
-            })
-            .catch(err => { // if error while connecting with DB
-                console.error('App starting error:', err.stack);
-                process.exit(1);
-            });
+    mongoose.connect(connectionString, {
+            user: username,
+            pass: password,
+            dbName: dbName
+        })
+        .then(() => {
+            Events.find({
+                    "startDate": {
+                        "$eq": new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate())
+                    }
+                },
+                function (err, events) {
+                    if (err) throw err;
+                    console.log(events)
+                    console.log("length:", events.length)
+                }
+            )
+
+        })
+        .catch(err => { // if error while connecting with DB
+            console.error('App starting error:', err.stack);
+            process.exit(1);
+        });
 }
 
-const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => { 
-   
+const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
+
 
     //let startDate = new ISODate(dateTimeStart);
-   /* let dateTimeEnd
-    // add a day
-    date.setDate(date.getDate() + 1); */
+    /* let dateTimeEnd
+     // add a day
+     date.setDate(date.getDate() + 1); */
 
-   //console.log("start:",startDate, typeof(startDate))
-   //console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
-   mongoose.connect(connectionString, 
-           {
-               user: username,
-               pass: password,
-               dbName: dbName
-           })
-           .then(() => { 
-               Events.find(
-                   {
-                       /* "address": 
-                            {
-                                "$eq": stageName 
-                            }, */
+    //console.log("start:",startDate, typeof(startDate))
+    //console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
+    return mongoose.connect(connectionString, {
+            user: username,
+            pass: password,
+            dbName: dbName
+        })
+        .then(() => {
+            Events.find({
+                /* "address": 
+                     {
+                         "$eq": stageName 
+                     }, */
 
-                            /* "startDate": 
-                            {
-                                "$gte": startDate/* ,
-                                "$lt": dateTimeEnd
-                            } 
-                            */
-                   }       
-                   //then and return limit(4)
-                   ,
-                   function(err,events) {
-                       if(err) throw err;
-                       console.log(events) 
-                       console.log("length:",events.length)
-                   }
-               )
-
-           })
-           .catch(err => { // if error while connecting with DB
-               console.error('App starting error:', err.stack);
-               process.exit(1);
-           });
+                /* "startDate": 
+                {
+                    "$gte": startDate/* ,
+                    "$lt": dateTimeEnd
+                } 
+                */
+            })
+            .limit(5)
+            .catch(error => console.log(error))
+        })
+        .catch(err => { // if error while connecting with DB
+            console.error('App starting error:', err.stack);
+            process.exit(1);
+        });
 }
- 
+
 
 module.exports = {
     getAllEventsFromNow,

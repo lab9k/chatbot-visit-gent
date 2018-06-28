@@ -51,21 +51,28 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   return fn(req, res, next);
 });
 
-const handleLocation = (req, res /* , next */) => {
+const handleLocation = (req, res /* , next */ ) => {
   const original = req.body.originalDetectIntentRequest;
-  const { payload } = original;
-  const { lat, long } = payload.data.postback.data;
+  const {
+    payload
+  } = original;
+  const {
+    lat,
+    long
+  } = payload.data.postback.data;
   const squares = locationMapper.getSquares();
-  const nearest = loc.closestLocation({ lat, long }, squares);
+  const nearest = loc.closestLocation({
+    lat,
+    long
+  }, squares);
 
   urlName = nearest.name.nl.split(' ').join('_')
-  
+
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
-    `${nearest.name.nl}`,
-    [long, lat],
-    { subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken." },
-    [
+    `${nearest.name.nl}`, [long, lat], {
+      subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
+    }, [
       new Button(
         'Navigeer',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
@@ -79,8 +86,8 @@ const handleLocation = (req, res /* , next */) => {
         "postback"
       ),
       new CardButton(
-        "Terug naar hoofdmenu", 
-        "menu", 
+        "Terug naar hoofdmenu",
+        "menu",
         "postback"
       )
     ]
@@ -131,23 +138,69 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18) ,"Korenmarkt")
-  return res.json("OK");
+  cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
+    .then((event) =>
+      console.log(event.name)
+      // construct a Card object with the 3 squares we just sampled
+      /* const card = new Card(
+      // sample a random image from the list.
+      "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
+      `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
+        subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
+      },
+      // create buttons from the 3 square objects, with a google maps link to their location.
+      three.map(el =>
+        new CardButton(
+          el.name.nl,
+          el.name.nl,
+          "postback"
+        )) */
+    )/* .then(() => {
+        const payload = {
+          payload: {
+            facebook: {
+              attachment: {
+                type: 'template',
+                payload: {
+                  template_type: 'generic',
+                  // get the json structure for the card
+                  elements: elements.map(el => el.getResponse())
+                }
+              }
+            }
+          }
+        };
+        return res.json(payload);
+      }
+
+    ) */.catch(err => console.log(err))
+
+
+
+
+    return res.json("")
 };
 
 const searchToiletten = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
-  const { payload } = original;
-  const { lat, long } = payload.data.postback.data;
+  const {
+    payload
+  } = original;
+  const {
+    lat,
+    long
+  } = payload.data.postback.data;
   const toiletten = locationMapper.getToilets();
-  const nearest = loc.closestLocation({ lat, long }, toiletten);
+  const nearest = loc.closestLocation({
+    lat,
+    long
+  }, toiletten);
 
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
-    'Dichtstbijzijnde toilet',
-    [long, lat],
-    { subtitle: 'Klik op navigeer om naar het dichtsbijzijnde toilet te navigeren' },
-    [
+    'Dichtstbijzijnde toilet', [long, lat], {
+      subtitle: 'Klik op navigeer om naar het dichtsbijzijnde toilet te navigeren'
+    }, [
       new Button(
         'Navigeer',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
@@ -156,10 +209,10 @@ const searchToiletten = (req, res) => {
         'web_url'
       ),
       new CardButton(
-        "Terug naar hoofdmenu", 
-        "menu", 
+        "Terug naar hoofdmenu",
+        "menu",
         "postback"
-    )
+      )
     ],
 
   );
@@ -235,15 +288,15 @@ const allSquares = (req, res) => {
     const card = new Card(
       // sample a random image from the list.
       "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
-      `Pleinen ${count} - ${count + (three.length -1)}`,
-      [0, 3],
-      { subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren' },
+      `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
+        subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
+      },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
         new CardButton(
           el.name.nl,
           el.name.nl,
-          "postback"    
+          "postback"
         ))
     );
     elements.push(card);
@@ -266,23 +319,22 @@ const allSquares = (req, res) => {
   return res.json(payload);
 };
 
-const getPleinCard = (req, res /* , next */) => {
+const getPleinCard = (req, res /* , next */ ) => {
   const pleinName = req.body.queryResult.parameters.plein;
   const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
   const lat = square.lat;
   const long = square.long;
-  
+
   const imageName = square.name.nl.split(' ').join('_');
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    square.name.nl,
-    [long, lat],
-    { subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.` },
-    [
+    square.name.nl, [long, lat], {
+      subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+    }, [
       new Button(
-        'Navigeer', 
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`, 
+        'Navigeer',
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
         'web_url'
       ),
       new CardButton(
@@ -291,10 +343,10 @@ const getPleinCard = (req, res /* , next */) => {
         "postback"
       ),
       new CardButton(
-        "Terug naar hoofdmenu", 
-        "menu", 
+        "Terug naar hoofdmenu",
+        "menu",
         "postback"
-    )
+      )
     ]
   );
   const ret = {
@@ -314,18 +366,18 @@ const getPleinCard = (req, res /* , next */) => {
 };
 
 
-const getDays = (req, res /* , next */) => {
-  const today = new Date().getDate;  
+const getDays = (req, res /* , next */ ) => {
+  const today = new Date().getDate;
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
 
   const gentseFeestenDays = [];
-  
+
   // If today is during Gentsefeesten then return the remaining days else show all days
   let tmpDate = startGf < today && today <= endGf ? today : startGf;
-  
+
   while (tmpDate <= endGf) {
-    const date = new Date(tmpDate).getDate().toString() +" Juli";
+    const date = new Date(tmpDate).getDate().toString() + " Juli";
     gentseFeestenDays.push(date);
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
@@ -345,12 +397,16 @@ const getDays = (req, res /* , next */) => {
 }
 
 router.get('/debug', (req, res) => {
-  const { events } = eventMapper;
+  const {
+    events
+  } = eventMapper;
   const ret = [];
   events.forEach((ev) => {
     const included = ret.findIndex(el => el.name.nl === ev.name.nl);
     if (included === -1) {
-      return ret.push({ ...ev, startDates: [ev.startDate] });
+      return ret.push({ ...ev,
+        startDates: [ev.startDate]
+      });
     }
     if (!ret[included].startDates) {
       ret[included].startDates = [];
