@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var eventSchema = new Schema({
+const eventSchema = new Schema({
     name: String,
     startDate: Date,
     endDate: Date,
@@ -10,5 +10,7 @@ var eventSchema = new Schema({
     image_url: String
 });
 
+const Events = mongoose.model("Events",eventSchema)
 
-module.exports = { eventSchema }
+
+module.exports = { Events }

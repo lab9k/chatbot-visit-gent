@@ -6,9 +6,7 @@ const username = process.env.COSMOSDB_USERNAME
 const password = process.env.COSMOSDB_PASSWORD
 
 // schemas for querying db
-const schemas = require('./cosmosDBManager');
-const event = mongoose.model('event', schemas.eventSchema);
-
+const event = require('models/eventModel');
 
 
 const testDBconnection = () => {
