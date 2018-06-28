@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const connectionString = process.env.COSMOSDB_CONNECTION_STRING
 const dbName = process.env.COSMOSDB_DBNAME
+const username = process.env.COSMOSDB_USERNAME
+const password = process.env.COSMOSDB_PASSWORD
 
 
 /* const hostname = process.env.COSMOSDB_HOST_NAME
@@ -12,14 +14,12 @@ const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD */
 
 
 const testDBconnection = () => {
-    console.log(connectionString);
-    console.log(dbName)
-    mongoose.connect(connectionString); //Creates a new DB, if it doesn't already exist
-
-    var db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function () {
+    mongoose.connect(connectionString, {
+        user: username,
+        pass: password
+    }, function (err, db) {
         console.log("Connected to DB");
+        db.close();
     });
 }
 
