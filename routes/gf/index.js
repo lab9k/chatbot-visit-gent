@@ -131,7 +131,6 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  console.log(date)
   cosmosDB.testDBconnection()
   return res.json("OK");
 };
@@ -270,11 +269,9 @@ const allSquares = (req, res) => {
 const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
   const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
-  //console.log("get plein card test. prop: ", square, " value ", square.lat);
   const lat = square.lat;
   const long = square.long;
   
-  //const nearest = loc.closestLocation({ lat, long }, squares);
   const imageName = square.name.nl.split(' ').join('_');
 
   const card = new Card(
