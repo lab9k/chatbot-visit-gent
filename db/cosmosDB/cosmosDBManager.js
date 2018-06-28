@@ -49,7 +49,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
     // add a day
     date.setDate(date.getDate() + 1); */
 
-   console.log("start:",startDate, typeof(startDate))
+   //console.log("start:",startDate, typeof(startDate))
    //console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
    mongoose.connect(connectionString, 
            {
