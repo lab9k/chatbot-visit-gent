@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-
+//event schema
 var eventSchema = new Schema({
     _id : ObjectId,
     name: String,
@@ -15,6 +15,5 @@ var eventSchema = new Schema({
 
 
 const Events = mongoose.model("inventory",eventSchema)
-
 
 module.exports = Events

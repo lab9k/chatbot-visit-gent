@@ -9,8 +9,10 @@ const password = process.env.COSMOSDB_PASSWORD
 const Events = require('./models/eventModel');
 
 
-
 const testDBconnection = () => {
+    //current datetime
+    const currentDateTime = new Date();
+    
     mongoose.connect(connectionString, 
             {
                 user: username,
@@ -18,11 +20,28 @@ const testDBconnection = () => {
                 dbName: dbName
             })
             .then(() => { // if connection with DB is succesful
-                Events.find({}, function(err, events) {             
+                /* Events.find({}, function(err, events) {             
                     if(err) throw err;
                     console.log(events)  
-                });
-                console.log("connected")
+                }); */
+                
+                
+                //now => 6 uren
+
+                Events.find(
+                    {
+                        "startDate": 
+                            {
+                                "$eq": new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate()) 
+                            }
+                    },
+                    function(err,events) {
+                        if(err) throw err;
+                        console.log(events) 
+                        console.log("length:",events.length)
+                    }
+                )
+
             })
             .catch(err => { // if error while connecting with DB
                 console.error('App starting error:', err.stack);
