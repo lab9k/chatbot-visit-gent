@@ -14,8 +14,8 @@ const testDBconnection = () => {
     mongoose.connect(connectionString, 
             {
                 user: username,
-                pass: "jf",
-                dbName: "sdfsd"
+                pass: password,
+                dbName: dbName
             })
             .then(() => { // if connection with DB is succesful
                 Events.find({}, function(err, events) {             

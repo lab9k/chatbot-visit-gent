@@ -11,7 +11,8 @@ var eventSchema = new Schema({
     address: String,
     description: String,
     image_url: String
-});
+},{ collection : 'inventory'});
+
 
 const Events = mongoose.model("inventory",eventSchema)
 
