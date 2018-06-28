@@ -41,9 +41,8 @@ const getAllEventsFromNow = () => {
             });
 }
 
-const getEventsSelectedStageAndDate = (dateTime,stageName) => {
-   const dayMonth = dateTime.getDate()
-   console.log(dayMonth)
+const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
+   let dateTimeEnd;
    mongoose.connect(connectionString, 
            {
                user: username,
@@ -58,16 +57,13 @@ const getEventsSelectedStageAndDate = (dateTime,stageName) => {
                                 "$eq": stageName 
                             }, */
 
-
-                        // 14 juli 16:00 => 14 juli 20:00
-                        //
-                        //  NOW 14 juli 0:00 
-                        "startDate": 
-                            { 
-                                $where: function() {
-                                    return (new Date(this.startDate).getDate() == dayMonth)
-                                }
-                            }    
+                            "startDate": 
+                            {
+                                "$gte": dateTimeStart,
+                                "$lt": dateTimeEnd.setDate(dateTimeStart.getDate() + 1)
+                            }
+                        
+                         
                    },
                    function(err,events) {
                        if(err) throw err;
