@@ -42,9 +42,12 @@ const getAllEventsFromNow = () => {
 }
 
 const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => { 
-   const days = 1;
-   //usage of "days*24*60*60*1000" because otherwise autoconversion to other timezone
-   let dateTimeEnd = new Date(dateTimeStart + days*24*60*60*1000);
+   
+
+
+   /* let dateTimeEnd
+    // add a day
+    date.setDate(date.getDate() + 1); */
 
    console.log("start:",dateTimeStart, typeof(dateTimeStart))
    console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
@@ -64,8 +67,8 @@ const getEventsSelectedStageAndDate = (dateTimeStart,stageName) => {
 
                             "startDate": 
                             {
-                                "$gte": dateTimeStart,
-                                "$lt": dateTimeEnd
+                                "$gte": dateTimeStart/* ,
+                                "$lt": dateTimeEnd */
                             }
                         
                          
