@@ -140,6 +140,8 @@ const handleEvents = (req, res) => {
   // Use connect method to connect to the server
   const allEvents = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
   console.log(allEvents);
+  console.log(typeof(allEvents));
+
     /* .then((event) =>
       console.log(event)
       // construct a Card object with the 3 squares we just sampled
