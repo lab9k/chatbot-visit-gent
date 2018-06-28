@@ -11,7 +11,7 @@ const Events = require('./models/eventModel');
 
 const testDBconnection = () => {
     //current datetime
-    const currentDateTime = new Date();
+    const currentDateTime = new Date(2018,7,15);
     
     mongoose.connect(connectionString, 
             {
