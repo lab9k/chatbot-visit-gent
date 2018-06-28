@@ -14,7 +14,7 @@ const testDBconnection = () => {
     mongoose.connect(connectionString, 
             {
                 user: username,
-                pass: password,
+                pass: "jf",
                 dbName: "sdfsd"
             })
             .then(() => { // if connection with DB is succesful
