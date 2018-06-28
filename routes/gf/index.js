@@ -10,7 +10,7 @@ const loc = require('../../util/location');
 const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
-const cosmosDB = require("../../db/cosmosDBManager");
+const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
 
 const pg = require('knex')({
   client: 'pg',

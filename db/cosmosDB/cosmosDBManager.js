@@ -1,23 +1,27 @@
 const mongoose = require('mongoose');
+//DB connection paramaters
 const connectionString = process.env.COSMOSDB_CONNECTION_STRING
 const dbName = process.env.COSMOSDB_DBNAME
 const username = process.env.COSMOSDB_USERNAME
 const password = process.env.COSMOSDB_PASSWORD
 
-
-/* const hostname = process.env.COSMOSDB_HOST_NAME
-const masterKey = process.env.COSMOSDB_PRIMARY_PASSWORD */
-
-
-
+// schemas for querying db
+const schemas = require('./cosmosDBManager');
+const event = mongoose.model('event', schemas.eventSchema);
 
 
 
 const testDBconnection = () => {
     mongoose.connect(connectionString, {
         user: username,
-        pass: password
+        pass: password,
+        dbName: dbName
     }, function (err, db) {
+        // find each person with a last name matching 'Ghost', selecting the `name` and `occupation` fields
+        console.log(db.find().limit(10))
+        console.log('********************')
+        console.log(event.find().limit(10));
+        
         console.log("Connected to DB");
         db.close();
     });
