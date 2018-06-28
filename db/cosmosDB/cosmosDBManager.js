@@ -9,7 +9,7 @@ const password = process.env.COSMOSDB_PASSWORD
 const Events = require('./models/eventModel');
 
 
-const testDBconnection = () => {
+const getAllEventsFromNow = () => {
     //current datetime
     const currentDateTime = new Date(2018,7,15);
     
@@ -41,12 +41,8 @@ const testDBconnection = () => {
             });
 }
 
-/* const getAllEventsFromNow = () => {
-    //current datetime
-    const currentDateTime = new Date();
-} */
-
 const getEventsSelectedStageAndDate = (dateTime,stageName) => {
+   console.log(dateTime)
    mongoose.connect(connectionString, 
            {
                user: username,
@@ -56,18 +52,19 @@ const getEventsSelectedStageAndDate = (dateTime,stageName) => {
            .then(() => { 
                Events.find(
                    {
-                       "address": 
+                       /* "address": 
                             {
                                 "$eq": stageName 
-                            },
+                            }, */
+
+
+                        // 14 juli 16:00 => 14 juli 20:00
+                        //
+                        //  NOW 14 juli 0:00 
                         "startDate": 
-                           {
-                               "$gte": dateTime 
-                           },
-                        "endDate": 
-                           {
-                               "$lte": dateTime 
-                           }
+                            { 
+                                $dayOfMonth: "$date" 
+                            }    
                    },
                    function(err,events) {
                        if(err) throw err;
@@ -85,6 +82,6 @@ const getEventsSelectedStageAndDate = (dateTime,stageName) => {
  
 
 module.exports = {
-    testDBconnection,
+    getAllEventsFromNow,
     getEventsSelectedStageAndDate
 }
