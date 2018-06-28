@@ -11,33 +11,24 @@ const gentseFeestenEvent = require('./models/eventModel');
 
 
 const testDBconnection = () => {
-    mongoose.connect(
-            connectionString, 
+    mongoose.connect(connectionString, 
             {
                 user: username,
                 pass: password,
                 dbName: dbName
             })
-            .then(() => { // if all is ok we will be here
+            .then(() => { // if connection with DB is succesful
+                gentseFeestenEvent.find({}, function(err, events) {             
+                    if(err) throw err;
+                    console.log(events)  
+                });
                 console.log("connected")
             })
-            .catch(err => { // if error we will be here
+            .catch(err => { // if error while connecting with DB
                 console.error('App starting error:', err.stack);
                 process.exit(1);
             });
         
-        
-       /*  then((db) => 
-            console.log(db)
-            db.close()
-        ).catch(
-            err => console.log(err)
-        );
-
-
-        console.log('********************')
-            console.log("Connected to DB");
-            db.close(); */
 }
 
 /* const getAllEventsFromNow = () => {
