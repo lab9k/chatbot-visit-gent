@@ -6,8 +6,8 @@ const ObjectId = Schema.ObjectId;
 var eventSchema = new Schema({
     _id : ObjectId,
     name: String,
-    startDate: Date,
-    endDate: Date,
+    startDate: String,
+    endDate: String,
     address: String,
     description: String,
     image_url: String
