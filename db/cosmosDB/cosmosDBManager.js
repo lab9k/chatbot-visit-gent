@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 //DB connection paramaters
 const connectionString = process.env.COSMOSDB_CONNECTION_STRING
 const dbName = process.env.COSMOSDB_DBNAME
