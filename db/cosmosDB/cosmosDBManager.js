@@ -10,37 +10,33 @@ const Events = require('./models/eventModel');
 
 
 const getAllEventsFromNow = () => {
-    //current datetime
-    const currentDateTime = new Date(2018, 7, 15);
-
     mongoose.connect(connectionString, {
-            user: username,
-            pass: password,
-            dbName: dbName
-        })
-        .then(() => {
-            Events.find({
-                    "startDate": {
-                        "$eq": new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate())
-                    }
-                },
-                function (err, events) {
-                    if (err) throw err;
-                    console.log(events)
-                    console.log("length:", events.length)
-                }
-            )
+        user: username,
+        pass: password,
+        dbName: dbName
+    }).then(
+        () => { console.log("connected to DB") },
+        err => { console.log(err) }
+    );
 
-        })
-        .catch(err => { // if error while connecting with DB
-            console.error('App starting error:', err.stack);
-            process.exit(1);
-        });
+    const query = Events.find({
+        /* "address": 
+             {
+                 "$eq": stageName 
+             }, */
+
+        /* "startDate": 
+        {
+            "$gte": startDate/* ,
+            "$lt": dateTimeEnd
+        } 
+        */
+    }).limit(5);
+    return query;
 }
 
 const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
 
-    // Or using promises
     mongoose.connect(connectionString, {
         user: username,
         pass: password,

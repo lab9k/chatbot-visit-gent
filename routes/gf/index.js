@@ -140,21 +140,25 @@ const handleEvents = (req, res) => {
   // Use connect method to connect to the server
   const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
 
-  let cardList = [];
-
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
-   
+      //list to store all cards of events
+      let cardList = [];
       events.forEach((event) => {
           // construct a Card object for each event
           const card = new Card(
-            event.image_url,
-            event.name, [30, 50], {
+            `${event.image_url}` ,
+            `${event.name} (${event.startDate.toLocaleTimeString()} - ${event.endDate.toLocaleTimeString()})`, [30, 50], {
               subtitle: event.description
             }, [
               new CardButton(
                 "Terug naar hoofdmenu",
+                "menu",
+                "postback"
+              ),
+              new CardButton(
+                "Navigeer",
                 "menu",
                 "postback"
               )
