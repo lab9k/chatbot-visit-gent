@@ -162,6 +162,7 @@ const handleEvents = (req, res) => {
           );
           cardList.push(card); 
       })
+      console.log(cardList)
   });
 
   console.log(cardList)
