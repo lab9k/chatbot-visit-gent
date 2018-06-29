@@ -155,12 +155,14 @@ const handleEvents = (req, res) => {
             `${event.image_url}` ,
             `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [30, 50], {
               subtitle: event.description
-            }, 
+            }, [
               new CardButton(
                 "Terug naar hoofdmenu",
                 "menu",
                 "postback"
               )
+            ]
+              
             
           );
           cardList.push(card); 
