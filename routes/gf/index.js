@@ -141,7 +141,7 @@ const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   console.log(date)
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsSelectedStageAndDate(date, "Korenmarkt")
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018,6,14), "Korenmarkt")
 
   query.exec(function (err, events) {
     if (err)
