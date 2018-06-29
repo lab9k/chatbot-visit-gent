@@ -47,8 +47,8 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         err => { console.log(err) }
     );
 
-    startDate = moment(dateTimeStart).tz('Europe/Brussels').format().toString()
-    endDate = moment(dateTimeStart).tz('Europe/Brussels').add(1, 'day').format().toString()
+    startDate = moment(dateTimeStart).utc().format().toString()
+    endDate = moment(dateTimeStart).utc().add(1, 'day').format().toString()
 
 
     console.log("start:",startDate, typeof(startDate))
