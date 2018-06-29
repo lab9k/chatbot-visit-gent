@@ -155,18 +155,13 @@ const handleEvents = (req, res) => {
             `${event.image_url}` ,
             `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [30, 50], {
               subtitle: event.description
-            }, [
-             /*  new Button(
-                'Navigeer',
-                `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-                'web_url'
-              ), */
+            }, 
               new CardButton(
                 "Terug naar hoofdmenu",
                 "menu",
                 "postback"
               )
-            ]
+            
           );
           cardList.push(card); 
       })
