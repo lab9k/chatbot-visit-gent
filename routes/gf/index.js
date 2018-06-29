@@ -140,7 +140,7 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018-7-18), "Korenmarkt")
 
   query.exec(function (err, events) {
     if (err)
@@ -169,7 +169,7 @@ const handleEvents = (req, res) => {
           );
           cardList.push(card); 
       })
-      console.log(cardList)
+      //console.log(cardList)
 
       const payload = {
         payload: {
