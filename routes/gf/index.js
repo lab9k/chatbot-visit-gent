@@ -138,48 +138,56 @@ checkConnectionAndTable();
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   // Use connect method to connect to the server
-  const allEvents = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
-  console.log(allEvents);
-  console.log(typeof(allEvents));
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
 
-    /* .then((event) =>
-      console.log(event)
-      // construct a Card object with the 3 squares we just sampled
-      /* const card = new Card(
-      // sample a random image from the list.
-      "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
-      `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
-        subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
-      },
-      // create buttons from the 3 square objects, with a google maps link to their location.
-      three.map(el =>
-        new CardButton(
-          el.name.nl,
-          el.name.nl,
-          "postback"
-        )) */
-    /* .then(() => {
-        const payload = {
-          payload: {
-            facebook: {
-              attachment: {
-                type: 'template',
-                payload: {
-                  template_type: 'generic',
-                  // get the json structure for the card
-                  elements: elements.map(el => el.getResponse())
-                }
+  query.exec(function (err, events) {
+    if (err)
+      return console.log(err);
+    console.log(events)
+  });
+
+
+  /* console.log(allEvents);
+  console.log(typeof (allEvents)); */
+
+  /* .then((event) =>
+    console.log(event)
+    // construct a Card object with the 3 squares we just sampled
+    /* const card = new Card(
+    // sample a random image from the list.
+    "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
+    `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
+      subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
+    },
+    // create buttons from the 3 square objects, with a google maps link to their location.
+    three.map(el =>
+      new CardButton(
+        el.name.nl,
+        el.name.nl,
+        "postback"
+      )) */
+  /* .then(() => {
+      const payload = {
+        payload: {
+          facebook: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'generic',
+                // get the json structure for the card
+                elements: elements.map(el => el.getResponse())
               }
             }
           }
-        };
-        return res.json(payload);
-      }
+        }
+      };
+      return res.json(payload);
+    }
 
-    ) */
+  ) */
 
 
-    return res.json("")
+  return res.json("")
 };
 
 const searchToiletten = (req, res) => {

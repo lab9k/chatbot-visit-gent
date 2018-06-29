@@ -50,16 +50,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         err => { console.log(err) }
     );
 
-
-    //let startDate = new ISODate(dateTimeStart);
-    /* let dateTimeEnd
-     // add a day
-     date.setDate(date.getDate() + 1); */
-
-    //console.log("start:",startDate, typeof(startDate))
-    //console.log("end:",dateTimeEnd, typeof(dateTimeEnd))
-
-    Events.find({
+    const query = Events.find({
         /* "address": 
              {
                  "$eq": stageName 
@@ -71,13 +62,8 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
             "$lt": dateTimeEnd
         } 
         */
-    }, function (err, events) {
-        if (err) throw err;
-        console.log(events)
-        //return all events 
-        return events
     });
-
+    return query;
 }
 
 
