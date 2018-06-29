@@ -145,50 +145,43 @@ const handleEvents = (req, res) => {
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
-
-      console.log(events)
-    
+   
       events.forEach((event) => {
-        console.log("**********")  
-        console.log("event.name",event.name)
-        console.log("**********")
-        console.log("event['name']",event["name"])
-         
-         /*  // construct a Card object with the 3 squares we just sampled
+          // construct a Card object for each event
           const card = new Card(
-            // sample a random image from the list.
-            "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
-            `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
-              subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
-            },
-            // create buttons from the 3 square objects, with a google maps link to their location.
-            three.map(el =>
+            event.image_url,
+            event.name, [30, 50], {
+              subtitle: event.description
+            }, [
               new CardButton(
-                el.name.nl,
-                el.name.nl,
+                "Terug naar hoofdmenu",
+                "menu",
                 "postback"
-              ))
+              )
+            ]
           );
-          cardList.push(card);  */
+          cardList.push(card); 
       })
-     
-/*       const payload = {
-        payload: {
-          facebook: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                // get the json structure for the card
-                elements: elements.map(el => el.getResponse())
-              }
-            }
+  });
+
+  console.log(cardList)
+
+  const payload = {
+    payload: {
+      facebook: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            // get the json structure for the card
+            elements: cardList.map(el => el.getResponse())
           }
         }
-      }; */
-      return res.json(payload);
-    
-  });
+      }
+    }
+  };
+
+  return res.json(payload);
 
 };
 
