@@ -147,6 +147,7 @@ const handleEvents = (req, res) => {
       return console.log(err);
       //list to store all cards of events
       let cardList = [];
+      console.log(events)
       events.forEach((event) => {
           //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
           // construct a Card object for each event
