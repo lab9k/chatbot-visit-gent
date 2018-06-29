@@ -62,7 +62,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
             "$lt": dateTimeEnd
         } 
         */
-    });
+    }).limit(5);
     return query;
 }
 

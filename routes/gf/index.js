@@ -140,34 +140,39 @@ const handleEvents = (req, res) => {
   // Use connect method to connect to the server
   const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018, 7, 18), "Korenmarkt")
 
+  let cardList = [];
+
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
-    console.log(events)
-  });
 
-
-  /* console.log(allEvents);
-  console.log(typeof (allEvents)); */
-
-  /* .then((event) =>
-    console.log(event)
-    // construct a Card object with the 3 squares we just sampled
-    /* const card = new Card(
-    // sample a random image from the list.
-    "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
-    `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
-      subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
-    },
-    // create buttons from the 3 square objects, with a google maps link to their location.
-    three.map(el =>
-      new CardButton(
-        el.name.nl,
-        el.name.nl,
-        "postback"
-      )) */
-  /* .then(() => {
-      const payload = {
+      console.log(events)
+    
+      events.forEach((event) => {
+        console.log("**********")  
+        console.log("event.name",event.name)
+        console.log("**********")
+        console.log("event['name']",event["name"])
+         
+         /*  // construct a Card object with the 3 squares we just sampled
+          const card = new Card(
+            // sample a random image from the list.
+            "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
+            `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
+              subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
+            },
+            // create buttons from the 3 square objects, with a google maps link to their location.
+            three.map(el =>
+              new CardButton(
+                el.name.nl,
+                el.name.nl,
+                "postback"
+              ))
+          );
+          cardList.push(card);  */
+      })
+     
+/*       const payload = {
         payload: {
           facebook: {
             attachment: {
@@ -180,14 +185,11 @@ const handleEvents = (req, res) => {
             }
           }
         }
-      };
+      }; */
       return res.json(payload);
-    }
+    
+  });
 
-  ) */
-
-
-  return res.json("")
 };
 
 const searchToiletten = (req, res) => {
