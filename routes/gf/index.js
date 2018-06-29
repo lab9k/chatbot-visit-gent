@@ -152,19 +152,25 @@ const handleEvents = (req, res) => {
           //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
           // construct a Card object for each event
           const card = new Card(
-            `${event.image_url}` ,
-            `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [30, 50], {
-              subtitle: event.description
+            `${event.image_url}`,
+            `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0,3], {
+              subtitle: 'Klik op navigeer om naar het dichtsbijzijnde toilet te navigeren'
             }, [
+              new Button(
+                'Navigeer',
+                `google.com`,
+                'web_url'
+              ),
               new CardButton(
                 "Terug naar hoofdmenu",
                 "menu",
                 "postback"
               )
-            ]
-              
-            
+            ],
+        
           );
+
+          
           cardList.push(card); 
       })
       console.log(cardList)
