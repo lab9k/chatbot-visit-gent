@@ -148,18 +148,18 @@ const handleEvents = (req, res) => {
       //list to store all cards of events
       let cardList = [];
       events.forEach((event) => {
-          const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+          //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
           // construct a Card object for each event
           const card = new Card(
             `${event.image_url}` ,
             `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [30, 50], {
               subtitle: event.description
             }, [
-              new Button(
+             /*  new Button(
                 'Navigeer',
                 `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
                 'web_url'
-              ),
+              ), */
               new CardButton(
                 "Terug naar hoofdmenu",
                 "menu",
