@@ -163,27 +163,23 @@ const handleEvents = (req, res) => {
           cardList.push(card); 
       })
       console.log(cardList)
-  });
 
-  console.log(cardList)
-
-  const payload = {
-    payload: {
-      facebook: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            // get the json structure for the card
-            elements: cardList.map(el => el.getResponse())
+      const payload = {
+        payload: {
+          facebook: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'generic',
+                // get the json structure for the card
+                elements: cardList.map(el => el.getResponse())
+              }
+            }
           }
         }
-      }
-    }
-  };
-
-  return res.json(payload);
-
+      };
+      return res.json(payload);
+  });
 };
 
 const searchToiletten = (req, res) => {
