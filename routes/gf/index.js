@@ -11,6 +11,8 @@ const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
+const moment = require('moment');
+
 
 const pg = require('knex')({
   client: 'pg',
@@ -149,16 +151,16 @@ const handleEvents = (req, res) => {
           // construct a Card object for each event
           const card = new Card(
             `${event.image_url}` ,
-            `${event.name} (${event.startDate.toLocaleTimeString()} - ${event.endDate.toLocaleTimeString()})`, [30, 50], {
+            `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [30, 50], {
               subtitle: event.description
             }, [
               new CardButton(
-                "Terug naar hoofdmenu",
+                "Navigeer",
                 "menu",
                 "postback"
               ),
               new CardButton(
-                "Navigeer",
+                "Terug naar hoofdmenu",
                 "menu",
                 "postback"
               )
