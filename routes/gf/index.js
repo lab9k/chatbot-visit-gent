@@ -160,7 +160,7 @@ const handleEvents = (req, res) => {
           const card = new Card(
             `${event.image_url}`,
             `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0,3], {
-              subtitle: `${event.description}
+              subtitle: `${event.description}`
             }, [
               new Button(
                 'Navigeer',
