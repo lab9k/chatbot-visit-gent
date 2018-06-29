@@ -51,8 +51,8 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
     endDate = moment(dateTimeStart).add(1, 'day').format().toString()
 
 
-    console.log("start:",startDate)
-    console.log("end:",endDate)
+    console.log("start:",startDate, typeof(startDate))
+    console.log("end:",endDate,typeof(endDate))
 
     const query = Events.find({
         /* "address": 
