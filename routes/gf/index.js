@@ -148,7 +148,6 @@ const handleEvents = (req, res) => {
       return console.log(err);
       //list to store all cards of events
       let cardList = [];
-
       
       //console.log(events)
       events.forEach((event) => {
