@@ -47,8 +47,9 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         err => { console.log(err) }
     );
 
-    startDate = moment(dateTimeStart).format()
-    endDate = moment(dateTimeStart).add(1, 'day').format()
+    startDate = moment(dateTimeStart).format().toString()
+    endDate = moment(dateTimeStart).add(1, 'day').format().toString()
+
 
     console.log("start:",startDate)
     console.log("end:",endDate)
