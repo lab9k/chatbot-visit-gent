@@ -1,24 +1,27 @@
+//Router for API
 const router = require('express').Router();
 const mw = require('../../util/middleware');
+
+//Models for messenger
 const Card = require('../../models/card');
 const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
 const QuickReply = require('../../models/quickReply')
+
 // const _ = require('../../util/util');
+//Location mappers
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
 const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
+
+//Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
+const postgresqlManager = require("../../db/postgresql/postgresqlManager");
+
+//Date conversions
 const moment = require('moment');
-
-
-const pg = require('knex')({
-  client: 'pg',
-  connection: process.env.CONNECTION_STRING,
-  searchPath: ['knex', 'public']
-});
 
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
@@ -110,32 +113,7 @@ const handleLocation = (req, res /* , next */ ) => {
   return res.json(ret);
 };
 
-const checkConnectionAndTable = () => {
-
-  if (process.env.CONNECTION_STRING) {
-    pg.schema.hasTable('feedback').then((exists) => {
-      //console.log('feedbackTableExists', exists);
-      if (!exists) {
-        console.log('creating table...');
-        pg.schema
-          .createTable('feedback', (table) => {
-            table.increments();
-            table.text('body', 'longtext');
-            table.string('created_at');
-          })
-          .then(() => {
-            console.log('feedback table succesfully created!');
-          });
-      } else {
-        console.log('table feedback already exists');
-      }
-    });
-
-  } else {
-    console.log('no connection with pg');
-  }
-};
-checkConnectionAndTable();
+postgresqlManager.checkConnectionAndTable();
 
 const handleEvents = (req, res) => {
   const date = req.body.queryResult.parameters.date;
@@ -256,41 +234,11 @@ const searchToiletten = (req, res) => {
 
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
-  checkConnectionAndTable();
+  postgresqlManager.checkConnectionAndTable();
 };
 
 const feedbackImprovement = (req, res, next) => {
-  console.log('feedback improvement triggered');
-  const getTimezoneDate = () => {
-    const date = new Date();
-    const hours = date.getHours() + 2;
-    const minutes = date.getMinutes();
-    const miliseconds = date.getMilliseconds();
-    const fullDateString = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${hours}:${minutes}:${miliseconds}`;
-    console.log(fullDateString);
-    return fullDateString;
-  };
-  pg
-    .insert({
-      body: req.body.queryResult.parameters.improvement_proposal,
-      created_at: getTimezoneDate()
-    })
-    .into('feedback')
-    .then(() => {
-      console.log('feedback data insterted!');
-      pg
-        .select()
-        .table('feedback')
-        .then((results) => {
-          console.log(results);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  postgresqlManager.addFeedbackImprovement(req.body.queryResult.parameters.improvement_proposal)
 };
 
 const allSquares = (req, res) => {
