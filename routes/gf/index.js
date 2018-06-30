@@ -8,7 +8,6 @@ const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
 const QuickReply = require('../../models/quickReply')
 
-// const _ = require('../../util/util');
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
 const loc = require('../../util/location');
@@ -27,16 +26,16 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
     case 'get_plein_location':
-      fn = handleLocation;
+      fn = getClosestStage;
       break;
     case 'get_events':
-      fn = handleEvents;
+      fn = getEventsSquareForDate;
       break;
     case 'all_squares':
-      fn = allSquares;
+      fn = getAllSquares;
       break;
     case 'toiletten.search':
-      fn = searchToiletten;
+      fn = getClosestToilet;
       break;
     case 'feedback.satisfaction':
       fn = feedbackSatisfaction;
@@ -48,7 +47,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       fn = getPleinCard;
       break;
     case 'get_days':
-      fn = getDays;
+      fn = getDaysGentseFeesten;
       break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
@@ -56,7 +55,17 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   return fn(req, res, next);
 });
 
-const handleLocation = (req, res /* , next */ ) => {
+
+const feedbackSatisfaction = (req, res, next) => {
+  console.log('feedback satisfaction triggered');
+  postgresqlManager.checkConnectionAndTable();
+};
+
+const feedbackImprovement = (req, res, next) => {
+  postgresqlManager.addFeedbackImprovement(req.body.queryResult.parameters.improvement_proposal)
+};
+
+const getClosestStage = (req, res /* , next */ ) => {
   const original = req.body.originalDetectIntentRequest;
   const {
     payload
@@ -113,9 +122,7 @@ const handleLocation = (req, res /* , next */ ) => {
   return res.json(ret);
 };
 
-postgresqlManager.checkConnectionAndTable();
-
-const handleEvents = (req, res) => {
+const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   console.log(date)
   // Use connect method to connect to the server
@@ -177,7 +184,7 @@ const handleEvents = (req, res) => {
   });
 };
 
-const searchToiletten = (req, res) => {
+const getClosestToilet = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
   const {
     payload
@@ -232,16 +239,7 @@ const searchToiletten = (req, res) => {
   return res.json(ret);
 };
 
-const feedbackSatisfaction = (req, res, next) => {
-  console.log('feedback satisfaction triggered');
-  postgresqlManager.checkConnectionAndTable();
-};
-
-const feedbackImprovement = (req, res, next) => {
-  postgresqlManager.addFeedbackImprovement(req.body.queryResult.parameters.improvement_proposal)
-};
-
-const allSquares = (req, res) => {
+const getAllSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
   const squares = locationMapper.getSquares();
   const elements = [];
@@ -332,7 +330,7 @@ const getPleinCard = (req, res /* , next */ ) => {
 };
 
 
-const getDays = (req, res /* , next */ ) => {
+const getDaysGentseFeesten = (req, res /* , next */ ) => {
   const today = new Date().getDate;
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
