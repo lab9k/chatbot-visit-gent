@@ -64,6 +64,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
 
     const query = Events.find({
         /* "address": 
+        
              {
                  "$eq": stageName 
              }, */
