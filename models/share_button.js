@@ -14,17 +14,17 @@ class ShareButton {
   
     getResponse() {
       return {
-        "type": "element_share",
-            "share_contents": { 
-              "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [
+        type: "element_share",
+            share_contents: { 
+              attachment: {
+                type: "template",
+                payload: {
+                    template_type: "generic",
+                    elements: [
                       {
-                        "title": this.title,
-                        "image_url": this.image_url,
-                        "buttons": this.buttons,
+                        title: this.title,
+                        image_url: this.image_url,
+                        buttons: this.buttons,
                       }
                     ]
                   }
