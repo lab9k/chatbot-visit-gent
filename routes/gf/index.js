@@ -164,7 +164,6 @@ const getEventsSquareForDate = (req, res) => {
           
           cardList.push(card); 
       })
-      console.log(cardList)
 
       const payload = {
         payload: {
