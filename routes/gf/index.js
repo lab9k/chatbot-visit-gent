@@ -303,12 +303,23 @@ const getPleinCard = (req, res /* , next */ ) => {
     square.name.nl, [long, lat], {
       subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
     }, [
+      navigeergButton,
+      new CardButton(
+        `Programma ${square.name.nl}`,
+        `Programma ${square.name.nl}`,
+        "postback"
+      ),
       new ShareButton(
         square.name.nl,
         `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
         `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
         [navigeergButton],
       ),
+      new CardButton(
+        "Terug naar hoofdmenu",
+        "menu",
+        "postback"
+      )
     ]
   );
   const ret = {

@@ -16,7 +16,7 @@ class ShareButton {
   
     getResponse() {
       return {
-        type: "element_share",
+        type: "element_share"/*,
             share_contents: { 
               attachment: {
                 type: "template",
@@ -35,7 +35,7 @@ class ShareButton {
                     ]
                   }
               }
-            }
+            }*/
       };
     }
     
