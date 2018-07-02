@@ -48,13 +48,21 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         err => { console.log(err) }
     );
 
-    console.log(dateTimeStart,typeof(dateTimeStart)); // false
+    //console.log(dateTimeStart,typeof(dateTimeStart)); 
 
+    const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
 
+    }
 
+    const dateString = new Date(dateTimeStart.toLocaleDateString(options))
 
-    /* const startDate = moment(dateTimeStart).format('YYYY-MM-DD[T]HH:mm:ss');
-    const endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD[T]HH:mm:ss');
+    console.log(new Date(dateString,typeof(dateString)))
+
+    /* const startDate = moment(dateTimeStart).format('YYYY-MM-DD');
+    const endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD');
 
 
     console.log("start:",startDate, typeof(startDate))
