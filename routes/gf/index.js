@@ -294,7 +294,7 @@ const getPleinCard = (req, res /* , next */ ) => {
   const lat = square.lat;
   const long = square.long;
 
-  const imageName = square.name.nl.split(' ').join('_');  
+  const imageName = pleinName.split(' ').join('_');  
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
