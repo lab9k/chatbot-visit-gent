@@ -285,7 +285,7 @@ const getAllSquares = (req, res) => {
 
 const getPleinCard = (req, res /* , next */ ) => {
   const pleinName = req.body.queryResult.parameters.plein.split('/')[0];
-  const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.split(' ').join('_').toLowerCase());
+  const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
   const lat = square.lat;
   const long = square.long;
 
