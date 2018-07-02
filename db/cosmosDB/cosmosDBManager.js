@@ -20,6 +20,7 @@ const getAllEventsFromNow = () => {
         err => { console.log(err) }
     );
 
+
     const query = Events.find({
         /* "address": 
              {
@@ -47,9 +48,10 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         err => { console.log(err) }
     );
 
-    startDate = moment(dateTimeStart).utc().format().toString()
-    endDate = moment(dateTimeStart).utc().add(1, 'day').format().toString()
-
+    //utc format 
+    
+    startDate = moment(dateTimeStart).format().toString()
+    endDate = moment(dateTimeStart).add(1, 'day').format().toString()
 
     console.log("start:",startDate, typeof(startDate))
     console.log("end:",endDate,typeof(endDate))
