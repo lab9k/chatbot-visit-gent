@@ -42,7 +42,7 @@ const getAllEventsFromNow = () => {
 }
 
 const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
-
+    console.log("dateTimeStart", dateTimeStart);
     mongoose.connect(connectionString, {
         user: username,
         pass: password,

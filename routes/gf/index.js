@@ -287,6 +287,7 @@ const getPleinCard = (req, res /* , next */ ) => {
   const lat = square.lat;
   const long = square.long;
 
+  //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
   const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');  
 
   const card = new Card(
