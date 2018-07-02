@@ -333,6 +333,8 @@ const getPleinCard = (req, res /* , next */ ) => {
       }
     }
   };
+
+  console.log("ret json", ret);
   return res.json(ret);
 };
 
