@@ -56,25 +56,23 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         }
     );
 
-    var startDate = moment(dateTimeStart).format('YYYY-MM-DD');
-    var endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD');
+    var startDate = moment(dateTimeStart).format('YYYY-MM-DD').toString();
+    var endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD').toString();
 
-    console.log("start:", startDate.toString())
-    console.log("end:", endDate.toString())
+    //console.log("start:", startDate.toString())
+    //console.log("end:", endDate.toString())
 
     const query = Events.find({
         /* "address": 
-        
              {
                  "$eq": stageName 
              }, */
 
-        /* "startDate": 
+        "startDate": 
         {
             "$gte": startDate ,
             "$lt": endDate
-        }  */
-
+        } 
     }).limit(3);
     return query;
 }
