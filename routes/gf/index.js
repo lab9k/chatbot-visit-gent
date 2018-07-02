@@ -305,7 +305,8 @@ const getPleinCard = (req, res /* , next */ ) => {
     }, [
       new ShareButton(
         square.name.nl,
-        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,      
+        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
         [navigeergButton],
       ),
     ]
