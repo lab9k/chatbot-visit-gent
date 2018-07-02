@@ -307,12 +307,12 @@ const getPleinCard = (req, res /* , next */ ) => {
         `Programma ${square.name.nl}`,
         `Programma ${square.name.nl}`,
         "postback"
-      ),
+      ),/*
       new ShareButton(
         square.name.nl,
         `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,      
         [navigeergButton],
-      ),
+      ),*/
       new CardButton(
         "Terug naar hoofdmenu",
         "menu",
