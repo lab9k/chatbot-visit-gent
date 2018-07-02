@@ -284,7 +284,7 @@ const getAllSquares = (req, res) => {
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
-  const pleinName = req.body.queryResult.parameters.plein.split('/')[0].trim();
+  const pleinName = req.body.queryResult.parameters.plein;
 
   console.log("pleinName,"+ pleinName+ ",");
 
@@ -294,7 +294,7 @@ const getPleinCard = (req, res /* , next */ ) => {
   const lat = square.lat;
   const long = square.long;
 
-  const imageName = square.name.nl.split(' ').join('_');
+  const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');  
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
