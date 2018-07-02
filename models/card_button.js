@@ -19,7 +19,7 @@ class CardButton {
       type: this.type,
     };
   }
-  /*
+  
   getResponseQuickReply() {
     return {
       content_type: this.type,
@@ -27,7 +27,7 @@ class CardButton {
       payload: this.payload
     };
   };
-  */
+  
 
 }
 module.exports = CardButton;
