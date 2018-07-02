@@ -125,9 +125,10 @@ const getClosestStage = (req, res /* , next */ ) => {
 
 const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
+  const square = req.body.queryResult.parameters.square;
   console.log(date)
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), "Korenmarkt")
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), square)
 
   query.exec(function (err, events) {
     if (err)
