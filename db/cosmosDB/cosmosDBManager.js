@@ -57,21 +57,19 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
     );
 
     //const dateString = new Date(dateTimeStart.toLocaleDateString(options))
-
     
-    const startDate = dateTimeStart.setUTCHours(0, 0, 0, 0).toISOString();
-    const subDate = dateTimeStart.getDate() + 1 
-    const endDate = subDate.setUTCHours(0,0,0,0).toISOString();
+    //const startDate = dateTimeStart.setUTCHours(0, 0, 0, 0).toISOString();
+    //const subDate = dateTimeStart.getDate() + 1 
+    //const endDate = subDate.setUTCHours(0,0,0,0).toISOString();
 
-    console.log(startDate);
-    console.log(endDate);
+    //console.log(startDate);
+    //console.log(endDate);
 
-    /* const startDate = moment(dateTimeStart).format('YYYY-MM-DD');
+    const startDate = moment(dateTimeStart).format('YYYY-MM-DD');
     const endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD');
 
-
     console.log("start:",startDate, typeof(startDate))
-    console.log("end:",endDate,typeof(endDate)) */
+    console.log("end:",endDate,typeof(endDate))
 
     const query = Events.find({
         /* "address": 
