@@ -7,6 +7,8 @@
 - Intents voor tijdsgebonden verzoek
 - Overzicht locaties + wat er te doen is.
 - Feedback
+- fix samengestelde locatie namen(bv. beverhoutplein)
+- optie toiletten voor vrouwen
 
 ## Api
 

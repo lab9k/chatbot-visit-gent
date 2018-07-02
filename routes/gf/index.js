@@ -6,7 +6,8 @@ const mw = require('../../util/middleware');
 const Card = require('../../models/card');
 const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
-const QuickReply = require('../../models/quickReply')
+const QuickReply = require('../../models/quickReply');
+const ShareButton = require('../../models/share_button');
 
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
@@ -293,20 +294,27 @@ const getPleinCard = (req, res /* , next */ ) => {
   //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
   const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');  
 
+  const navigeergButton = new Button(
+    'Navigeer',
+    `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+    'web_url'
+  ) ;
+
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
     square.name.nl, [long, lat], {
       subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
     }, [
-      new Button(
-        'Navigeer',
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-        'web_url'
-      ),
+      navigeergButton,
       new CardButton(
         `Programma ${square.name.nl}`,
         `Programma ${square.name.nl}`,
         "postback"
+      ),
+      new ShareButton(square.name.nl,
+        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+        mapsLink,
+        [navigeergButton],
       ),
       new CardButton(
         "Terug naar hoofdmenu",
