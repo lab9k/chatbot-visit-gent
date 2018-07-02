@@ -1,9 +1,7 @@
 class ShareButton {
     /**
      *Creates an instance of Button.
-     * @param {String} text text to be displayed in the button
-     * @param {String} title title of the card (The bold text)
-     * @param {String} subtitle subtitle of the card
+     *  @param {String} title title of the card (The bold text)
      * @param {String} imgUrl url to the image you want displayed in the card     
      * @param {String} share_url url which the button points to
      * @memberof Button
@@ -24,9 +22,8 @@ class ShareButton {
                     "template_type": "generic",
                     "elements": [
                       {
-                        "title": title,
-                        "subtitle": subtitle,
-                        "image_url": image_url,
+                        "title": this.title,
+                        "image_url": this.image_url,
                         "buttons": this.buttons,
                       }
                     ]
