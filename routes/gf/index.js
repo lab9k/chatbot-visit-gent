@@ -126,7 +126,7 @@ const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   console.log(date)
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(2018,6,14), "Korenmarkt")
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), "Korenmarkt")
 
   query.exec(function (err, events) {
     if (err)
@@ -284,7 +284,7 @@ const getAllSquares = (req, res) => {
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
-  const pleinName = req.body.queryResult.parameters.plein.split('/')[0];
+  const pleinName = req.body.queryResult.parameters.plein.split('/')[0].trim();
   const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == pleinName.toLowerCase());
   const lat = square.lat;
   const long = square.long;
