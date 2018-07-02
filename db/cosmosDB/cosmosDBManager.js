@@ -16,8 +16,12 @@ const getAllEventsFromNow = () => {
         pass: password,
         dbName: dbName
     }).then(
-        () => { console.log("connected to DB") },
-        err => { console.log(err) }
+        () => {
+            console.log("connected to DB")
+        },
+        err => {
+            console.log(err)
+        }
     );
 
 
@@ -44,22 +48,19 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         pass: password,
         dbName: dbName
     }).then(
-        () => { console.log("connected to DB") },
-        err => { console.log(err) }
+        () => {
+            console.log("connected to DB")
+        },
+        err => {
+            console.log(err)
+        }
     );
 
-    //console.log(dateTimeStart,typeof(dateTimeStart)); 
+    //const dateString = new Date(dateTimeStart.toLocaleDateString(options))
 
-    const options = {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-
-    }
-
-    const dateString = new Date(dateTimeStart.toLocaleDateString(options))
-
-    console.log(new Date(dateString,typeof(dateString)))
+    
+    dateTimeStart.setUTCHours(0, 0, 0, 0);
+    console.log(dateTimeStart.toISOString());
 
     /* const startDate = moment(dateTimeStart).format('YYYY-MM-DD');
     const endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD');
@@ -79,7 +80,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
             "$gte": startDate ,
             "$lt": endDate
         }  */
-        
+
     }).limit(3);
     return query;
 }

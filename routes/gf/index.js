@@ -158,10 +158,7 @@ const getEventsSquareForDate = (req, res) => {
                 "postback"
               )
             ],
-        
           );
-
-          
           cardList.push(card); 
       })
 
