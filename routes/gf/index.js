@@ -297,7 +297,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
     'web_url'
   ) ;
-
+//
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
     square.name.nl, [long, lat], {
