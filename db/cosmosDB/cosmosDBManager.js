@@ -59,8 +59,12 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
     //const dateString = new Date(dateTimeStart.toLocaleDateString(options))
 
     
-    dateTimeStart.setUTCHours(0, 0, 0, 0);
-    console.log(dateTimeStart.toISOString());
+    const startDate = dateTimeStart.setUTCHours(0, 0, 0, 0).toISOString();
+    const subDate = dateTimeStart.getDate() + 1 
+    const endDate = subDate.setUTCHours(0,0,0,0).toISOString();
+
+    console.log(startDate);
+    console.log(endDate);
 
     /* const startDate = moment(dateTimeStart).format('YYYY-MM-DD');
     const endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD');
