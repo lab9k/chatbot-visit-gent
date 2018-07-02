@@ -74,11 +74,11 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
                  "$eq": stageName 
              }, */
 
-        "startDate": 
+        /* "startDate": 
         {
             "$gte": startDate ,
             "$lt": endDate
-        } 
+        }  */
         
     }).limit(3);
     return query;
