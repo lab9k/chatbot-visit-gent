@@ -63,10 +63,10 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
     //console.log("end:", endDate.toString())
 
     const query = Events.find({
-        /* "address": 
+        "address": 
              {
-                 "$eq": stageName 
-             }, */
+                 "$eq": stageName  //Korenmarkt 7 (adres) == Korenmarkt(pleinnaam)
+             },
 
         "startDate": 
         {
