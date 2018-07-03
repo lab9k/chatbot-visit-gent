@@ -23,6 +23,7 @@ const postgresqlManager = require("../../db/postgresql/postgresqlManager");
 //Date conversions
 const moment = require('moment');
 
+//Intent actions
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
@@ -68,7 +69,7 @@ const feedbackImprovement = (req, res, next) => {
   postgresqlManager.addFeedbackImprovement(req.body.queryResult.parameters.improvement_proposal)
 };
 
-const getClosestStage = (req, res /* , next */ ) => {
+const getClosestStage = (req, res /* , next */) => {
   const original = req.body.originalDetectIntentRequest;
   const {
     payload
@@ -87,18 +88,18 @@ const getClosestStage = (req, res /* , next */ ) => {
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
-    `${nearest.name.nl}`, [long, lat], {
+    `${nearest.name.nl}`, {
       subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
     }, [
       new Button(
-        'Navigeer',
+        'Toon mij de weg',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
-          nearest.long
+        nearest.long
         }&travelmode=walking`,
         'web_url'
       ),
       new CardButton(
-        `Programma ${nearest.name.nl}`,
+        `Programma`,
         `Programma ${nearest.name.nl}`,
         "postback"
       ),
@@ -135,81 +136,71 @@ const getEventsSquareForDate = (req, res) => {
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
-      //list to store all cards of events
-      let cardList = [];
-      
-      //console.log(events)
-      events.forEach((event) => {
-          //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-          // construct a Card object for each event
-          if(event.image_url == null) {
-            event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
-          }
+    //list to store all cards of events
+    let cardList = [];
 
-          const imageUrlEncoded = encodeURI(event.image_url);
+    //console.log(events)
+    events.forEach((event) => {
+      //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+      // construct a Card object for each event
+      if (event.image_url == null) {
+        event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
+      }
 
-          const card = new Card(
-            `${imageUrlEncoded}`,
-            `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0,3], {
-              subtitle: `${event.description}`
-            }, [
-              new Button(
-                'Navigeer',
-                `google.com`,
-                'web_url'
-              ),
-              new CardButton(
-                "Terug naar hoofdmenu",
-                "menu",
-                "postback"
-              )
-            ],
-          );
-          cardList.push(card); 
-      })
+      const imageUrlEncoded = encodeURI(event.image_url);
 
-      const payload = {
-        payload: {
-          facebook: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                // get the json structure for the card
-                elements: cardList.map(el => el.getResponse())
-              }
+      const card = new Card(
+        `${imageUrlEncoded}`,
+        `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
+          subtitle: `${event.description}`
+        }, [
+          new Button(
+            'Toon mij de weg',
+            `google.com`,
+            'web_url'
+          ),
+          new CardButton(
+            "Terug naar hoofdmenu",
+            "menu",
+            "postback"
+          )
+        ],
+      );
+      cardList.push(card);
+    })
+
+    const payload = {
+      payload: {
+        facebook: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              // get the json structure for the card
+              elements: cardList.map(el => el.getResponse())
             }
           }
         }
-      };
-      return res.json(payload);
+      }
+    };
+    return res.json(payload);
   });
 };
 
 const getClosestToilet = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
-  const {
-    payload
-  } = original;
-  const {
-    lat,
-    long
-  } = payload.data.postback.data;
+  const { payload } = original;
+  const { lat, long } = payload.data.postback.data;
   const toiletten = locationMapper.getToilets();
-  const nearest = loc.closestLocation({
-    lat,
-    long
-  }, toiletten);
+  const nearest = loc.closestLocation({ lat,long }, toiletten);
 
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
-    'Dichtstbijzijnde toilet', [long, lat], {
-      subtitle: 'Klik op navigeer om naar het dichtsbijzijnde toilet te navigeren'
-    }, [
+    'Dichtstbijzijnde toilet', {}, [
       new Button(
-        'Navigeer',
+        'Toon mij de weg',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
-          nearest.long
+        nearest.long
         }&travelmode=walking`,
         'web_url'
       ),
@@ -254,8 +245,8 @@ const getAllSquares = (req, res) => {
     const card = new Card(
       // sample a random image from the list.
       "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
-      `Pleinen ${count} - ${count + (three.length -1)}`, [0, 3], {
-        subtitle: 'Klik op één van de pleinen om het programma te bekijken of om te navigeren'
+      `Pleinen ${count} - ${count + (three.length - 1)}`, {
+        subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
       },
       // create buttons from the 3 square objects, with a google maps link to their location.
       three.map(el =>
@@ -285,31 +276,31 @@ const getAllSquares = (req, res) => {
   return res.json(payload);
 };
 
-const getPleinCard = (req, res /* , next */ ) => {
+const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.plein;
 
   const square = locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == pleinName.toLowerCase());
 
-  const lat = square.lat;
-  const long = square.long;
+  //const lat = square.lat;
+  //const long = square.long;
 
   //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
-  const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');  
+  const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
 
   const navigeergButton = new Button(
-    'Navigeer',
+    'Toon mij de weg',
     `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
     'web_url'
-  ) ;
-//
+  );
+  //
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    square.name.nl, [long, lat], {
+    square.name.nl, {
       subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
     }, [
       navigeergButton,
       new CardButton(
-        `Programma ${square.name.nl}`,
+        `Programma`,
         `Programma ${square.name.nl}`,
         "postback"
       ),/*
@@ -345,7 +336,7 @@ const getPleinCard = (req, res /* , next */ ) => {
 };
 
 
-const getDaysGentseFeesten = (req, res /* , next */ ) => {
+const getDaysGentseFeesten = (req, res /* , next */) => {
   const today = new Date().getDate;
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
@@ -444,7 +435,8 @@ router.get('/debug', (req, res) => {
   events.forEach((ev) => {
     const included = ret.findIndex(el => el.name.nl === ev.name.nl);
     if (included === -1) {
-      return ret.push({ ...ev,
+      return ret.push({
+        ...ev,
         startDates: [ev.startDate]
       });
     }
