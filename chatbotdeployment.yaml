@@ -5,7 +5,6 @@ metadata:
   labels:
     component: chatbot-gf
 spec:
-  replicas: 1
   strategy:                               # how updating the deployment affect the Replicat Set and Pods
     type: RollingUpdate         #Recreate/RollingUpdate
     rollingUpdate:
