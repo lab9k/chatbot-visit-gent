@@ -94,21 +94,13 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
             console.log(err)
         }
     );
-
-    /* const feedback = new Feedback(satisfaction, feedbackImprovement);
-    return feedback.save(function (error) {
-        tevreden => 1
-        neutraal => 0
-        niet tevreden => -1  
-        assert.equal(error.errors['name'].message,
-            'Path `name` is required.');
-
-        error = feedback.validateSync();
-        assert.equal(error.errors['name'].message,
-            'Path `name` is required.');
-    }); */
-
-
+    
+    const feedback = new Feedback(satisfaction,feedbackImprovement);
+    
+    return feedback.save(function (err) {
+        if (err) return handleError(err);
+        console.log("saved :) ")
+    })
 
 }
 
