@@ -144,8 +144,10 @@ const getEventsSquareForDate = (req, res) => {
             event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
           }
 
+          const imageUrlEncoded = encodeURI(event.image_url);
+
           const card = new Card(
-            `${event.image_url}`,
+            `${imageUrlEncoded}`,
             `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0,3], {
               subtitle: `${event.description}`
             }, [
