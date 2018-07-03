@@ -410,6 +410,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
       }
 
+      console.log(event.image_url)
+
       const imageUrlEncoded = encodeURI(event.image_url);
 
       const card = new Card(
