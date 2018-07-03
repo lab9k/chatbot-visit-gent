@@ -18,7 +18,6 @@ const locationMapper = new LocationMapper();
 
 //Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
-const postgresqlManager = require("../../db/postgresql/postgresqlManager");
 
 //Date conversions
 const moment = require('moment');
