@@ -417,7 +417,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
-    return events;
+    resolve(events);
   }).then(events => {
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
