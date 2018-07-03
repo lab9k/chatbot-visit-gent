@@ -287,11 +287,11 @@ const getAllSquares = (req, res) => {
   }
   const payload = {
     payload: {
-      facebook: {
-        "text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
+      facebook: {        
         attachment: {
           type: 'template',
           payload: {
+            "text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
             template_type: 'generic',
             // get the json structure for the card
             elements: elements.map(el => el.getResponse())
