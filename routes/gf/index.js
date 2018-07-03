@@ -352,7 +352,7 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
     tmpDate.setDate(tmpDate.getDate() + 1);
   }
 
-  const quickReply = new QuickReply("Voor welke datum wilt je het programma zien?", gentseFeestenDays).getResponse();
+  const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays).getResponse();
 
   const ret = {
     payload: {
@@ -397,7 +397,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
               subtitle: `${event.description}`
             }, [
               new Button(
-                'Navigeer',
+                'Toon mij de weg',
                 `google.com`,
                 'web_url'
               ),
