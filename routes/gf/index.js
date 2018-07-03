@@ -136,6 +136,22 @@ const getEventsSquareForDate = (req, res) => {
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
+
+      if (events.length == 0) {
+        const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+        const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum", defaultMenu).getResponse();
+  
+        const ret = {
+          payload: {
+            facebook: {
+              "text": quickReply.text,
+              "quick_replies": quickReply.quick_replies
+            }
+          }
+        };
+  
+        return res.json(ret);
+      }
     //list to store all cards of events
     let cardList = [];
 
