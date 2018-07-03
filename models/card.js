@@ -9,7 +9,7 @@ class Card {
    * @param {Array.<Button>} buttons Array of Button objects you want included in this card.
    * @memberof Card
    */
-  constructor(imgUrl, title, location, options, buttons) {
+  constructor(imgUrl, title, options, buttons) {
     this.imgUrl = imgUrl;
     this.title = title;
     this.location = location;
