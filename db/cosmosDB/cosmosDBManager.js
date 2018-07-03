@@ -24,18 +24,20 @@ const getAllEventsFromNow = () => {
         }
     );
 
+    now = new Date()
+
+    //startDate = current date with hours and minutes
+    var startDate = moment(now).format('YYYY-MM-DD HH:mm').toString();
+    //endDate = add day to currentDate
+    var endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toString();
+
 
     const query = Events.find({
-        /* "address": 
-             {
-                 "$eq": stageName 
-             }, */
-
         "startDate": 
-        {
-            "$gte": startDate,
-            "$lt": dateTimeEnd
-        } 
+            {
+                "$gte": startDate,
+                "$lt": endDate
+            } 
     }).limit(5);
     return query;
 }
