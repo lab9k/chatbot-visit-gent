@@ -486,7 +486,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     };
     return res.json(payload);
   }).catch(function(e){
-    console.log(err);
+    console.log(e);
   });
 }
 
