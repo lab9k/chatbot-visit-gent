@@ -69,13 +69,13 @@ const feedbackSatisfaction = (req, res, next) => {
   console.log(satisfaction)
 
   switch (satisfaction) {
-    case "Tevreden":
+    case "tevreden":
       cosmosDB.addFeedback(1,improvementProposal).then(() => console.log("Tevreden feedback OK"))
       break;
-    case "Neutraal":
+    case "neutraal":
       cosmosDB.addFeedback(0,improvementProposal).then(() => console.log("Neutraal feedback OK"))
       break;
-    case "Niet tevreden":
+    case "niet tevreden":
       cosmosDB.addFeedback(-1,improvementProposal).then(() => console.log("Niet Tevreden OK"))
       break;
     default:
