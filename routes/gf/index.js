@@ -288,7 +288,7 @@ const getAllSquares = (req, res) => {
   const payload = {
     payload: {
       facebook: {
-        text: "Hier is een lijst van feestpleinen van de Gentse Feesten",
+        "text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
         attachment: {
           type: 'template',
           payload: {
