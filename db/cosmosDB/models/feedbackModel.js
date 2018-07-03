@@ -4,7 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 //event schema
 var feedbackSchema = new Schema({
-    //_id : ObjectId,
+    _id : ObjectId,
     score: { type: Number, min: -1, max: 1 },
     feedbackImprovement: String
 
