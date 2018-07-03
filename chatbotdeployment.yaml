@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chatbot-gf
+spec:
+  containers:
+    - name: chatbot-gf
+      image: lab9k/chatbot-visit-gent
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 3000

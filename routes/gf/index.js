@@ -138,6 +138,22 @@ const getEventsSquareForDate = (req, res) => {
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
+
+      if (events.length == 0) {
+        const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+        const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
+  
+        const ret = {
+          payload: {
+            facebook: {
+              "text": quickReply.text,
+              "quick_replies": quickReply.quick_replies
+            }
+          }
+        };
+  
+        return res.json(ret);
+      }
     //list to store all cards of events
     let cardList = [];
 
@@ -388,7 +404,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       return console.log(err);
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
-      const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten", defaultMenu).getResponse();
+      const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
       const ret = {
         payload: {
@@ -411,7 +427,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       if (event.image_url == null) {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
       }
-
+      
       const imageUrlEncoded = encodeURI(event.image_url);
 
       const card = new Card(
