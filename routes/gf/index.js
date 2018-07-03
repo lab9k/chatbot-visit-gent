@@ -23,6 +23,7 @@ const postgresqlManager = require("../../db/postgresql/postgresqlManager");
 //Date conversions
 const moment = require('moment');
 
+//Intent actions
 router.all('/', mw.typeMiddleware, (req, res, next) => {
   let fn;
   switch (req.type) {
@@ -152,7 +153,7 @@ const getEventsSquareForDate = (req, res) => {
           subtitle: `${event.description}`
         }, [
           new Button(
-            'Navigeer',
+            'Toon mij de weg',
             `google.com`,
             'web_url'
           ),
@@ -193,7 +194,7 @@ const getClosestToilet = (req, res) => {
 
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
-    'Dichtstbijzijnde toilet', [long, lat], [
+    'Dichtstbijzijnde toilet', [
       new Button(
         'Toon mij de weg',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
