@@ -69,7 +69,7 @@ const feedbackImprovement = (req, res, next) => {
   postgresqlManager.addFeedbackImprovement(req.body.queryResult.parameters.improvement_proposal)
 };
 
-const getClosestStage = (req, res /* , next */) => {
+const getClosestStage = (req, res /* , next */ ) => {
   const original = req.body.originalDetectIntentRequest;
   const {
     payload
@@ -189,10 +189,18 @@ const getEventsSquareForDate = (req, res) => {
 
 const getClosestToilet = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
-  const { payload } = original;
-  const { lat, long } = payload.data.postback.data;
+  const {
+    payload
+  } = original;
+  const {
+    lat,
+    long
+  } = payload.data.postback.data;
   const toiletten = locationMapper.getToilets();
-  const nearest = loc.closestLocation({ lat,long }, toiletten);
+  const nearest = loc.closestLocation({
+    lat,
+    long
+  }, toiletten);
 
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
@@ -276,7 +284,7 @@ const getAllSquares = (req, res) => {
   return res.json(payload);
 };
 
-const getPleinCard = (req, res /* , next */) => {
+const getPleinCard = (req, res /* , next */ ) => {
   const pleinName = req.body.queryResult.parameters.plein;
 
   const square = locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == pleinName.toLowerCase());
@@ -303,13 +311,14 @@ const getPleinCard = (req, res /* , next */) => {
         `Programma`,
         `Programma ${square.name.nl}`,
         "postback"
-      ),/*
-      new ShareButton(
-        square.name.nl,
-        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-        [navigeergButton],
-      ),*/
+      ),
+      /*
+            new ShareButton(
+              square.name.nl,
+              `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+              `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+              [navigeergButton],
+            ),*/
       new CardButton(
         "Terug naar hoofdmenu",
         "menu",
@@ -336,7 +345,7 @@ const getPleinCard = (req, res /* , next */) => {
 };
 
 
-const getDaysGentseFeesten = (req, res /* , next */) => {
+const getDaysGentseFeesten = (req, res /* , next */ ) => {
   const today = new Date().getDate;
   const startGf = new Date("2018-07-13");
   const endGf = new Date("2018-07-22");
@@ -375,57 +384,72 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
-      //list to store all cards of events
-      let cardList = [];
+    if (events.length == 0) {
+      const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+      const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten", defaultMenu).getResponse();
 
-      
-      //console.log(events)
-      events.forEach((event) => {
-
-          console.log(event.name)
-          //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-          // construct a Card object for each event
-          if(event.image_url == null) {
-            event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
-          }
-
-          const imageUrlEncoded = encodeURI(event.image_url);
-
-          const card = new Card(
-            `${imageUrlEncoded}`,
-            `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0,3], {
-              subtitle: `${event.description}`
-            }, [
-              new Button(
-                'Toon mij de weg',
-                `google.com`,
-                'web_url'
-              ),
-              new CardButton(
-                "Terug naar hoofdmenu",
-                "menu",
-                "postback"
-              )
-            ],
-          );
-          cardList.push(card); 
-      })
-
-      const payload = {
+      const ret = {
         payload: {
           facebook: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                // get the json structure for the card
-                elements: cardList.map(el => el.getResponse())
-              }
-            }
+            "text": quickReply.text,
+            "quick_replies": quickReply.quick_replies
           }
         }
       };
-      return res.json(payload);
+
+      return res.json(ret);
+    }
+    //list to store all cards of events
+    let cardList = [];
+
+
+    //console.log(events)
+    events.forEach((event) => {
+
+      console.log(event.name)
+      //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+      // construct a Card object for each event
+      if (event.image_url == null) {
+        event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
+      }
+
+      const imageUrlEncoded = encodeURI(event.image_url);
+
+      const card = new Card(
+        `${imageUrlEncoded}`,
+        `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0, 3], {
+          subtitle: `${event.description}`
+        }, [
+          new Button(
+            'Toon mij de weg',
+            `google.com`,
+            'web_url'
+          ),
+          new CardButton(
+            "Terug naar hoofdmenu",
+            "menu",
+            "postback"
+          )
+        ],
+      );
+      cardList.push(card);
+    })
+
+    const payload = {
+      payload: {
+        facebook: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              // get the json structure for the card
+              elements: cardList.map(el => el.getResponse())
+            }
+          }
+        }
+      }
+    };
+    return res.json(payload);
   });
 }
 
