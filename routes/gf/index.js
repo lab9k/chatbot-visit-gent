@@ -414,12 +414,11 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow()
-  query.exec()
-    .then(function(err, events) {
-      reject(err),/*
+  query.exec(function(err, events) {
+      //reject(err),/*
     if (err)
-      return console.log(err);*/
-    resolve(events);
+      return console.log(err);
+    return events;
   }).then(events => {
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
