@@ -31,12 +31,11 @@ const getAllEventsFromNow = () => {
                  "$eq": stageName 
              }, */
 
-        /* "startDate": 
+        "startDate": 
         {
-            "$gte": startDate/* ,
+            "$gte": startDate,
             "$lt": dateTimeEnd
         } 
-        */
     }).limit(5);
     return query;
 }
@@ -56,19 +55,16 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         }
     );
 
+    //set startDate and endDate for event
     var startDate = moment(dateTimeStart).format('YYYY-MM-DD').toString();
     var endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD').toString();
 
-    //console.log("start:", startDate.toString())
-    //console.log("end:", endDate.toString())
-
     const query = Events.find({
         "address": 
-             {
-                 //db.users.find({"name": /.*m.*/})
-                 "$eq": stageName  //Korenmarkt 7 (adres) == Korenmarkt(pleinnaam)
-             },
-
+        {
+            '$regex': `${stageName}`, 
+            '$options': 'i'
+        },
         "startDate": 
         {
             "$gte": startDate ,
