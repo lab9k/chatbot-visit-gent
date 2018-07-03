@@ -38,7 +38,7 @@ const getAllEventsFromNow = () => {
                 "$gte": startDate,
                 "$lt": endDate
             } 
-    }).limit(5);
+    }).sort({startDate: 1}).limit(5);
     return query;
 }
 
@@ -72,7 +72,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
             "$gte": startDate ,
             "$lt": endDate
         } 
-    }).limit(3);
+    }).sort({startDate: 1});
     return query;
 }
 
