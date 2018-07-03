@@ -50,6 +50,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'get_days':
       fn = getDaysGentseFeesten;
       break;
+    case 'get.events.now':
+      fn = getEventsGentseFeestenNow;
+      break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -371,6 +374,67 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 
   return res.json(ret);
 }
+
+
+const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
+
+  // Use connect method to connect to the server
+  const query = cosmosDB.getAllEventsFromNow()
+
+  query.exec(function (err, events) {
+    if (err)
+      return console.log(err);
+      //list to store all cards of events
+      let cardList = [];
+      
+      //console.log(events)
+      events.forEach((event) => {
+          //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+          // construct a Card object for each event
+          if(event.image_url == null) {
+            event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
+          }
+
+          const imageUrlEncoded = encodeURI(event.image_url);
+
+          const card = new Card(
+            `${imageUrlEncoded}`,
+            `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0,3], {
+              subtitle: `${event.description}`
+            }, [
+              new Button(
+                'Navigeer',
+                `google.com`,
+                'web_url'
+              ),
+              new CardButton(
+                "Terug naar hoofdmenu",
+                "menu",
+                "postback"
+              )
+            ],
+          );
+          cardList.push(card); 
+      })
+
+      const payload = {
+        payload: {
+          facebook: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'generic',
+                // get the json structure for the card
+                elements: cardList.map(el => el.getResponse())
+              }
+            }
+          }
+        }
+      };
+      return res.json(payload);
+  });
+}
+
 
 router.get('/debug', (req, res) => {
   const {

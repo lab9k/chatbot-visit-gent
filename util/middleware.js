@@ -33,7 +33,6 @@ const langMiddleWare = (req, res, next) => {
 
 //req.body.queryResult.action
 
-
 const typeMiddleware = (req, res, next) => {
   const qResult = req.body.queryResult;
   if (qResult) {
@@ -61,6 +60,9 @@ const typeMiddleware = (req, res, next) => {
         break;
       case 'get_days':
         req.type = 'get_days';
+        break;
+      case 'get.events.now':
+        req.type = 'get.events.now';
         break;
       default:
         req.type = 'None';
