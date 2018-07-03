@@ -128,10 +128,12 @@ const getClosestStage = (req, res /* , next */ ) => {
 
 const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
-  const square = req.body.queryResult.parameters.square;
+  const squareName = req.body.queryResult.parameters.square;
+
+  const square = getSquareData(squareName);
 
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), square)
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName)
 
   query.exec(function (err, events) {
     if (err)
@@ -156,7 +158,7 @@ const getEventsSquareForDate = (req, res) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `google.com`,
+            `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
             'web_url'
           ),
           new CardButton(
@@ -287,7 +289,7 @@ const getAllSquares = (req, res) => {
 const getPleinCard = (req, res /* , next */ ) => {
   const pleinName = req.body.queryResult.parameters.plein;
 
-  const square = locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == pleinName.toLowerCase());
+  const square = getSquareData(pleinName);
 
   //const lat = square.lat;
   //const long = square.long;
@@ -478,5 +480,9 @@ router.get('/debug', (req, res) => {
     }))
   });
 });
+
+const getSquareData = (squareName) =>{
+  return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
+}
 
 module.exports = router;
