@@ -416,8 +416,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   const query = cosmosDB.getAllEventsFromNow()
   query.exec()
     .then(function(err, events) {
+      reject(err),/*
     if (err)
-      return console.log(err);
+      return console.log(err);*/
     resolve(events);
   }).then(events => {
     if (events.length == 0) {
