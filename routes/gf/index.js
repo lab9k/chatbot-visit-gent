@@ -42,9 +42,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'feedback.satisfaction':
       fn = feedbackSatisfaction;
       break;
-    case 'feedback.improvement':
-      fn = feedbackImprovement;
-      break;
     case 'plein_card':
       fn = getPleinCard;
       break;
@@ -62,11 +59,30 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
-  postgresqlManager.checkConnectionAndTable();
-};
+  const satisfaction = req.body.queryResult.parameters.satisfaction
+  let improvementProposal = ""
 
-const feedbackImprovement = (req, res, next) => {
-  postgresqlManager.addFeedbackImprovement(req.body.queryResult.parameters.improvement_proposal)
+  if(improvementProposal !== undefined) {
+    improvementProposal = req.body.queryResult.parameters.improvement_proposal
+  }
+
+  console.log(satisfaction)
+
+  switch (satisfaction) {
+    case "tevreden":
+      cosmosDB.addFeedback(int(1),improvementProposal).then(() => console.log("Tevreden feedback OK"))
+      break;
+    case "neutraal":
+      cosmosDB.addFeedback(int(0),improvementProposal).then(() => console.log("Neutraal feedback OK"))
+      break;
+    case "niet tevreden":
+      cosmosDB.addFeedback(int(-1),improvementProposal).then(() => console.log("Niet Tevreden OK"))
+      break;
+    default:
+      console.log("feedback must be tevreden,neutraal of niet tevreden")
+      break;
+  }
+  
 };
 
 const getClosestStage = (req, res /* , next */ ) => {
