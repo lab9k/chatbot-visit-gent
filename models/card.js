@@ -12,7 +12,6 @@ class Card {
   constructor(imgUrl, title, options, buttons) {
     this.imgUrl = imgUrl;
     this.title = title;
-    this.location = location;
     this.subtitle = options.subtitle;
     this.buttons = [...buttons];
   }
