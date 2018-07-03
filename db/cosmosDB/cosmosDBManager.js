@@ -72,7 +72,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
             "$gte": startDate ,
             "$lt": endDate
         } 
-    }).sort({startDate: 1});
+    }).sort({startDate: 1}).limit(5)
     return query;
 }
 

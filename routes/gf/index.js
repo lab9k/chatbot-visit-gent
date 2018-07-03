@@ -56,7 +56,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   return fn(req, res, next);
 });
 
-
 const feedbackSatisfaction = (req, res, next) => {
   console.log('feedback satisfaction triggered');
   postgresqlManager.checkConnectionAndTable();
