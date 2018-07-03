@@ -398,10 +398,11 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow()
-
   query.exec(function (err, events) {
     if (err)
       return console.log(err);
+    return events;
+  }).then(events => {
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
@@ -417,6 +418,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
       return res.json(ret);
     }
+  
     //list to store all cards of events
     let cardList = [];
 
@@ -465,6 +467,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
+  }).catch(function(e){
+    console.log(err);
   });
 }
 
