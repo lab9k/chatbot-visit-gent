@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
+const assert = require('assert');
 //DB connection paramaters
 const connectionString = process.env.COSMOSDB_CONNECTION_STRING
 const dbName = process.env.COSMOSDB_DBNAME
@@ -8,7 +9,7 @@ const password = process.env.COSMOSDB_PASSWORD
 
 // schemas for querying db
 const Events = require('./models/eventModel');
-
+const Feedback = require('./models/feedbackModel');
 
 const getAllEventsFromNow = () => {
     mongoose.connect(connectionString, {
@@ -36,12 +37,13 @@ const getAllEventsFromNow = () => {
 
 
     const query = Events.find({
-        "startDate": 
-            {
-                "$gte": startDate,
-                "$lt": endDate
-            } 
-    }).sort({startDate: 1}).limit(5);
+        "startDate": {
+            "$gte": startDate,
+            "$lt": endDate
+        }
+    }).sort({
+        startDate: 1
+    }).limit(5);
     return query;
 }
 
@@ -59,28 +61,60 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
             console.log(err)
         }
     );
-    
+
     //set startDate and endDate for event
     var startDate = moment(dateTimeStart).format('YYYY-MM-DD').toString();
     var endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD').toString();
 
     const query = Events.find({
-        "address": 
-        {
-            '$regex': `${stageName}`, 
+        "address": {
+            '$regex': `${stageName}`,
             '$options': 'i'
         },
-        "startDate": 
-        {
-            "$gte": startDate ,
+        "startDate": {
+            "$gte": startDate,
             "$lt": endDate
-        } 
-    }).sort({startDate: 1}).limit(5)
+        }
+    }).sort({
+        startDate: 1
+    }).limit(5)
     return query;
+}
+
+const addFeedback = (satisfaction, feedbackImprovement) => {
+    mongoose.connect(connectionString, {
+        user: username,
+        pass: password,
+        dbName: dbName
+    }).then(
+        () => {
+            console.log("connected to DB")
+        },
+        err => {
+            console.log(err)
+        }
+    );
+
+    /* const feedback = new Feedback(satisfaction, feedbackImprovement);
+    return feedback.save(function (error) {
+        tevreden => 1
+        neutraal => 0
+        niet tevreden => -1  
+        assert.equal(error.errors['name'].message,
+            'Path `name` is required.');
+
+        error = feedback.validateSync();
+        assert.equal(error.errors['name'].message,
+            'Path `name` is required.');
+    }); */
+
+
+
 }
 
 
 module.exports = {
     getAllEventsFromNow,
-    getEventsSelectedStageAndDate
+    getEventsSelectedStageAndDate,
+    addFeedback
 }
