@@ -96,8 +96,8 @@ const getClosestStage = (req, res /* , next */ ) => {
         'web_url'
       ),
       new CardButton(
-        `Programma`,
         `Programma ${nearest.name.nl}`,
+        `Programma`,
         "postback"
       ),
       new CardButton(
