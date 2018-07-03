@@ -299,7 +299,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
     'web_url'
   ) ;
-
+//
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
     square.name.nl, [long, lat], {
@@ -313,7 +313,8 @@ const getPleinCard = (req, res /* , next */ ) => {
       ),/*
       new ShareButton(
         square.name.nl,
-        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,      
+        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
         [navigeergButton],
       ),*/
       new CardButton(
@@ -337,7 +338,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     }
   };
 
-  console.log("ret json", ret);
+  console.log("share button", card.getResponse().buttons);
   return res.json(ret);
 };
 
