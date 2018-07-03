@@ -1,6 +1,6 @@
 class CardButton {
   /**
-   *Creates an instance of Button.
+   *Creates an instance of CardButton.
    * @param {String} text text to be displayed in the button
    * @param {String} payload url which the button points to
    * @param {String} type type of button you want to define.

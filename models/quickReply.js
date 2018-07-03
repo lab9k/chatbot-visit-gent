@@ -2,7 +2,7 @@ const CardButton = require('./card_button');
 
 class QuickReply {
     /**
-     *Creates an instance of Card.
+     *Creates an instance of QuickReply.
      * @param {String} title title of the quickreply (The bold text)
      * @param {Array.<Button>} buttons Array of Button objects you want included in this quickreply.
      * @memberof QuickReply
