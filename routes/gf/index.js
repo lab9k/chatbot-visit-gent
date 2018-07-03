@@ -91,18 +91,18 @@ const getClosestStage = (req, res /* , next */ ) => {
     `${nearest.name.nl}`, {
       subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
     }, [
-      new Button(
+      new CardButton(
+        `Programma`,
+        `Programma ${nearest.name.nl}`,
+        "postback"
+      ),new Button(
         'Toon mij de weg',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
         nearest.long
         }&travelmode=walking`,
         'web_url'
       ),
-      new CardButton(
-        `Programma`,
-        `Programma ${nearest.name.nl}`,
-        "postback"
-      ),
+      
       new CardButton(
         "Terug naar hoofdmenu",
         "menu",
@@ -325,12 +325,11 @@ const getPleinCard = (req, res /* , next */ ) => {
     square.name.nl, {
       subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
     }, [
-      navigeergButton,
       new CardButton(
         `Programma`,
         `Programma ${square.name.nl}`,
         "postback"
-      ),
+      ),navigeergButton,      
       /*
             new ShareButton(
               square.name.nl,
