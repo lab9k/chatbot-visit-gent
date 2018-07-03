@@ -10,8 +10,6 @@ spec:
     type: RollingUpdate         #Recreate/RollingUpdate
     rollingUpdate:
       maxSurge: 1
-  progressDeadlineSeconds: 600
-  revisionHistoryLimit: 5
   containers:
     - name: chatbot-gf
       image: lab9k/chatbot-visit-gent
