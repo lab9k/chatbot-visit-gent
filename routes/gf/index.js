@@ -97,7 +97,7 @@ const getClosestStage = (req, res /* , next */ ) => {
       ),
       new CardButton(
         `Programma ${nearest.name.nl}`,
-        `Programma`,
+        `Programma ${nearest.name.nl}`,
         "postback"
       ),
       new CardButton(
@@ -295,7 +295,7 @@ const getPleinCard = (req, res /* , next */ ) => {
   const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');  
 
   const navigeergButton = new Button(
-    'Navigeer',
+    'Toon mij de weg',
     `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
     'web_url'
   ) ;
@@ -307,7 +307,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     }, [
       navigeergButton,
       new CardButton(
-        `Programma ${square.name.nl}`,
+        `Programma`,
         `Programma ${square.name.nl}`,
         "postback"
       ),/*
