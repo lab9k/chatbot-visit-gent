@@ -66,6 +66,8 @@ const feedbackSatisfaction = (req, res, next) => {
     improvementProposal = req.body.queryResult.parameters.improvement_proposal
   }
 
+  console.log(satisfaction)
+
   switch (satisfaction) {
     case "Tevreden":
       cosmosDB.addFeedback(1,improvementProposal).then(() => console.log("Tevreden feedback OK"))
