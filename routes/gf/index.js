@@ -86,7 +86,7 @@ const getClosestStage = (req, res /* , next */) => {
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
-    `${nearest.name.nl}`, [long, lat], {
+    `${nearest.name.nl}`, {
       subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
     }, [
       new Button(
@@ -149,7 +149,7 @@ const getEventsSquareForDate = (req, res) => {
 
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, [0, 3], {
+        `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
@@ -194,7 +194,7 @@ const getClosestToilet = (req, res) => {
 
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
-    'Dichtstbijzijnde toilet', [
+    'Dichtstbijzijnde toilet', {}, [
       new Button(
         'Toon mij de weg',
         `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
@@ -243,7 +243,7 @@ const getAllSquares = (req, res) => {
     const card = new Card(
       // sample a random image from the list.
       "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
-      `Pleinen ${count} - ${count + (three.length - 1)}`, [0, 3], {
+      `Pleinen ${count} - ${count + (three.length - 1)}`, {
         subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
       },
       // create buttons from the 3 square objects, with a google maps link to their location.
@@ -279,8 +279,8 @@ const getPleinCard = (req, res /* , next */) => {
 
   const square = locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == pleinName.toLowerCase());
 
-  const lat = square.lat;
-  const long = square.long;
+  //const lat = square.lat;
+  //const long = square.long;
 
   //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
   const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
@@ -293,7 +293,7 @@ const getPleinCard = (req, res /* , next */) => {
   //
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    square.name.nl, [long, lat], {
+    square.name.nl, {
       subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
     }, [
       navigeergButton,
