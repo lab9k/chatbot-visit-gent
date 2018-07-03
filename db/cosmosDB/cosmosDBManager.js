@@ -31,6 +31,9 @@ const getAllEventsFromNow = () => {
     //endDate = add day to currentDate
     var endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toString();
 
+    console.log(startDate)
+    console.log(endDate)
+
 
     const query = Events.find({
         "startDate": 
