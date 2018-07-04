@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: chatbot-gf
-          image: lab9k/chatbot-visit-gent
+          image: lab9k/chatbot-visit-gent:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
