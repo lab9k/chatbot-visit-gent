@@ -431,7 +431,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   let promise = query.exec();
 
   promise.then(function(err, events){
-    console.log("test");
+    console.log("test..");
     if (err)
       return console.log(err);
 
