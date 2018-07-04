@@ -284,14 +284,14 @@ const getAllSquares = (req, res) => {
 
 
 
-  //const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
+  const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
 
-  //console.log(images, typeof(images))
+  console.log(images, typeof(images))
 
-  //const shuffledImagesArray =  util.shuffleArray(images)
+  const shuffledImagesArray =  util.shuffleArray(images)
     
     //temporary
-    const image = "http://beeldbank.stad.gent/GENT/c1bad57ff6ac424ea96ce9b579f4a3fd9d5520a14d9543bb8470686d2fbb54b1/browse.jpg";
+    //const image = "http://beeldbank.stad.gent/GENT/c1bad57ff6ac424ea96ce9b579f4a3fd9d5520a14d9543bb8470686d2fbb54b1/browse.jpg";
 
     let count = 1;
     let imageCount = 0;
@@ -304,8 +304,7 @@ const getAllSquares = (req, res) => {
       // construct a Card object with the 3 squares we just sampled
       const card = new Card(
         // sample a random image from the list.
-        //shuffledImagesArray[imageCount],
-        image,
+        shuffledImagesArray[imageCount],        
         `Pleinen ${count} - ${count + (three.length - 1)}`, {
           subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
         },
@@ -352,12 +351,9 @@ const getPleinCard = (req, res /* , next */ ) => {
       const squareName = square.name.nl.split('/')[0].toLowerCase();
             
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
-      let sub;
-      if (eventNow){
-        sub = "Nu: " + eventNow.name
-      } else {
-        sub = "Momenteel is er niets, misschien staat later iets gepland\n kijk hiervoor in het programma";
-      }
+      const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
+
+      
       //const lat = square.lat;
       //const long = square.long;
 
