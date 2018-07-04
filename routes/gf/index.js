@@ -284,52 +284,60 @@ const getAllSquares = (req, res) => {
 
 
 
-  const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
+  //const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
 
   //console.log(images, typeof(images))
 
-  const shuffledImagesArray =  util.shuffleArray(images)
+  //const shuffledImagesArray =  util.shuffleArray(images)
+    
+    //temporary
+    const image = "http://beeldbank.stad.gent/GENT/c1bad57ff6ac424ea96ce9b579f4a3fd9d5520a14d9543bb8470686d2fbb54b1/browse.jpg";
 
-  let count = 1;
-  let imageCount = 0;
-  while (squares.length > 0) {
-    // take 3 square objects
-    const three = squares.splice(0, 3);
-    // construct a Card object with the 3 squares we just sampled
-    const card = new Card(
-      // sample a random image from the list.
-      shuffledImagesArray[imageCount],
-      `Pleinen ${count} - ${count + (three.length - 1)}`, {
-        subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
-      },
-      // create buttons from the 3 square objects, with a google maps link to their location.
-      three.map(el =>
-        new CardButton(
-          el.name.nl,
-          el.name.nl,
-          "postback"
-        ))
-    );
-    elements.push(card);
-    count += 3;
-    imageCount++
-  }
-  const payload = {
-    payload: {
-      facebook: {        
-        attachment: {
-          type: 'template',
-          payload: {
-            //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
-            template_type: 'generic',
-            // get the json structure for the card
-            elements: elements.map(el => el.getResponse())
+    let count = 1;
+    let imageCount = 0;
+    while (squares.length > 0) {
+
+      
+
+      // take 3 square objects
+      const three = squares.splice(0, 3);
+      // construct a Card object with the 3 squares we just sampled
+      const card = new Card(
+        // sample a random image from the list.
+        //shuffledImagesArray[imageCount],
+        image,
+        `Pleinen ${count} - ${count + (three.length - 1)}`, {
+          subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
+        },
+        // create buttons from the 3 square objects, with a google maps link to their location.
+        three.map(el =>
+          new CardButton(
+            el.name.nl,
+            el.name.nl,
+            "postback"
+          ))
+      );
+      elements.push(card);
+      count += 3;
+      imageCount++
+    }
+    const payload = {
+      payload: {
+        facebook: {        
+          attachment: {
+            type: 'template',
+            payload: {
+              //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
+              template_type: 'generic',
+              // get the json structure for the card
+              elements: elements.map(el => el.getResponse())
+            }
           }
         }
       }
-    }
-  };
-  return res.json(payload);
+    };
+    return res.json(payload);
+  
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
@@ -337,58 +345,65 @@ const getPleinCard = (req, res /* , next */ ) => {
 
   const square = getSquareData(pleinName);
 
-  //const lat = square.lat;
-  //const long = square.long;
+  getEventsNow()
+    .then(function(events){
 
-  //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
-  const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
+      const squareName = square.name.nl.split('/')[0].toLowerCase();
+      const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
 
-  const navigeergButton = new Button(
-    'Toon mij de weg',
-    `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-    'web_url'
-  );
-  //
-  const card = new Card(
-    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-    square.name.nl, {
-      subtitle: `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
-    }, [
-      new CardButton(
-        `Programma`,
-        `Programma ${square.name.nl}`,
-        "postback"
-      ),navigeergButton,      
-      /*
-            new ShareButton(
-              square.name.nl,
-              `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-              `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-              [navigeergButton],
-            ),*/
-      new CardButton(
-        "Terug naar hoofdmenu",
-        "menu",
-        "postback"
-      )
-    ]
-  );
-  const ret = {
-    payload: {
-      facebook: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: [card.getResponse()]
+      //const lat = square.lat;
+      //const long = square.long;
+
+      //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
+      const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
+
+      const navigeergButton = new Button(
+        'Toon mij de weg',
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+        'web_url'
+      );
+      //
+      const card = new Card(
+        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+        square.name.nl, {
+          subtitle: "Nu: " + eventNow.name, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+        }, [
+          new CardButton(
+            `Programma`,
+            `Programma ${square.name.nl}`,
+            "postback"
+          ),navigeergButton,      
+          /*
+                new ShareButton(
+                  square.name.nl,
+                  `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+                  `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+                  [navigeergButton],
+                ),*/
+          new CardButton(
+            "Terug naar hoofdmenu",
+            "menu",
+            "postback"
+          )
+        ]
+      );
+      const ret = {
+        payload: {
+          facebook: {
+            attachment: {
+              type: 'template',
+              payload: {
+                template_type: 'generic',
+                elements: [card.getResponse()]
+              }
+            }
           }
         }
-      }
-    }
-  };
+      };
 
-  //console.log("share button", card.getResponse().buttons);
-  return res.json(ret);
+      //console.log("share button", card.getResponse().buttons);
+      return res.json(ret);
+    })
 };
 
 
@@ -428,10 +443,6 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   let promise = getEventsNow();
 
   promise.then(function(events){
-  // Use connect method to connect to the server
-  
-
-
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
@@ -452,7 +463,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     let cardList = [];
     console.log("list", events);
     events.forEach((event) => {
-
+    
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
       if (event.image_url == null) {
@@ -533,6 +544,8 @@ const getSquareData = (squareName) =>{
 }
 
 const getEventsNow = () => {
+
+  // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow();
 
   let promise = query.exec();
