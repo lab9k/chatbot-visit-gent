@@ -95,10 +95,10 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
         }
     );
 
+    console.log(feedbackImprovement)
     console.log(satisfaction,typeof(satisfaction))
-    console.log(Number(satisfaction),typeof(Number(satisfaction)))
     
-    const feedback = new Feedback(Number(satisfaction),feedbackImprovement);
+    const feedback = new Feedback(satisfaction,feedbackImprovement);
     
     return feedback.create(function (err) {
         if (err) return handleError(err);
