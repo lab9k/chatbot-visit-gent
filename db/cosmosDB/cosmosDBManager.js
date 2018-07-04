@@ -95,7 +95,7 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
         }
     );
     
-    const feedback = new Feedback(satisfaction,feedbackImprovement);
+    const feedback = new Feedback(Number(satisfaction),feedbackImprovement);
     
     return feedback.save(function (err) {
         if (err) return handleError(err);
