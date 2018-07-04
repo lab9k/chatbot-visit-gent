@@ -430,7 +430,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   let promise = query.exec();
 
-  promise.then(function(events){
+  promise.then(function(events, err){
     console.log("test..");
     if (err)
       return console.log(err);
@@ -453,7 +453,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   
     //list to store all cards of events
     let cardList = [];
-
+    console.log("list", events);
     events.forEach((event) => {
 
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
