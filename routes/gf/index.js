@@ -425,15 +425,15 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
-  // Use connect method to connect to the server
-  const query = cosmosDB.getAllEventsFromNow();
-
-  let promise = query.exec();
+  let promise = getEventsNow();
 
   promise.then(function(events, err){
-    console.log("test..");
-    if (err)
-      return console.log(err);
+
+  
+
+  // Use connect method to connect to the server
+  
+
 
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
@@ -535,63 +535,16 @@ const getSquareData = (squareName) =>{
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
 }
 
-const getEventsNow = () => {
-  // Use connect method to connect to the server
-  const query = cosmosDB.getAllEventsFromNow()
-  query.exec(function(err, events) {
-      //reject(err),/*
+const getEventsNow = function(events, err){
+  const query = cosmosDB.getAllEventsFromNow();
+
+  let promise = query.exec();
+
+  promise.then(function(events, err){
+    console.log("test..");
     if (err)
-      return console.log(err);
-    //return events;
-  
-    if (events.length == 0) {
-      const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
-      const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
-
-      const ret = {
-        payload: {
-          facebook: {
-            "text": quickReply.text,
-            "quick_replies": quickReply.quick_replies
-          }
-        }
-      };
-
-      return res.json(ret);
-    }
-  
-    //list to store all cards of events
-    let cardList = [];
-
-    events.forEach((event) => {
-
-      //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-      // construct a Card object for each event
-      if (event.image_url == null) {
-        event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
-      }
-      
-      const imageUrlEncoded = encodeURI(event.image_url);
-
-      const card = new Card(
-        `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
-          subtitle: `${event.description}`
-        }, [
-          new Button(
-            'Toon mij de weg',
-            `google.com`,
-            'web_url'
-          ),
-          new CardButton(
-            "Terug naar hoofdmenu",
-            "menu",
-            "postback"
-          )
-        ],
-      );
-      cardList.push(card);
-    })
+      reject(err);
+    return new Promise(events);
   })
 }
 
