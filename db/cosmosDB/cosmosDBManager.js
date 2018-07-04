@@ -100,7 +100,7 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
     
     const feedback = new Feedback(Number(satisfaction),feedbackImprovement);
     
-    return feedback.save(function (err) {
+    return feedback.create(function (err) {
         if (err) return handleError(err);
         console.log("saved :) ")
     })
