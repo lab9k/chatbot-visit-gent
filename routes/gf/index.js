@@ -357,6 +357,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
 
       console.log("event", eventNow);
+      console.log("events", events);
       //const lat = square.lat;
       //const long = square.long;
 
