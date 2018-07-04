@@ -9,5 +9,5 @@ spec:
   - port: 80
     targetPort: 3000
   selector:
-    app: chatbot-gf
+    app: chatbot-gf-wtf
   type: LoadBalancer
