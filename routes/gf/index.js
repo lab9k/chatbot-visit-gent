@@ -18,7 +18,7 @@ const locationMapper = new LocationMapper();
 
 //Utils
 const util = require("../../util/util")
-var fs = require('fs');
+const fs = require('fs');
 
 //Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
@@ -277,7 +277,6 @@ const getClosestToilet = (req, res) => {
   return res.json(ret);
 };
 
-
 const getAllSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
   const squares = locationMapper.getSquares();
@@ -425,7 +424,15 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   // Use connect method to connect to the server
-  const query = cosmosDB.getAllEventsFromNow()
+  const query = cosmosDB.getAllEventsFromNow();
+
+  let promise = query.exec();
+
+  promise.then(function(err, events){
+    console.log("test");
+  })
+
+
   query.exec(function(err, events) {
       //reject(err),/*
     if (err)
@@ -479,7 +486,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
         ],
       );
       cardList.push(card);
-    })
+    });
 
     const payload = {
       payload: {
