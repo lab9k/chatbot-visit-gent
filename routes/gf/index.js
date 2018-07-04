@@ -288,6 +288,9 @@ const getAllSquares = (req, res) => {
     "http://beeldbank.stad.gent/GENT/55514c6237da42c9883a7359c12b897fad7ff2ccf41c40c99cd78ff26be63cc1/browse.jpg",
     "http://beeldbank.stad.gent/GENT/e18c253b4c1943ef9296ce416b75181518158a779d344f1e8d18122f378c0d9b/browse.jpg",
     "http://beeldbank.stad.gent/GENT/2d15d32c76a54188bb6c24b358ccb93c194630e0a91a457a94f4c2e254a15135/browse.jpg",
+    "http://beeldbank.stad.gent/GENT/44977ba728634f8d875be0eaa3dff5982e7956ea648e47f9a7fc2e920fac0a32/browse.jpg",
+    "http://beeldbank.stad.gent/GENT/2f9215b3b35449ffacf767fe5fd49210a71d438e65a14481ae32dc1818496983/browse.jpg",
+    "http://beeldbank.stad.gent/GENT/d4cf0ae9fc664fe08d4daec076ecda8fb3665152b96744998628c111cc855a04/browse.jpg"
   ]
 
   const shuffledImagesArray =  util.shuffleArray(images)
