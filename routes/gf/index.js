@@ -156,23 +156,23 @@ const getEventsSquareForDate = (req, res) => {
 
   query.exec(function (err, events) {
     if (err)
-      return console.log(err);
+      return console.log("error", err);
 
-      if (events.length == 0) {
-        const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
-        const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
-  
-        const ret = {
-          payload: {
-            facebook: {
-              "text": quickReply.text,
-              "quick_replies": quickReply.quick_replies
-            }
+    if (events.length == 0) {
+      const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+      const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
+
+      const ret = {
+        payload: {
+          facebook: {
+            "text": quickReply.text,
+            "quick_replies": quickReply.quick_replies
           }
-        };
-  
-        return res.json(ret);
-      }
+        }
+      };
+
+      return res.json(ret);
+    }
     //list to store all cards of events
     let cardList = [];
 
@@ -428,88 +428,14 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow();
 
-  let promise = query.exec();
+  //let promise = query.exec();
 
-  promise.then(function(err, events){
+  //promise.then(function(err, events){
+  query.exec(function(err, events){
     console.log("test..");
     if (err)
       return console.log(err);
 
-      if (events.length == 0) {
-        const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
-        const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
-  
-        const ret = {
-          payload: {
-            facebook: {
-              "text": quickReply.text,
-              "quick_replies": quickReply.quick_replies
-            }
-          }
-        };
-  
-        return res.json(ret);
-      }
-    
-      //list to store all cards of events
-      let cardList = [];
-  
-      events.forEach((event) => {
-  
-        //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-        // construct a Card object for each event
-        if (event.image_url == null) {
-          event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
-        }
-        
-        const imageUrlEncoded = encodeURI(event.image_url);
-  
-        const card = new Card(
-          `${imageUrlEncoded}`,
-          `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
-            subtitle: `${event.description}`
-          }, [
-            new Button(
-              'Toon mij de weg',
-              `google.com`,
-              'web_url'
-            ),
-            new CardButton(
-              "Terug naar hoofdmenu",
-              "menu",
-              "postback"
-            )
-          ],
-        );
-        cardList.push(card);
-      });
-  
-      const payload = {
-        payload: {
-          facebook: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                // get the json structure for the card
-                elements: cardList.map(el => el.getResponse())
-              }
-            }
-          }
-        }
-      };
-      return res.json(payload);
-    })/*.catch(function(e){
-      console.log(e);
-    });*/
- // }
-
-/*
-  query.exec(function(err, events) {
-      //reject(err),/*
-    
-    //return events;
-  
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
@@ -574,9 +500,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-  })/*.catch(function(e){
-    console.log(e);
-  });*/
+  })
 }
 
 
