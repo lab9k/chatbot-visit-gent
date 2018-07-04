@@ -94,6 +94,9 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
             console.log(err)
         }
     );
+
+    console.log(satisfaction,typeof(satisfaction))
+    console.log(Number(satisfaction),typeof(Number(satisfaction)))
     
     const feedback = new Feedback(Number(satisfaction),feedbackImprovement);
     
