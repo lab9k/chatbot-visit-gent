@@ -1,12 +1,13 @@
 apiVersion: v1
-kind: Pod
+kind: Deployment
 metadata:
   name: chatbot-gf
   labels:
     component: chatbot-gf
 spec:
+  replicas: 1
   strategy:                               # how updating the deployment affect the Replicat Set and Pods
-    type: RollingUpdate         #Recreate/RollingUpdate
+    type: RollingUpdate                   # Recreate/RollingUpdate
     rollingUpdate:
       maxSurge: 1
   containers:
