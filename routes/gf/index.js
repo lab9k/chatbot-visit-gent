@@ -347,8 +347,11 @@ const getPleinCard = (req, res /* , next */ ) => {
 
   getEventsNow()
     .then(function(events){
-
+      console.log("start plein card");
       const squareName = square.name.nl.split('/')[0].toLowerCase();
+      
+      console.log("squareName", squareName)
+      console.log("square", square)
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
 
       //const lat = square.lat;
@@ -366,7 +369,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       const card = new Card(
         `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
         square.name.nl, {
-          subtitle: "Nu: " + eventNow.name, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+          subtitle: "Nu: " + eventNow.name.toString(), //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
         }, [
           new CardButton(
             `Programma`,
@@ -400,7 +403,7 @@ const getPleinCard = (req, res /* , next */ ) => {
           }
         }
       };
-
+      console.log("end plein card");
       //console.log("share button", card.getResponse().buttons);
       return res.json(ret);
     })
