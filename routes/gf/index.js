@@ -352,10 +352,12 @@ const getPleinCard = (req, res /* , next */ ) => {
       const squareName = square.name.nl.split('/')[0].toLowerCase();
             
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
-      const sub = "";
-      if (eventNow)
+      const sub;
+      if (eventNow){
         sub = "Nu: " + eventNow.name
-
+      } else {
+        sub = "Momenteel is er niets, misschien staat later iets gepland\n kijk hiervoor in het programma";
+      }
       //const lat = square.lat;
       //const long = square.long;
 
