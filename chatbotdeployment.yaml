@@ -1,4 +1,4 @@
-apiVersion: v1/beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: chatbot-gf
@@ -7,12 +7,20 @@ metadata:
 spec:
   replicas: 1
   strategy:                               # how updating the deployment affect the Replicat Set and Pods
-    type: Recreate                   # Recreate/RollingUpdate
+    type: RollingUpdate                   # Recreate/RollingUpdate
     rollingUpdate:
       maxSurge: 1
-  containers:
-    - name: chatbot-gf
-      image: lab9k/chatbot-visit-gent
-      imagePullPolicy: Always
-      ports:
-        - containerPort: 3000
+  selector:
+    matchLabels:
+      app: chatbot-gf
+  template:
+    metadata:
+      labels:
+        app: chatbot-gf
+    spec:
+      containers:
+        - name: chatbot-gf
+          image: lab9k/chatbot-visit-gent
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
