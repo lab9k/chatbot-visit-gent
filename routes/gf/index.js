@@ -18,6 +18,7 @@ const locationMapper = new LocationMapper();
 
 //Utils
 const util = require("../../util/util")
+var fs = require('fs');
 
 //Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
@@ -281,17 +282,9 @@ const getAllSquares = (req, res) => {
   const squares = locationMapper.getSquares();
   const elements = [];
 
+  const images = fs.readdirSync('../../img/gentsefeesten/');
 
-  const images = [
-    "http://beeldbank.stad.gent/GENT/c1bad57ff6ac424ea96ce9b579f4a3fd9d5520a14d9543bb8470686d2fbb54b1/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/00839f491d1c49039de5290437f98845a478fd59b3444958b37948e5d1d42bd9/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/55514c6237da42c9883a7359c12b897fad7ff2ccf41c40c99cd78ff26be63cc1/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/e18c253b4c1943ef9296ce416b75181518158a779d344f1e8d18122f378c0d9b/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/2d15d32c76a54188bb6c24b358ccb93c194630e0a91a457a94f4c2e254a15135/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/44977ba728634f8d875be0eaa3dff5982e7956ea648e47f9a7fc2e920fac0a32/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/2f9215b3b35449ffacf767fe5fd49210a71d438e65a14481ae32dc1818496983/browse.jpg",
-    "http://beeldbank.stad.gent/GENT/d4cf0ae9fc664fe08d4daec076ecda8fb3665152b96744998628c111cc855a04/browse.jpg"
-  ]
+  console.log(images, typeof(images))
 
   const shuffledImagesArray =  util.shuffleArray(images)
 
