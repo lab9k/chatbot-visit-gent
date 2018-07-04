@@ -286,7 +286,7 @@ const getAllSquares = (req, res) => {
 
   const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
 
-  console.log(images, typeof(images))
+  //console.log(images, typeof(images))
 
   const shuffledImagesArray =  util.shuffleArray(images)
 
