@@ -540,7 +540,7 @@ const getSquareData = (squareName) =>{
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
 }
 
-const getEventsNow(){
+const getEventsNow = () => {
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow()
   query.exec(function(err, events) {
@@ -597,6 +597,7 @@ const getEventsNow(){
       );
       cardList.push(card);
     })
+  })
 }
 
 module.exports = router;
