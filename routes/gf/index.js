@@ -341,7 +341,6 @@ const getAllSquares = (req, res) => {
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
-  console.log("start plein card");
   const pleinName = req.body.queryResult.parameters.plein;
 
   const square = getSquareData(pleinName);
@@ -349,15 +348,14 @@ const getPleinCard = (req, res /* , next */ ) => {
   let promise = getEventsNow();
 
   promise.then(function(events){
-      console.log('start promise');
+    
       const squareName = square.name.nl.split('/')[0].toLowerCase();
-      
-      console.log("squareName", squareName)
-      console.log("square", square)
+            
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
+      const sub = "";
+      if (eventNow)
+        sub = "Nu: " + eventNow.name
 
-      console.log("event", eventNow);
-      console.log("events", events);
       //const lat = square.lat;
       //const long = square.long;
 
@@ -373,7 +371,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       const card = new Card(
         `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
         square.name.nl, {
-          subtitle: "Nu: " + eventNow.name.toString(), //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+          subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
         }, [
           new CardButton(
             `Programma`,
@@ -407,7 +405,6 @@ const getPleinCard = (req, res /* , next */ ) => {
           }
         }
       };
-      console.log("end plein card");
       //console.log("share button", card.getResponse().buttons);
       return res.json(ret);
     })
@@ -468,7 +465,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   
     //list to store all cards of events
     let cardList = [];
-    console.log("list", events);
+    //console.log("list", events);
     events.forEach((event) => {
     
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
@@ -551,14 +548,13 @@ const getSquareData = (squareName) =>{
 }
 
 const getEventsNow = () => {
-  console.log("getting events");
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow();
 
   let promise = query.exec();
 
   return promise.then(function(events, err){
-    console.log("test..");
+    //console.log("test..");
     if (err)
       console.log(err);
     return events;
