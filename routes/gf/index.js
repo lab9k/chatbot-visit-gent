@@ -282,7 +282,7 @@ const getAllSquares = (req, res) => {
   const squares = locationMapper.getSquares();
   const elements = [];
 
-  const images = fs.readdirSync('/img/gentsefeesten/');
+  const images = fs.readdirSync('~/img/gentsefeesten');
 
   console.log(images, typeof(images))
 
