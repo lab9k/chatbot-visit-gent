@@ -387,7 +387,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     }
   };
 
-  console.log("share button", card.getResponse().buttons);
+  //console.log("share button", card.getResponse().buttons);
   return res.json(ret);
 };
 
