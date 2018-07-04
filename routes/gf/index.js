@@ -16,6 +16,9 @@ const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
+//Utils
+const util = require("../../util/util")
+
 //Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
 
@@ -287,16 +290,17 @@ const getAllSquares = (req, res) => {
     "http://beeldbank.stad.gent/GENT/2d15d32c76a54188bb6c24b358ccb93c194630e0a91a457a94f4c2e254a15135/browse.jpg",
   ]
 
-  
+  const shuffledImagesArray =  util.shuffleArray(images)
 
   let count = 1;
+  let imageCount = 0;
   while (squares.length > 0) {
     // take 3 square objects
     const three = squares.splice(0, 3);
     // construct a Card object with the 3 squares we just sampled
     const card = new Card(
       // sample a random image from the list.
-      "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg",
+      shuffledImagesArray[imageCount],
       `Pleinen ${count} - ${count + (three.length - 1)}`, {
         subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
       },
@@ -310,6 +314,7 @@ const getAllSquares = (req, res) => {
     );
     elements.push(card);
     count += 3;
+    imageCount++
   }
   const payload = {
     payload: {
