@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 //event schema
 var feedbackSchema = new Schema({
     _id : ObjectId,
-    score: { type: Number, min: -1, max: 1 },
+    satisfaction: { type: Number, min: -1, max: 1 },
     feedbackImprovement: String
 
 },{ collection : 'feedback'});

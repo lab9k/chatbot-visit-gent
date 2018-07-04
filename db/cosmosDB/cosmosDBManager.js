@@ -32,8 +32,8 @@ const getAllEventsFromNow = () => {
     //endDate = add day to currentDate
     var endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toString();
 
-    console.log(startDate)
-    console.log(endDate)
+    //console.log(startDate)
+    //console.log(endDate)
 
 
     const query = Events.find({
@@ -94,10 +94,13 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
             console.log(err)
         }
     );
+
+    console.log(feedbackImprovement)
+    console.log(satisfaction,typeof(satisfaction))
     
     const feedback = new Feedback(satisfaction,feedbackImprovement);
     
-    return feedback.save(function (err) {
+    return feedback.create(function (err) {
         if (err) return handleError(err);
         console.log("saved :) ")
     })
