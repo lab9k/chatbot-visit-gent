@@ -352,7 +352,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       const squareName = square.name.nl.split('/')[0].toLowerCase();
             
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
-      const sub;
+      let sub;
       if (eventNow){
         sub = "Nu: " + eventNow.name
       } else {
