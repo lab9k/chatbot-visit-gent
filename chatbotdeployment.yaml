@@ -7,7 +7,7 @@ metadata:
 spec:
   replicas: 1
   strategy:                               # how updating the deployment affect the Replicat Set and Pods
-    type: RollingUpdate                   # Recreate/RollingUpdate
+    type: Recreate                   # Recreate/RollingUpdate
     rollingUpdate:
       maxSurge: 1
   selector:
