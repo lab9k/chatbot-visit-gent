@@ -341,13 +341,15 @@ const getAllSquares = (req, res) => {
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
+  console.log("start plein card");
   const pleinName = req.body.queryResult.parameters.plein;
 
   const square = getSquareData(pleinName);
 
-  getEventsNow()
-    .then(function(events){
-      console.log("start plein card");
+  let promise = getEventsNow();
+
+  promise.then(function(events){
+      console.log('start promise');
       const squareName = square.name.nl.split('/')[0].toLowerCase();
       
       console.log("squareName", squareName)
