@@ -428,10 +428,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow();
 
-  //let promise = query.exec();
+  let promise = query.exec();
 
-  //promise.then(function(err, events){
-  query.exec(function(err, events){
+  promise.then(function(events){
     console.log("test..");
     if (err)
       return console.log(err);
