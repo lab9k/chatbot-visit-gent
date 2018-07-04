@@ -283,7 +283,9 @@ const getAllSquares = (req, res) => {
   const squares = locationMapper.getSquares();
   const elements = [];
 
-  const images = fs.readdirSync('../../img/gentsefeesten');
+  console.log(path)
+
+  const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten');
 
   console.log(images, typeof(images))
 
