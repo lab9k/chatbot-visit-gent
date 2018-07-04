@@ -277,6 +277,7 @@ const getClosestToilet = (req, res) => {
   return res.json(ret);
 };
 
+
 const getAllSquares = (req, res) => {
   // We cached the squares with their locations in the locationMapper before the server started.
   const squares = locationMapper.getSquares();
