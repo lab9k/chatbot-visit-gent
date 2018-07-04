@@ -427,10 +427,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   let promise = getEventsNow();
 
-  promise.then(function(events, err){
-
-  
-
+  promise.then(function(events){
   // Use connect method to connect to the server
   
 
@@ -535,17 +532,18 @@ const getSquareData = (squareName) =>{
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
 }
 
-const getEventsNow = function(events, err){
+const getEventsNow = () => {
   const query = cosmosDB.getAllEventsFromNow();
 
   let promise = query.exec();
 
-  promise.then(function(events, err){
+  return promise.then(function(events, err){
     console.log("test..");
     if (err)
-      reject(err);
-    return new Promise(events);
+      console.log(err);
+    return events;
   })
+  //return promise;
 }
 
 module.exports = router;
