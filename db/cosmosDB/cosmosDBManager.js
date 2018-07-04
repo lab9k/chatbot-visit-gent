@@ -25,7 +25,7 @@ const getAllEventsFromNow = () => {
         }
     );
 
-    now = new Date();//("2018-07-14");
+    now = new Date("2018-07-14");
 
     //startDate = current date with hours and minutes
     var startDate = moment(now).format('YYYY-MM-DD HH:mm').toString();
