@@ -4,7 +4,7 @@ const ObjectId = Schema.ObjectId;
 
 //event schema
 var feedbackSchema = new Schema({
-    _id : new ObjectId(),
+    _id : new mongoose.Types.ObjectId(),
     satisfaction: { type: Number, min: -1, max: 1 },
     feedbackImprovement: String
 },{ collection : 'feedback'});
