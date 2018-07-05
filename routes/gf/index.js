@@ -22,6 +22,7 @@ const fs = require('fs');
 
 //Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
+const sparqlDB = require("../../db/sparql/sparqlDBManager");
 
 //Date conversions
 const moment = require('moment');
@@ -550,10 +551,13 @@ const getSquareData = (squareName) =>{
 }
 
 const getEventsNow = () => {
+  sparqlDB.getAllEventsFromNow().then(result => console.log(`this is the result of the query:\n ${result}`));
+
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow();
 
   let promise = query.exec();
+
 
   return promise.then(function(events, err){
     //console.log("test..");
