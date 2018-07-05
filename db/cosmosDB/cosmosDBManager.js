@@ -94,16 +94,15 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
             console.log(err)
         }
     );
-
-    console.log(feedbackImprovement)
-    console.log(satisfaction,typeof(satisfaction))
     
-    const feedback = new Feedback(satisfaction,feedbackImprovement);
+    //const feedback = new Feedback(satisfaction,feedbackImprovement);
     
-    return feedback.create(function (err) {
+    Feedback.create({ satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
         if (err) return handleError(err);
-        console.log("saved :) ")
-    })
+        // saved!
+        console.log("saved! :) ", result)
+      });
+ 
 
 }
 
