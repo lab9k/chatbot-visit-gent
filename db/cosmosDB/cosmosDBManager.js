@@ -99,16 +99,15 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
     
     //const feedback = new Feedback(satisfaction,feedbackImprovement);
     
-    return Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
+    Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
         if (err) {
             console.log(err);
         } else {
             // saved!
-            console.log("saved! :) ", result)
+            return result;
         }
       });
  
-
 }
 
 
