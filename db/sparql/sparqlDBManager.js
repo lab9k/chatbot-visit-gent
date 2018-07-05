@@ -33,7 +33,7 @@ const getAllEventsFromNow = () => {
 }
 
 const getEventsSelectedStageAndDate = (stageName, date) => {
-    const date = moment(date).format('YYYY-MM-DD').toString();
+    const convertedDate = moment(date).format('YYYY-MM-DD').toString();
 
     return new SparqlClient(endpoint).query(`
     SELECT * from <http://stad.gent/gentse-feesten-2018/> WHERE {
