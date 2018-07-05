@@ -70,6 +70,7 @@ const feedbackSatisfaction = (req, res /* , next */) => {
     improvementProposal = req.body.queryResult.parameters.improvement_proposal
   }
 
+  console.log(improvementProposal)
   console.log("satisfaction", satisfaction);
 
   switch (satisfaction) {
