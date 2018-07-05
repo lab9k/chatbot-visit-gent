@@ -73,6 +73,5 @@ const getAllEventsFromNow = () => {
 
 
 module.exports = {
-    getAllEventsFromNow,
-    getEventsSelectedStageAndDate
+    getAllEventsFromNow
 }
