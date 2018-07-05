@@ -450,7 +450,9 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
-  sparqlDB.getAllEventsFromNow().then(result => console.dir(results, {depth: null}));
+  sparqlDB.getAllEventsFromNow()
+  .then(result => console.dir(result, {depth: null}))
+  .catch(err => console.log(err))
 
 
   let promise = getEventsNow();
