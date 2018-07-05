@@ -98,7 +98,7 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
     //const feedback = new Feedback(satisfaction,feedbackImprovement);
     
     Feedback.create({ satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
-        if (err) return handleError(err);
+        if (err) console.log(err);
         // saved!
         console.log("saved! :) ", result)
       });
