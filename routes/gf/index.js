@@ -61,7 +61,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
   return fn(req, res, next);
 });
 
-const feedbackSatisfaction = (req, res, next) => {
+const feedbackSatisfaction = (req, res /* , next */) => {
   console.log('feedback satisfaction triggered');
   const satisfaction = req.body.queryResult.parameters.satisfaction
   let improvementProposal = ""
