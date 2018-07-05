@@ -285,7 +285,14 @@ const getAllSquares = (req, res) => {
 
 
 
-  const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
+  //const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
+  const images = ['https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/1.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/2.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/3.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/4.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/5.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/6.jpg'
+];
 
   console.log(images, typeof(images))
 
