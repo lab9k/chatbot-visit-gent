@@ -97,7 +97,7 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
     
     //const feedback = new Feedback(satisfaction,feedbackImprovement);
     
-    Feedback.create({ satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
+    Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
         if (err) console.log(err);
         // saved!
         console.log("saved! :) ", result)
