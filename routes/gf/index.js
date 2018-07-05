@@ -450,6 +450,9 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
+  sparqlDB.getAllEventsFromNow().then(result => console.log(`this is the result of the query:\n ${result}`));
+
+
   let promise = getEventsNow();
 
   promise.then(function(events){
@@ -554,7 +557,6 @@ const getSquareData = (squareName) =>{
 }
 
 const getEventsNow = () => {
-  sparqlDB.getAllEventsFromNow().then(result => console.log(`this is the result of the query:\n ${result}`));
 
   // Use connect method to connect to the server
   const query = cosmosDB.getAllEventsFromNow();
