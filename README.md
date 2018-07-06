@@ -33,8 +33,7 @@ Step 2:
 * Then click "Messenger Platform" 
 * Change the role of your chatbot to "primary receiver"
 
-During development only the admin and testers can use the chatbot, to add testers go to "Roles".
-
+IMPORTANT SIDENOTE: During development only the admin and testers can use the chatbot, to add testers go to "Roles",
 To make the chatbot public, go to "App Review" and submit your chatbot.
 
 ### 2.CosmosDB
