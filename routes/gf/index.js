@@ -287,9 +287,6 @@ const getAllSquares = (req, res) => {
   const squares = locationMapper.getSquares();
   const elements = [];
 
-
-
-  //const images = fs.readdirSync('https://github.com/lab9k/chatbot-visit-gent/tree/master/img/gentsefeesten/');
   const images = ['https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/1.jpg',
   'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/2.jpg',
   'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/3.jpg',
@@ -300,18 +297,13 @@ const getAllSquares = (req, res) => {
   'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/8.jpg'
 ];
 
-  console.log(images, typeof(images))
 
   const shuffledImagesArray =  util.shuffleArray(images)
     
-    //temporary
-    //const image = "http://beeldbank.stad.gent/GENT/c1bad57ff6ac424ea96ce9b579f4a3fd9d5520a14d9543bb8470686d2fbb54b1/browse.jpg";
 
     let count = 1;
     let imageCount = 0;
     while (squares.length > 0) {
-
-      
 
       // take 3 square objects
       const three = squares.splice(0, 3);
@@ -461,7 +453,10 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   .catch(err => console.log(err))
 
 
-  let promise = getEventsNow();
+  
+
+
+ /*  let promise = getEventsNow();
 
   promise.then(function(events){
     if (events.length == 0) {
@@ -478,7 +473,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       };
 
       return res.json(ret);
-    }
+    } */
   
     //list to store all cards of events
     let cardList = [];
@@ -528,7 +523,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-  })
+  //})
 }
 
 

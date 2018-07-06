@@ -94,19 +94,14 @@ const addFeedback = (satisfaction, feedbackImprovement) => {
             console.log(err)
         }
     );
-
-    console.log(new mongoose.mongo.ObjectId());
-    
-    //const feedback = new Feedback(satisfaction,feedbackImprovement);
-    
+        
     Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
         if (err) {
             console.log(err);
         } else {
-            // saved!
-            return result;
+            console.log("feedback saved")
         }
-      });
+    });
  
 }
 
