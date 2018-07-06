@@ -295,7 +295,9 @@ const getAllSquares = (req, res) => {
   'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/3.jpg',
   'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/4.jpg',
   'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/5.jpg',
-  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/6.jpg'
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/6.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/7.jpg',
+  'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/gentsefeesten/8.jpg'
 ];
 
   console.log(images, typeof(images))
@@ -458,7 +460,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   .then(result => console.dir(result, {depth: null}))
   .catch(err => console.log(err))
 
-  
+
   let promise = getEventsNow();
 
   promise.then(function(events){
