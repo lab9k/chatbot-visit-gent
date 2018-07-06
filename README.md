@@ -27,6 +27,7 @@ Step 1:
 [Tutorial on how to connect dialogflow with messenger](https://www.youtube.com/watch?v=-2hE3YHsuBQ)
 
 Step 2:
+* Create your facebook page
 * Visit your facebook page as admin
 * Go to "Settings"
 * Then click "Messenger Platform" 
