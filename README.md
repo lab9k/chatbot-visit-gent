@@ -11,8 +11,8 @@ This chatbot has the following functionalities:
 
 ### 1.Dialogflow
 
-Dialogflow is a platform from google that regulates the flow of your conversation of your 
-"Give users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices."
+Dialogflow is a platform from google that regulates the flow of your conversation which 
+gives users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices."
 
 Source: [dialogflow.com](https://dialogflow.com/)
 
@@ -36,3 +36,37 @@ Step 2:
 ### 2.CosmosDB
 
 this non-relational database from Microsoft is used to store the feedback of the chatbot.
+We use the NPM 'Mongoose' package to connect with the database.
+
+1.Connect with database
+```
+mongoose.connect(connectionString, {
+        user: username,
+        pass: password,
+        dbName: dbName
+    }).then(
+        () => {
+            console.log("connected to DB")
+        },
+        err => {
+            console.log(err)
+        }
+);
+```
+
+2.Add feedback to database
+```
+Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("feedback saved")
+        }
+    });
+```
+
+
+
+
+
+
