@@ -447,13 +447,12 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
-
   sparqlDB.getAllEventsFromNow()
   .then(response => {
-    response.result.forEach((event) => {
-      console.log(event)
-    })
-  }).catch(err => console.log(err))
+    console.dir(response, {depth: null});
+  }).catch(err => 
+    console.log(err)
+  )
 }
 
 
