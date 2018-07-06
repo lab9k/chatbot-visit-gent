@@ -456,9 +456,6 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 }
 
 
-
-
-
   //let promise = getEventsNow();
 
   /* promise.then(function(events){

@@ -19,6 +19,8 @@ const endpoint = "https://stad.gent/sparql";
 
 const getAllEventsFromNow = () => {
     const date = moment(new Date("2018-07-18")).format('YYYY-MM-DD').toString();
+    const endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toString();
+
 
     return new SparqlClient(endpoint).query(`
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
@@ -31,7 +33,7 @@ const getAllEventsFromNow = () => {
         ?location <http://schema.org/address> ?address. 
         ?address <http://schema.org/streetAddress> ?streetAddress.
         ?location <http://schema.org/address> ?name. 
-        FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${date}^^xsd:dateTime))
+        FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${endDate}^^xsd:dateTime))
     }
     `)
         .execute()

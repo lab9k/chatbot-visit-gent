@@ -67,10 +67,20 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
     var endDate = moment(dateTimeStart).add(1, 'day').format('YYYY-MM-DD').toString();
 
     const query = Events.find({
-        "address": {
-            '$regex': `${stageName}`,
-            '$options': 'i'
-        },
+        $or: [
+            { "address": {
+                '$regex': `${stageName}`,
+                '$options': 'i'
+              } 
+            }
+            ,
+            { 'squareName': {
+                '$regex': `${stageName}`,
+                '$options': 'i'
+              } 
+            }
+          ]
+        ,
         "startDate": {
             "$gte": startDate,
             "$lt": endDate
