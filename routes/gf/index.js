@@ -458,7 +458,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   .then(result => console.dir(result, {depth: null}))
   .catch(err => console.log(err))
 
-
+  
   let promise = getEventsNow();
 
   promise.then(function(events){
