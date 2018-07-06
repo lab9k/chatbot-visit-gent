@@ -43,7 +43,7 @@ const getAllEventsFromNow = () => {
         }
     }).sort({
         startDate: 1
-    }).limit(5);
+    }).limit(7);
     return query;
 }
 
@@ -87,7 +87,7 @@ const getEventsSelectedStageAndDate = (dateTimeStart, stageName) => {
         }
     }).sort({
         startDate: 1
-    }).limit(5)
+    }).limit(7)
     return query;
 }
 
