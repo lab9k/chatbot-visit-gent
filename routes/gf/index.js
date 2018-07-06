@@ -449,16 +449,20 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   sparqlDB.getAllEventsFromNow()
-  .then(result => console.dir(result, {depth: null}))
-  .catch(err => console.log(err))
+  .then(response => {
+    response.result.forEach((event) => {
+      console.log(event)
+    })
+  }).catch(err => console.log(err))
+}
 
 
-  
 
 
- /*  let promise = getEventsNow();
 
-  promise.then(function(events){
+  //let promise = getEventsNow();
+
+  /* promise.then(function(events){
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
@@ -473,7 +477,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       };
 
       return res.json(ret);
-    } */
+    }
   
     //list to store all cards of events
     let cardList = [];
@@ -523,8 +527,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-  //})
-}
+  }) */
+
 
 
 router.get('/debug', (req, res) => {
