@@ -7,7 +7,7 @@ This chatbot has the following functionalities:
 * Find the closest toilet
 * Ask feedback to the user
 
-## Technologies
+## Get started
 
 ### 1.Dialogflow
 
