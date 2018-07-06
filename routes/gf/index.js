@@ -193,7 +193,7 @@ const getEventsSquareForDate = (req, res) => {
 
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
+        `${event.squareName} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
