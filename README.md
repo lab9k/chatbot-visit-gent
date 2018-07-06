@@ -21,7 +21,7 @@ Dialogflow concepts:
 2. [Entities: Identify things your users mention](https://www.youtube.com/watch?v=kzdL6GxJ_WY)
 3. [Dialog Control: Shape the flow of your conversation](https://www.youtube.com/watch?v=-tOamKtmxdY)
 
-#### 1.1Connect with Facebook Messenger
+#### 1.1.Connect with Facebook Messenger
 
 Step 1:
 [Tutorial on how to connect dialogflow with messenger](https://www.youtube.com/watch?v=-2hE3YHsuBQ)
