@@ -21,12 +21,18 @@ const getAllEventsFromNow = () => {
     const date = moment(new Date()).format('YYYY-MM-DD').toString();
 
     return new SparqlClient(endpoint).query(`
-    SELECT * from <http://stad.gent/gentse-feesten-2018/> WHERE {
+    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
         ?sub a <http://schema.org/Event> .
-        ?sub <http://schema.org/name> ?name.
+        ?sub <http://schema.org/name> ?eventName.
+        ?sub <http://schema.org/description> ?description.
         ?sub <http://schema.org/startDate> ?startDate.
-        FILTER contains(STR(?startDate), ${date} )
-      }
+        ?sub <http://schema.org/endDate> ?endDate.
+        ?sub <http://schema.org/location> ?location.
+        ?location <http://schema.org/address> ?address. 
+        ?address <http://schema.org/streetAddress> ?streetAddress.
+        ?location <http://schema.org/address> ?name. 
+        FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${date}^^xsd:dateTime))
+    }
     `)
         .execute()
         .then(response => Promise.resolve(response));
@@ -36,14 +42,17 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
     const convertedDate = moment(date).format('YYYY-MM-DD').toString();
 
     return new SparqlClient(endpoint).query(`
-    SELECT * from <http://stad.gent/gentse-feesten-2018/> WHERE {
-        ?event a <http://schema.org/Event> .
-        ?event schema:name ?name.
-        ?event <http://schema.org/isAccessibleForFree> ?isAccessibleForFree.
-        ?event <http://schema.org/location> ?location.
-        ?location <http://schema.org/address> ?address.
+    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+        ?sub a <http://schema.org/Event> .
+        ?sub <http://schema.org/name> ?eventName.
+        ?sub <http://schema.org/description> ?description.
+        ?sub <http://schema.org/startDate> ?startDate.
+        ?sub <http://schema.org/endDate> ?endDate.
+        ?sub <http://schema.org/location> ?location.
+        ?location <http://schema.org/address> ?address. 
         ?address <http://schema.org/streetAddress> ?streetAddress.
-        filter(str(?isAccessibleForFree) = "true") 
+        ?location <http://schema.org/address> ?name. 
+        FILTER ((contains(lcase(STR(?streetAddress)), ${stageName}) || contains(lcase(STR(?name)), ${stageName})) && (?startDate >= ${convertedDate}^^xsd:dateTime && ?endDate < ${convertedDate}^^xsd:dateTime))
     }
     `)
         .execute()
