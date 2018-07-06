@@ -65,8 +65,43 @@ Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfactio
     });
 ```
 
+# SPARQL
 
+Sparql is an RDF query language, that is, a semantic query language for databases, able to retrieve and manipulate data stored in Resource Description Framework (RDF) format.
 
+We used the following 2 Sparql queries to get the events of "Gentse Feesten":
 
+1.Get all events from Gentse Feesten now
+```
+    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+        ?sub a <http://schema.org/Event> .
+        ?sub <http://schema.org/name> ?eventName.
+        ?sub <http://schema.org/description> ?description.
+        ?sub <http://schema.org/startDate> ?startDate.
+        ?sub <http://schema.org/endDate> ?endDate.
+        ?sub <http://schema.org/location> ?location.
+        ?location <http://schema.org/address> ?address. 
+        ?address <http://schema.org/streetAddress> ?streetAddress.
+        ?location <http://schema.org/address> ?name. 
+        FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${date}^^xsd:dateTime))
+    }
+```
+
+2.Get events from Gentse Feesten specific date and square
+
+```
+SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+        ?sub a <http://schema.org/Event> .
+        ?sub <http://schema.org/name> ?eventName.
+        ?sub <http://schema.org/description> ?description.
+        ?sub <http://schema.org/startDate> ?startDate.
+        ?sub <http://schema.org/endDate> ?endDate.
+        ?sub <http://schema.org/location> ?location.
+        ?location <http://schema.org/address> ?address. 
+        ?address <http://schema.org/streetAddress> ?streetAddress.
+        ?location <http://schema.org/address> ?name. 
+        FILTER ((contains(lcase(STR(?streetAddress)), ${stageName}) || contains(lcase(STR(?name)), ${stageName})) && (?startDate >= ${convertedDate}^^xsd:dateTime && ?endDate < ${convertedDate}^^xsd:dateTime))
+    }
+```
 
 
