@@ -191,7 +191,7 @@ const getEventsSquareForDate = (req, res) => {
 
       const imageUrlEncoded = encodeURI(event.image_url);
 
-      console.log(event.eventName)
+      console.log(event)
 
       const card = new Card(
         `${imageUrlEncoded}`,
