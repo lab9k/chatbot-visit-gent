@@ -359,7 +359,11 @@ const getPleinCard = (req, res /* , next */ ) => {
 
       const squareName = square.name.nl.split('/')[0].toLowerCase();
 
-      const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
+      const eventNow = events.find(function(event){
+          if (typeof event.address !== "undefined"){
+              return event.address.toLowerCase().includes(squareName)
+          }
+      });
       const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
 
 
@@ -473,8 +477,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     let cardList = [];
     //console.log("list", events);
 
-    
-    
+
+
     events.forEach((event) => {
       console.log("date orig:", event.startDate);
       console.log("moment offset:", moment(event.startDate).utcOffset(120).format('H:mm'));
