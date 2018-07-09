@@ -37,13 +37,13 @@ const getAllEventsFromNow = () => {
         FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${endDate}^^xsd:dateTime))
     }
     `)
-        .execute((error) => {
-            console.log(error);
-        })
+        .execute()
         .then(response => {
             console.log(response);
             Promise.resolve(response);
             
+        }).catch((error) => {
+            console.log(error);
         })
 }
 
