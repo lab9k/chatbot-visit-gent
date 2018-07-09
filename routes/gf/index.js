@@ -477,8 +477,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     let cardList = [];
     //console.log("list", events);
 
-
-
+    
+    
     events.forEach((event) => {
       console.log("date orig:", event.startDate);
       console.log("moment offset:", moment(event.startDate).utcOffset(120).format('H:mm'));
