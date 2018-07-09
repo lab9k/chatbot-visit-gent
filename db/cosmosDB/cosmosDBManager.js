@@ -28,11 +28,9 @@ const getAllEventsFromNow = () => {
     now = new Date("2018-07-14T15:00+00:00");//("2018-07-14");
 
     //startDate = current date with hours and minutes
-    var startDate = moment(now).format('YYYY-MM-DD HH:mm').toString();
-    console.log(startDate);
+    let startDate = moment(now).format('YYYY-MM-DD HH:mm').toISOString();
     //endDate = add day to currentDate
-    var endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toString();
-    console.log(endDate);
+    let endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toISOString();
 
     console.log("startDate", startDate)
     //console.log(endDate)
