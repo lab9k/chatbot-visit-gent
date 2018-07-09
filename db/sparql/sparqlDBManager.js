@@ -18,18 +18,12 @@ const endpoint = "https://stad.gent/sparql";
  */
 
 const getAllEventsFromNow = () => {
+    console.log("test events now");
     const date = moment(new Date("2018-07-18")).format('YYYY-MM-DD').toString();
     const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
 
 
-    return new SparqlClient(endpoint, { 
-        requestsDefaults: {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Accept': 'application/sparql-results+json,application/json'
-            }
-        }
-     }).query(`
+    return new SparqlClient(endpoint).query(`
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
         ?sub a <http://schema.org/Event> .
         ?sub <http://schema.org/name> ?eventName.
@@ -45,8 +39,9 @@ const getAllEventsFromNow = () => {
     `)
         .execute()
         .then(response => {
-            Promise.resolve(response);
             console.log(response);
+            Promise.resolve(response);
+            
         })
 }
 
