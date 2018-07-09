@@ -34,7 +34,6 @@ const getAllEventsFromNow = () => {
         ?location <http://schema.org/address> ?address. 
         ?address <http://schema.org/streetAddress> ?streetAddress.
         ?location <http://schema.org/address> ?name. 
-        FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${endDate}^^xsd:dateTime))
     }
     `)
         .execute()
