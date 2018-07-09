@@ -483,7 +483,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       const imageUrlEncoded = encodeURI(event.image_url);
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate, "Europe/Belgium").format('H:mm')} - ${moment(event.endDate, "Europe/Belgium").format('H:mm')})`, {
+        `${event.eventName} (${moment(event.startDate).utcOffset(120).format('H:mm')} - ${moment(event.endDate).utcOffset(120).format('H:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
