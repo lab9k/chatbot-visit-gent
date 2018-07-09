@@ -485,7 +485,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       console.log(event.eventName);
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).format('H:mm')} - ${moment(event.endDate).format('H:mm')})`, {
+        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
