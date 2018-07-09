@@ -450,18 +450,9 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
 
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
-  sparqlDB.getAllEventsFromNow()
-  .then(response => {
-    console.dir(response, {depth: null});
-  }).catch(err => 
-    console.log(err)
-  )
-}
+  let promise = getEventsNow();
 
-
-  //let promise = getEventsNow();
-
-  /* promise.then(function(events){
+  promise.then(function(events){
     if (events.length == 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
@@ -477,18 +468,18 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
       return res.json(ret);
     }
-  
+
     //list to store all cards of events
     let cardList = [];
     //console.log("list", events);
     events.forEach((event) => {
-    
+
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
       if (event.image_url == null) {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
       }
-      
+
       const imageUrlEncoded = encodeURI(event.image_url);
 
       const card = new Card(
@@ -526,9 +517,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-  }) */
-
-
+  })
+}
 
 router.get('/debug', (req, res) => {
   const {
