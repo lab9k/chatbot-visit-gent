@@ -488,6 +488,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       if (event.eventName.length > 64) {
           event.eventName = event.eventName.substr(0, 61) + "..."
       }
+      if (event.description === null) {
+          event.description = ""
+      }
 
       const imageUrlEncoded = encodeURI(event.image_url);
       const card = new Card(
