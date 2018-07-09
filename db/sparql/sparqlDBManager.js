@@ -22,6 +22,8 @@ const getAllEventsFromNow = () => {
     const date = moment(new Date("2018-07-18")).format('YYYY-MM-DD').toString();
     const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
 
+    console.log("date", date);
+
 
     return new SparqlClient(endpoint).query(`
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
@@ -34,6 +36,7 @@ const getAllEventsFromNow = () => {
         ?location <http://schema.org/address> ?address. 
         ?address <http://schema.org/streetAddress> ?streetAddress.
         ?location <http://schema.org/address> ?name. 
+        #FILTER ((?startDate >= ${date}^^xsd:dateTime && ?endDate < ${endDate}^^xsd:dateTime))
     }
     `)
         .execute()
@@ -48,6 +51,7 @@ const getAllEventsFromNow = () => {
 
 const getEventsSelectedStageAndDate = (stageName, date) => {
     const convertedDate = moment(date).format('YYYY-MM-DD').toString();
+    console.log("converted date", convertedDate);
 
     return new SparqlClient(endpoint).query(`
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
