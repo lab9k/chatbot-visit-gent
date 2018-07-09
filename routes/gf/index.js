@@ -210,7 +210,7 @@ const getEventsSquareForDate = (req, res) => {
             "postback"
           )
         ],
-      );
+      ) ;
       cardList.push(card);
     })
 
@@ -486,7 +486,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
       }
       if (event.eventName.length > 64) {
-          event.eventName = event.eventName.substr(0, 62) + "..."
+          event.eventName = event.eventName.substr(0, 61) + "..."
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
