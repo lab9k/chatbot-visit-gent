@@ -18,9 +18,8 @@ const endpoint = "https://stad.gent/sparql";
  */
 
 const getAllEventsFromNow = () => {
-    const now = new Date();
     const date = moment(new Date("2018-07-18")).format('YYYY-MM-DD').toString();
-    const endDate = moment(now).add(1, 'day').format('YYYY-MM-DD').toString();
+    const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
 
 
     return new SparqlClient(endpoint).query(`
