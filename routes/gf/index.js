@@ -360,10 +360,11 @@ const getPleinCard = (req, res /* , next */ ) => {
       const squareName = square.name.nl.split('/')[0].toLowerCase();
 
       const eventNow = events.find(function(event){
-          if (typeof event.address !== "undefined"){
-              return event.address.toLowerCase().includes(squareName)
+          if (typeof event.address !== "undefined" && event.address.toLowerCase().includes(squareName)){
+              return event
           }
       });
+
       const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
 
 
