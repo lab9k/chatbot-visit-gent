@@ -39,11 +39,11 @@ const getAllEventsFromNow = () => {
     `)
         .execute()
         .then(response => {
-            console.log(response);
+            console.log("response", response);
             Promise.resolve(response);
             
         }).catch((error) => {
-            console.log(error);
+            console.log("error", error);
         })
 }
 
