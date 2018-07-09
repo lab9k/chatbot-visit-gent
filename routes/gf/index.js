@@ -169,14 +169,14 @@ const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   const squareName = req.body.queryResult.parameters.square;
 
-  return getEvents(squareName, date);
+  return res.json(getEvents(squareName, date));
   
 };
 
 const getEventsForToday = (req, res) => {
   const squareName = req.body.queryResult.parameters.square;
 
-  return getEvents(squareName);
+  return res.json(getEvents(squareName));
 }
 
 const getClosestToilet = (req, res) => {
@@ -596,7 +596,7 @@ const getEvents = (squareName, date = new Date()) => {
         }
       }
     };
-    return res.json(payload);
+    return payload;
   });
 }
 
