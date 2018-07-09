@@ -473,11 +473,11 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     let cardList = [];
     //console.log("list", events);
 
-    console.log("moment orig:",moment(events[0].startDate).format('H:mm'));
-    console.log("moment offset:",moment(events[0].startDate).utcOffset(120)).format('H:mm');
+    
     
     events.forEach((event) => {
-
+      console.log("moment orig:", moment(event.startDate).format('H:mm'));
+      console.log("moment offset:", moment(event.startDate).utcOffset(120)).format('H:mm');
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
       if (event.image_url == null) {
