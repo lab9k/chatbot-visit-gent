@@ -481,6 +481,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
+      console.log("== event ==");
       console.log(event);
       const card = new Card(
         `${imageUrlEncoded}`,
