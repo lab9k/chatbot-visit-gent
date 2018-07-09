@@ -64,6 +64,9 @@ const typeMiddleware = (req, res, next) => {
       case 'get.events.now':
         req.type = 'get.events.now';
         break;
+        case 'get_events_today':
+        req.type = 'get_events_today';
+        break;
       default:
         req.type = 'None';
         break;
