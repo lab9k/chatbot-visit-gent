@@ -488,7 +488,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       if (event.eventName.length > 64) {
           event.eventName = event.eventName.substr(0, 61) + "..."
       }
-      if (event.description === null) {
+      if (typeof event.description === "undefined") {
           event.description = ""
       }
 
