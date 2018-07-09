@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 //event schema
 var eventSchema = new Schema({
     _id : ObjectId,
-    name: String,
+    eventName: String,
     startDate: String,
     endDate: String,
     address: String,
