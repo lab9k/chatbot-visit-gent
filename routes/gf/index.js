@@ -182,6 +182,8 @@ const getEventsSquareForDate = (req, res) => {
     let cardList = [];
 
     //console.log("event 1:",events[0]);
+    console.log("moment orig:",mement(events[0].startDate));
+    console.log("moment offset:",moment(events[0].startDate).utcOffset(120));
     events.forEach((event) => {
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
