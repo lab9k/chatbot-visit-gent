@@ -358,9 +358,13 @@ const getPleinCard = (req, res /* , next */ ) => {
   promise.then(function(events){
 
       const squareName = square.name.nl.split('/')[0].toLowerCase();
+      console.log("event plein card", event)
 
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
-      const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
+
+      
+
+      const sub = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
 
 
       //const lat = square.lat;
@@ -493,6 +497,11 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
+
+      const square = locationMapper.getSquares().find(square => event.address.toLowerCase().includes(square.name.nl.toLowerCase()));
+
+      const mapsUrl = square ? `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}` : "google.com";
+
       const card = new Card(
         `${imageUrlEncoded}`,
         `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
@@ -500,7 +509,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `google.com`,
+            mapsUrl,
             'web_url'
           ),
           new CardButton(
