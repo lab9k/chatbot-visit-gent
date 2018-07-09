@@ -90,7 +90,7 @@ const feedbackSatisfaction = (req, res /* , next */) => {
       console.log("feedback must be tevreden,neutraal of niet tevreden")
       break;
   }
-  
+
 };
 
 const getClosestStage = (req, res /* , next */ ) => {
@@ -126,7 +126,7 @@ const getClosestStage = (req, res /* , next */ ) => {
         }&travelmode=walking`,
         'web_url'
       ),
-      
+
       new CardButton(
         "Terug naar hoofdmenu",
         "menu",
@@ -190,7 +190,7 @@ const getEventsSquareForDate = (req, res) => {
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
-      
+
       console.log("******\n",event.eventName)
       console.log(event["eventName"])
 
@@ -302,7 +302,7 @@ const getAllSquares = (req, res) => {
 
 
   const shuffledImagesArray =  util.shuffleArray(images)
-    
+
 
     let count = 1;
     let imageCount = 0;
@@ -313,7 +313,7 @@ const getAllSquares = (req, res) => {
       // construct a Card object with the 3 squares we just sampled
       const card = new Card(
         // sample a random image from the list.
-        shuffledImagesArray[imageCount],        
+        shuffledImagesArray[imageCount],
         `Pleinen ${count} - ${count + (three.length - 1)}`, {
           subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
         },
@@ -331,7 +331,7 @@ const getAllSquares = (req, res) => {
     }
     const payload = {
       payload: {
-        facebook: {        
+        facebook: {
           attachment: {
             type: 'template',
             payload: {
@@ -345,7 +345,7 @@ const getAllSquares = (req, res) => {
       }
     };
     return res.json(payload);
-  
+
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
@@ -356,13 +356,13 @@ const getPleinCard = (req, res /* , next */ ) => {
   let promise = getEventsNow();
 
   promise.then(function(events){
-    
+
       const squareName = square.name.nl.split('/')[0].toLowerCase();
-            
+
       const eventNow = events.find( event => event.address.toLowerCase().includes(squareName));
       const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
 
-      
+
       //const lat = square.lat;
       //const long = square.long;
 
@@ -384,7 +384,7 @@ const getPleinCard = (req, res /* , next */ ) => {
             `Programma`,
             `Programma ${square.name.nl}`,
             "postback"
-          ),navigeergButton,      
+          ),navigeergButton,
           /*
                 new ShareButton(
                   square.name.nl,
@@ -453,7 +453,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   let promise = getEventsNow();
 
   promise.then(function(events){
-    if (events.length == 0) {
+    if (events.length === 0) {
       const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
@@ -478,6 +478,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       // construct a Card object for each event
       if (event.image_url == null) {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
+      }
+      if (event.eventName.length > 64) {
+          event.eventName = event.eventName.substr(0, 62) + "..."
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
