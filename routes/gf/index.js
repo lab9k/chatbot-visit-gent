@@ -521,7 +521,7 @@ const getEventsNow = () => {
   //return promise;
 }
 
-const getEvents = (square, date = new Date()) => {
+const getEvents = (squareName, date = new Date()) => {
   const square = getSquareData(squareName);
   
   // Use connect method to connect to the server
