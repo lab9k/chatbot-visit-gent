@@ -17,7 +17,7 @@ const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
 //Utils
-const util = require("../../util/util")
+const util = require("../../util/util");
 const fs = require('fs');
 
 //Database managers
@@ -78,31 +78,31 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 
 const feedbackSatisfaction = (req, res /* , next */) => {
   console.log('feedback satisfaction triggered');
-  const satisfaction = req.body.queryResult.parameters.satisfaction
-  let improvementProposal = ""
+    const satisfaction = req.body.queryResult.parameters.satisfaction;
+    let improvementProposal = "";
 
   if(improvementProposal !== undefined) {
     improvementProposal = req.body.queryResult.parameters.improvement_proposal
   }
 
-  console.log(improvementProposal)
+    console.log(improvementProposal);
   console.log("satisfaction", satisfaction);
 
   switch (satisfaction) {
     case "tevreden":
-      cosmosDB.addFeedback(1,improvementProposal)
-      console.log("tevreden")
+        cosmosDB.addFeedback(1, improvementProposal);
+        console.log("tevreden");
       break;
     case "neutraal":
-      cosmosDB.addFeedback(0,improvementProposal)
-      console.log("neutraal")
+        cosmosDB.addFeedback(0, improvementProposal);
+        console.log("neutraal");
       break;
     case "niet tevreden":
-      cosmosDB.addFeedback(-1,improvementProposal)
-      console.log("niet tevreden")
+        cosmosDB.addFeedback(-1, improvementProposal);
+        console.log("niet tevreden");
       break;
     default:
-      console.log("feedback must be tevreden,neutraal of niet tevreden")
+        console.log("feedback must be tevreden,neutraal of niet tevreden");
       break;
   }
 
@@ -123,7 +123,7 @@ const getClosestStage = (req, res /* , next */ ) => {
     long
   }, squares);
 
-  urlName = nearest.name.nl.split(' ').join('_')
+    urlName = nearest.name.nl.split(' ').join('_');
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
@@ -176,8 +176,8 @@ const getEventsSquareForDate = (req, res) => {
 const getEventsForToday = (req, res) => {
   const squareName = req.body.queryResult.parameters.square;
 
-  return getEvents(res, squareName));
-}
+    return getEvents(res, squareName);
+};
 
 const getClosestToilet = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
@@ -237,7 +237,7 @@ const getAllSquares = (req, res) => {
   const squares = locationMapper.getSquares();
   const elements = [];
 
-  const shuffledImagesArray =  util.shuffleArray(images)
+    const shuffledImagesArray = util.shuffleArray(images);
 
 
     let count = 1;
@@ -388,7 +388,7 @@ const getDaysGentseFeesten = (req, res /* , next */ ) => {
   };
 
   return res.json(ret);
-}
+};
 
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
@@ -396,7 +396,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   promise.then(function(events){
     if (events.length === 0) {
-      const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+        const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
       const ret = {
@@ -471,7 +471,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     };
     return res.json(payload);
   })
-}
+};
 
 router.get('/debug', (req, res) => {
   const {
@@ -503,7 +503,7 @@ router.get('/debug', (req, res) => {
 
 const getSquareData = (squareName) =>{
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
-}
+};
 
 const getEventsNow = () => {
 
@@ -520,20 +520,20 @@ const getEventsNow = () => {
     return events;
   })
   //return promise;
-}
+};
 
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
 
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName)
+    const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName);
 
   query.exec(function (err, events) {
     if (err)
       return console.log("error", err);
 
     if (events.length == 0) {
-      const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+        const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
       const ret = {
@@ -560,8 +560,8 @@ const getEvents = (res, squareName, date = new Date()) => {
 
       const imageUrlEncoded = encodeURI(event.image_url);
 
-      console.log("******\n",event.eventName)
-      console.log(event["eventName"])
+        console.log("******\n", event.eventName);
+        console.log(event["eventName"]);
 
       const card = new Card(
         `${imageUrlEncoded}`,
@@ -581,7 +581,7 @@ const getEvents = (res, squareName, date = new Date()) => {
         ],
       ) ;
       cardList.push(card);
-    })
+    });
 
     const payload = {
       payload: {
@@ -599,6 +599,6 @@ const getEvents = (res, squareName, date = new Date()) => {
     };
     return res.json(payload);
   });
-}
+};
 
 module.exports = router;
