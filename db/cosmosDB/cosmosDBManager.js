@@ -32,7 +32,7 @@ const getAllEventsFromNow = () => {
     if (new Date("2018-07-13") <= now && now <= new Date("2018-07-22")) {
         date = now;
     } else {
-        date = new Date("2018-07-13T12:00:00Z");
+        date = new Date("2018-07-13T12:00:00+02:00");
     }
 
     let startDate = moment(date).add(-4, "hour").toISOString();
