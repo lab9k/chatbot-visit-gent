@@ -67,12 +67,12 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     case 'get.events.now':
       fn = getEventsGentseFeestenNow;
       break;
-      case 'get_events_today':
+    case 'get_events_today':
       fn = getEventsForToday;
       break;
-      case 'get_now':
-          fn = getCurrentEventFor;
-          break;
+    case 'get_now':
+        fn = getCurrentEventFor;
+        break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -324,7 +324,7 @@ const getPleinCard = (req, res /* , next */ ) => {
           subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
         }, [
               new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
-              new CardButton("Programma nu", `het huidige programma voor ${square.name.nl} op dit moment`, "postback"),
+              new CardButton("Programma nu", "Programma nu", "postback"),
               navigeergButton
         ],
       );
