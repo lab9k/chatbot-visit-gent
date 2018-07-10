@@ -356,15 +356,15 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
     const startGf = new Date("2018-07-13");
     const endGf = new Date("2018-07-22");
 
-    const gentseFeestenDays = [];
+    const gentseFeestenDays = ["Vandaag"];
 
     // If today is during Gentsefeesten then return the remaining days else show all days
-    let tmpDate = startGf < today && today <= endGf ? today : startGf;
+    let currentDate = startGf < today && today <= endGf ? today : startGf;
 
-    while (tmpDate <= endGf) {
-        const date = new Date(tmpDate).getDate().toString() + " Juli";
+    while (currentDate <= endGf) {
+        const date = new Date(currentDate).getDate().toString() + " Juli";
         gentseFeestenDays.push(date);
-        tmpDate.setDate(tmpDate.getDate() + 1);
+        currentDate.setDate(currentDate.getDate() + 1);
     }
 
     const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays).getResponse();
