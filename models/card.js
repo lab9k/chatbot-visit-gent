@@ -9,11 +9,12 @@ class Card {
    * @param {Array.<Button>} buttons Array of Button objects you want included in this card.
    * @memberof Card
    */
-  constructor(imgUrl, title, options, buttons, defaultUrl = "") {
+  constructor(imgUrl, title, options, buttons, defaultUrl) {
     this.imgUrl = imgUrl;
     this.title = title;
     this.subtitle = options.subtitle;
     this.buttons = [...buttons];
+    this.defaultUrl = defaultUrl;
   }
 
   getResponse() {
@@ -23,10 +24,10 @@ class Card {
       subtitle: this.subtitle,
       title: this.title,      
     };
-    if(defaultUrl != ""){
+    if(this.defaultUrl){
       cardObj.defaultAction = {
         type: "web_url",
-          url: defaultUrl,
+          url: this.defaultUrl,
           webview_height_ratio: "tall",
         
       }
