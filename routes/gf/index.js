@@ -176,7 +176,7 @@ const getEventsSquareForDate = (req, res) => {
 };
 
 const getEventsForToday = (req, res) => {
-  const squareName = req.body.queryResult.parameters.plein;
+  const squareName = req.body.queryResult.parameters.square;
 
     return getEvents(res, squareName);
 };
@@ -559,7 +559,7 @@ const getEvents = (res, squareName, date = new Date()) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+            `https://www.google.be/maps/dir/?api=1&destination=${square.lat},${square.long}&travelmode=walking`,            
             'web_url'
           ),
           new CardButton(
