@@ -25,12 +25,20 @@ const getAllEventsFromNow = () => {
         }
     );
 
-    now = new Date();//("2018-07-14");
+    // if the current date is not between the start / end date of the Gentse Feesten
+    // then get events of first day of Gentse Feesten
+    let now = new Date();//("2018-07-14");
+    let date;
+    if (new Date("2018-07-13") <= now && now <= new Date("2018-07-22")) {
+        date = now;
+    } else {
+        date = new Date("2018-07-13");
+    }
 
     //startDate = current date with hours and minutes
-    let startDate = moment(now).toISOString();
+    let startDate = moment(date).toISOString();
     //endDate = add day to currentDate
-    let endDate = moment(now).add(1, 'day').toISOString();
+    let endDate = moment(date).add(1, 'day').toISOString();
 
 
     const query = Events.find({
