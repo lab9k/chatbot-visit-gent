@@ -324,7 +324,7 @@ const getPleinCard = (req, res /* , next */ ) => {
           subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
         }, [
               new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
-              new CardButton("Programma nu", `Programma nu   ${square.name.nl}`, "postback"),
+              new CardButton("Programma nu", `het huidige programma voor ${square.name.nl} op dit moment`, "postback"),
               navigeergButton
         ],
       );
@@ -346,7 +346,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     })
 };
 
-const getCurrentEventsFor = (req, res /* , next */) => {
+const getCurrentEventFor = (req, res /* , next */) => {
     return getEvents(res, req.body.queryResult.parameters.plein);
 };
 
@@ -511,7 +511,7 @@ const getEventsNow = () => {
   //return promise;
 };
 
-const getEvents = (squareName, date = new Date()) => {
+const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
 
   // Use connect method to connect to the server
@@ -586,7 +586,7 @@ const getEvents = (squareName, date = new Date()) => {
         }
       }
     };
-    return payload;
+      return res.json(payload);
   });
 };
 
