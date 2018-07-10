@@ -497,7 +497,7 @@ const getSquareData = (squareName) =>{
 const getEventsNow = () => {
 
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsByDateAndSquareName(new Date(date));
+  const query = cosmosDB.getEventsByDateAndSquareName(new Date());
 
   let promise = query.exec();
 
