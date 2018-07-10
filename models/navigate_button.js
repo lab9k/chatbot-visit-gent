@@ -1,4 +1,4 @@
-const Button = require('../../models/button');
+const Button = require('button');
 
 module.exports = function generate_navigate_button(square) {
     return new Button(
