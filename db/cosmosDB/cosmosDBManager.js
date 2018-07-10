@@ -32,7 +32,7 @@ const getAllEventsFromNow = () => {
     if (new Date("2018-07-13") <= now && now <= new Date("2018-07-22")) {
         date = now;
     } else {
-        date = new Date("2018-07-13");
+        date = new Date("2018-07-14");
     }
 
     //startDate = current date with hours and minutes
