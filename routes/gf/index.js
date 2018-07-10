@@ -287,7 +287,7 @@ const getAllSquares = (req, res) => {
 };
 
 const getPleinCard = (req, res /* , next */ ) => {
-  const pleinName = req.body.queryResult.parameters.plein;
+  const pleinName = req.body.queryResult.parameters.square;
 
   const square = getSquareData(pleinName);
 
@@ -347,7 +347,7 @@ const getPleinCard = (req, res /* , next */ ) => {
 };
 
 const getCurrentEventFor = (req, res /* , next */) => {
-    return getEvents(res, req.body.queryResult.parameters.plein);
+    return getEvents(res, req.body.queryResult.parameters.square);
 };
 
 
