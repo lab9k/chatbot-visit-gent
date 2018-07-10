@@ -7,7 +7,6 @@ const Card = require('../../models/card');
 const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
 const QuickReply = require('../../models/quickReply');
-const ShareButton = require('../../models/share_button');
 
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
@@ -18,11 +17,9 @@ const locationMapper = new LocationMapper();
 
 //Utils
 const util = require("../../util/util");
-const fs = require('fs');
 
 //Database managers
 const cosmosDB = require("../../db/cosmosDB/cosmosDBManager");
-const sparqlDB = require("../../db/sparql/sparqlDBManager");
 
 //Date conversions
 const moment = require('moment');
@@ -126,8 +123,8 @@ const getClosestStage = (req, res /* , next */ ) => {
     long
   }, squares);
 
-    urlName = nearest.name.nl.split(' ').join('_');
-
+  let urlName = nearest.name.nl.split(' ').join('_');
+  let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`;
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
     `${nearest.name.nl}`, {
@@ -139,18 +136,16 @@ const getClosestStage = (req, res /* , next */ ) => {
         "postback"
       ),new Button(
         'Toon mij de weg',
-        `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
-        nearest.long
-        }&travelmode=walking`,
+        url,
         'web_url'
       ),
-
       new CardButton(
         "Terug naar hoofdmenu",
         "menu",
         "postback"
       )
-    ]
+    ],
+      url
   );
   const ret = {
     payload: {
@@ -195,15 +190,13 @@ const getClosestToilet = (req, res) => {
     lat,
     long
   }, toiletten);
-
+  let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`;
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
     'Dichtstbijzijnde toilet', {}, [
       new Button(
         'Toon mij de weg',
-        `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${
-        nearest.long
-        }&travelmode=walking`,
+        url,
         'web_url'
       ),
       new CardButton(
@@ -212,7 +205,7 @@ const getClosestToilet = (req, res) => {
         "postback"
       )
     ],
-
+    url
   );
 
   const ret = {
@@ -424,6 +417,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
+      let url = `https://www.google.com/maps`;
       const card = new Card(
         `${imageUrlEncoded}`,
         `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
@@ -431,7 +425,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `https://www.google.com/maps`,
+            url,
             'web_url'
           ),
           new CardButton(
@@ -440,6 +434,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
             "postback"
           )
         ],
+          `https://www.google.com/maps`
       );
       cardList.push(card);
     });
@@ -491,7 +486,7 @@ router.get('/debug', (req, res) => {
 });
 
 const getSquareData = (squareName) =>{
-  return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
+  return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() === squareName.toLowerCase());
 };
 
 const getEventsNow = () => {
@@ -521,7 +516,7 @@ const getEvents = (res, squareName, date = new Date()) => {
     if (err)
       return console.log("error", err);
 
-    if (events.length == 0) {
+    if (events.length === 0) {
         const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
@@ -548,10 +543,7 @@ const getEvents = (res, squareName, date = new Date()) => {
       }
 
       const imageUrlEncoded = encodeURI(event.image_url);
-
-        console.log("******\n", event.eventName);
-        console.log(event["eventName"]);
-
+      let url = `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`;
       const card = new Card(
         `${imageUrlEncoded}`,
         `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
@@ -559,7 +551,7 @@ const getEvents = (res, squareName, date = new Date()) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+            url,
             'web_url'
           ),
           new CardButton(
@@ -568,6 +560,7 @@ const getEvents = (res, squareName, date = new Date()) => {
             "postback"
           )
         ],
+          url
       ) ;
       cardList.push(card);
     });
