@@ -176,7 +176,7 @@ const getEventsSquareForDate = (req, res) => {
 };
 
 const getEventsForToday = (req, res) => {
-  const squareName = req.body.queryResult.parameters.square;
+  const squareName = req.body.queryResult.parameters.plein;
 
     return getEvents(res, squareName);
 };
