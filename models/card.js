@@ -27,7 +27,9 @@ class Card {
     if(this.defaultUrl){
       cardObj["defaultAction"] = {
         type: "web_url",
-          url: this.defaultUrl        
+          url: this.defaultUrl,
+          messenger_extensions: FALSE,
+        webview_height_ratio: "tall"
       }
     }
     cardObj.buttons.push(...this.buttons.map((el) => el.getResponse()));
