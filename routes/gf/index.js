@@ -7,10 +7,11 @@ const Card = require('../../models/card');
 const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
 const QuickReply = require('../../models/quickReply');
+const generate_navigate_button = require('../../models/navigate_button');
 
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
-const loc = require('../../util/location');
+const location = require('../../util/location');
 const EventMapper = require('../../util/eventmapper');
 const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
@@ -38,304 +39,238 @@ const images = [
 
 //Intent actions
 router.all('/', mw.typeMiddleware, (req, res, next) => {
-  let fn;
-  switch (req.type) {
-    case 'get_plein_location':
-      fn = getClosestStage;
-      break;
-    case 'get_events':
-      fn = getEventsSquareForDate;
-        break;
-    case 'all_squares':
-      fn = getAllSquares;
-      break;
-    case 'toiletten.search':
-      fn = getClosestToilet;
-      break;
-    case 'feedback.satisfaction':
-      fn = feedbackSatisfaction;
-      break;
-    case 'plein_card':
-      fn = getPleinCard;
-      break;
-    case 'get_days':
-      fn = getDaysGentseFeesten;
-      break;
-    case 'get.events.now':
-      fn = getEventsGentseFeestenNow;
-      break;
-    case 'get_events_today':
-      fn = getEventsForToday;
-      break;
-    case 'get_now':
-        fn = getCurrentEventFor;
-        break;
-    default:
-      return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
-  }
-  return fn(req, res, next);
+    let fn;
+    switch (req.type) {
+        case 'get_plein_location':
+            fn = getClosestStage;
+            break;
+        case 'get_events':
+            fn = getEventsSquareForDate;
+            break;
+        case 'all_squares':
+            fn = getAllSquares;
+            break;
+        case 'toiletten.search':
+            fn = getClosestToilet;
+            break;
+        case 'feedback.satisfaction':
+            fn = feedbackSatisfaction;
+            break;
+        case 'plein_card':
+            fn = getPleinCard;
+            break;
+        case 'get_days':
+            fn = getDaysGentseFeesten;
+            break;
+        case 'get.events.now':
+            fn = getEventsGentseFeestenNow;
+            break;
+        case 'get_events_today':
+            fn = getEventsForToday;
+            break;
+        case 'get_now':
+            fn = getCurrentEventFor;
+            break;
+        default:
+            return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
+    }
+    return fn(req, res, next);
 });
 
-const feedbackSatisfaction = (req, res /* , next */) => {
-  console.log('feedback satisfaction triggered');
+const feedbackSatisfaction = (req) => {
     const satisfaction = req.body.queryResult.parameters.satisfaction;
-    let improvementProposal = "";
-
-  if(improvementProposal !== undefined) {
-    improvementProposal = req.body.queryResult.parameters.improvement_proposal
-  }
-
-    console.log(improvementProposal);
-  console.log("satisfaction", satisfaction);
-
-  switch (satisfaction) {
-    case "tevreden":
-        cosmosDB.addFeedback(1, improvementProposal);
-        console.log("tevreden");
-      break;
-    case "neutraal":
-        cosmosDB.addFeedback(0, improvementProposal);
-        console.log("neutraal");
-      break;
-    case "niet tevreden":
-        cosmosDB.addFeedback(-1, improvementProposal);
-        console.log("niet tevreden");
-      break;
-    default:
-        console.log("feedback must be tevreden,neutraal of niet tevreden");
-      break;
-  }
+    let improvementProposal = req.body.queryResult.parameters.improvement_proposal;
+    switch (satisfaction) {
+        case "tevreden":
+            cosmosDB.addFeedback(1, improvementProposal);
+            break;
+        case "neutraal":
+            cosmosDB.addFeedback(0, improvementProposal);
+            break;
+        case "niet tevreden":
+            cosmosDB.addFeedback(-1, improvementProposal);
+            break;
+        default:
+            break;
+    }
 
 };
 
-const getClosestStage = (req, res /* , next */ ) => {
-  const original = req.body.originalDetectIntentRequest;
-  const {
-    payload
-  } = original;
-  const {
-    lat,
-    long
-  } = payload.data.postback.data;
-  const squares = locationMapper.getSquares();
-  const nearest = loc.closestLocation({
-    lat,
-    long
-  }, squares);
-
-  let urlName = nearest.name.nl.split(' ').join('_');
-  let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`;
-  const card = new Card(
-    `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
-    `${nearest.name.nl}`, {
-      subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
-    }, [
-      new CardButton(
-        `Programma`,
-        `Programma ${nearest.name.nl}`,
-        "postback"
-      ),new Button(
-        'Toon mij de weg',
-        url,
-        'web_url'
-      ),
-      new CardButton(
-        "Terug naar hoofdmenu",
-        "menu",
-        "postback"
-      )
-    ],
-      url
-  );
-  const ret = {
-    payload: {
-      facebook: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: [card.getResponse()]
-          }
+const getClosestStage = (req, res /* , next */) => {
+    const original = req.body.originalDetectIntentRequest;
+    const {payload} = original;
+    const {lat, long} = payload.data.postback.data;
+    const squares = locationMapper.getSquares();
+    const nearest = location.closestLocation({lat, long}, squares);
+    const urlName = nearest.name.nl.split(' ').join('_');
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},
+                ${nearest.long}&travelmode=walking`;
+    const card = new Card(
+        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
+        `${nearest.name.nl}`,
+        {
+            subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
+        },
+        [
+            new CardButton(`Programma`, `Programma ${nearest.name.nl}`, "postback"),
+            new Button('Toon mij de weg', url, 'web_url'),
+            new CardButton("Terug naar hoofdmenu", "menu", "postback")
+        ],
+        url
+    );
+    return res.json({
+        payload: {
+            facebook: {
+                attachment: {
+                    type: 'template',
+                    payload: {
+                        template_type: 'generic',
+                        elements: [card.getResponse()]
+                    }
+                }
+            }
         }
-      }
-    }
-  };
-  return res.json(ret);
+    });
 };
 
 const getEventsSquareForDate = (req, res) => {
-  const date = req.body.queryResult.parameters.date;
-  const squareName = req.body.queryResult.parameters.square;
+    const date = req.body.queryResult.parameters.date;
+    const squareName = req.body.queryResult.parameters.square;
 
-  return getEvents(res, squareName, date);
+    return getEvents(res, squareName, date);
 };
 
 const getEventsForToday = (req, res) => {
-  const squareName = req.body.queryResult.parameters.plein;
+    const squareName = req.body.queryResult.parameters.plein;
 
     return getEvents(res, squareName);
 };
 
 const getClosestToilet = (req, res) => {
-  const original = req.body.originalDetectIntentRequest;
-  const {
-    payload
-  } = original;
-  const {
-    lat,
-    long
-  } = payload.data.postback.data;
-  const toiletten = locationMapper.getToilets();
-  const nearest = loc.closestLocation({
-    lat,
-    long
-  }, toiletten);
-  let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`;
-  const card = new Card(
-    'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
-    'Dichtstbijzijnde toilet', {}, [
-      new Button(
-        'Toon mij de weg',
-        url,
-        'web_url'
-      ),
-      new CardButton(
-        "Terug naar hoofdmenu",
-        "menu",
-        "postback"
-      )
-    ],
-    url
-  );
+    const original = req.body.originalDetectIntentRequest;
+    const {payload} = original;
+    const {lat, long} = payload.data.postback.data;
+    const toiletten = locationMapper.getToilets();
+    const nearest = location.closestLocation({lat, long}, toiletten);
+    let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},
+                ${nearest.long}&travelmode=walking`;
+    const card = new Card(
+        'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
+        'Dichtstbijzijnde toilet',
+        {},
+        [
+            new Button('Toon mij de weg', url, 'web_url'),
+            new CardButton("Terug naar hoofdmenu", "menu", "postback")
+        ],
+        url
+    );
 
-  const ret = {
-    payload: {
-      facebook: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: [
-              card.getResponse()
-            ]
-          }
+    return res.json({
+        payload: {
+            facebook: {
+                attachment: {
+                    type: 'template',
+                    payload: {
+                        template_type: 'generic',
+                        elements: [
+                            card.getResponse()
+                        ]
+                    }
+                }
+            }
         }
-      }
-    }
-  };
-
-  return res.json(ret);
+    });
 };
 
 const getAllSquares = (req, res) => {
-  // We cached the squares with their locations in the locationMapper before the server started.
-  const squares = locationMapper.getSquares();
-  const elements = [];
+    // We cached the squares with their locations in the locationMapper before the server started.
+    const squares = locationMapper.getSquares();
+    const elements = [];
 
     const shuffledImagesArray = util.shuffleArray(images);
-
 
     let count = 1;
     let imageCount = 0;
     while (squares.length > 0) {
-
-      // take 3 square objects
-      const three = squares.splice(0, 3);
-      // construct a Card object with the 3 squares we just sampled
-      const card = new Card(
-        // sample a random image from the list.
-        shuffledImagesArray[imageCount],
-        `Pleinen ${count} - ${count + (three.length - 1)}`, {
-          subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
-        },
-        // create buttons from the 3 square objects, with a google maps link to their location.
-        three.map(el =>
-          new CardButton(
-            el.name.nl,
-            el.name.nl,
-            "postback"
-          ))
-      );
-      elements.push(card);
-      count += 3;
-      imageCount++
+        // take 3 square objects
+        const three = squares.splice(0, 3);
+        // construct a Card object with the 3 squares we just sampled
+        const card = new Card(
+            // sample a random image from the list.
+            shuffledImagesArray[imageCount],
+            `Pleinen ${count} - ${count + (three.length - 1)}`,
+            {
+                subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
+            },
+            // create buttons from the 3 square objects, with a google maps link to their location.
+            three.map(el =>
+                new CardButton(
+                    el.name.nl,
+                    el.name.nl,
+                    "postback"
+                ))
+        );
+        elements.push(card);
+        count += 3;
+        imageCount++
     }
-    const payload = {
-      payload: {
-        facebook: {
-          attachment: {
-            type: 'template',
-            payload: {
-              //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
-              template_type: 'generic',
-              // get the json structure for the card
-              elements: elements.map(el => el.getResponse())
+    return res.json({
+        payload: {
+            facebook: {
+                attachment: {
+                    type: 'template',
+                    payload: {
+                        //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
+                        template_type: 'generic',
+                        // get the json structure for the card
+                        elements: elements.map(el => el.getResponse())
+                    }
+                }
             }
-          }
         }
-      }
-    };
-    return res.json(payload);
+    });
 
 };
 
-const getPleinCard = (req, res /* , next */ ) => {
-  const pleinName = req.body.queryResult.parameters.plein;
+const getPleinCard = (req, res /* , next */) => {
+    const square = getSquareData(req.body.queryResult.parameters.plein);
+    getEventsNow().then(function (events) {
 
-  const square = getSquareData(pleinName);
+        const squareName = square.name.nl.split('/')[0].toLowerCase();
 
-  let promise = getEventsNow();
-
-  promise.then(function(events){
-
-      const squareName = square.name.nl.split('/')[0].toLowerCase();
-
-      const eventNow = events.find(function(event){
-          if (typeof event.address !== "undefined" && event.address.toLowerCase().includes(squareName)){
-              return event
-          }
-      });
-
-      const sub = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
-
-
-      //const lat = square.lat;
-      //const long = square.long;
-
-      //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
-      const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
-
-      const navigeergButton = new Button(
-        'Toon mij de weg',
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-        'web_url'
-      );
-      //
-      const card = new Card(
-        `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-        square.name.nl, {
-          subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
-        }, [
-              new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
-              new CardButton("Programma nu", "Programma nu", "postback"),
-              navigeergButton
-        ],
-      );
-      const ret = {
-        payload: {
-          facebook: {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                elements: [card.getResponse()]
-              }
+        const eventNow = events.find(function (event) {
+            if (typeof event.address !== "undefined" && event.address.toLowerCase().includes(squareName)) {
+                return event
             }
-          }
-        }
-      };
-      //console.log("share button", card.getResponse().buttons);
-      return res.json(ret);
+        });
+
+        const sub = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
+
+        //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
+        const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
+        const card = new Card(
+            `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
+            square.name.nl, {
+                subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+            }, [
+                new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
+                new CardButton("Programma nu", "Programma nu", "postback"),
+                generate_navigate_button(square)
+            ],
+        );
+        return res.json({
+            payload: {
+                facebook: {
+                    attachment: {
+                        type: 'template',
+                        payload: {
+                            template_type: 'generic',
+                            elements: [card.getResponse()]
+                        }
+                    }
+                }
+            }
+        });
     })
 };
 
@@ -362,225 +297,184 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
 
     const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays).getResponse();
 
-    const ret = {
+    return res.json({
         payload: {
             facebook: {
                 "text": quickReply.text,
                 "quick_replies": quickReply.quick_replies
             }
         }
-    };
-
-    return res.json(ret);
+    });
 };
 
-const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
-  let promise = getEventsNow();
+const getEventsGentseFeestenNow = (req, res /* , next */) => {
+    getEventsNow().then(function (events) {
+        if (events.length === 0) {
+            const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
+            const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten" +
+                ", Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
-  promise.then(function(events){
-    if (events.length === 0) {
-        const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
-      const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
-
-      const ret = {
-        payload: {
-          facebook: {
-            "text": quickReply.text,
-            "quick_replies": quickReply.quick_replies
-          }
+            return res.json({
+                payload: {
+                    facebook: {
+                        "text": quickReply.text,
+                        "quick_replies": quickReply.quick_replies
+                    }
+                }
+            });
         }
-      };
 
-      return res.json(ret);
-    }
+        //list to store all cards of events
+        let cardList = [];
+        //console.log("list", events);
 
-    //list to store all cards of events
-    let cardList = [];
-    //console.log("list", events);
-
-
-      events.forEach((event) => {
-      console.log("date orig:", event.startDate);
-      console.log("moment offset:", moment(event.startDate).utcOffset(120).format('H:mm'));
-
-
-      //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-      // construct a Card object for each event
-      if (event.image_url == null) {
-        event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
-      }
-      if (event.eventName.length > 64) {
-          event.eventName = event.eventName.substr(0, 61) + "..."
-      }
-      if (typeof event.description === "undefined") {
-          event.description = ""
-      }
-
-      const imageUrlEncoded = encodeURI(event.image_url);
-      let url = `https://www.google.com/maps`;
-      const card = new Card(
-        `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
-          subtitle: `${event.description}`
-        }, [
-          new Button(
-            'Toon mij de weg',
-            url,
-            'web_url'
-          ),
-          new CardButton(
-            "Terug naar hoofdmenu",
-            "menu",
-            "postback"
-          )
-        ],
-          `https://www.google.com/maps`
-      );
-      cardList.push(card);
-    });
-
-    const payload = {
-      payload: {
-        facebook: {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'generic',
-              // get the json structure for the card
-              elements: cardList.map(el => el.getResponse())
+        events.forEach((event) => {
+            //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+            // construct a Card object for each event
+            if (event.image_url == null) {
+                event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
             }
-          }
-        }
-      }
-    };
-    return res.json(payload);
-  })
+            if (event.eventName.length > 64) {
+                event.eventName = event.eventName.substr(0, 61) + "..."
+            }
+            if (typeof event.description === "undefined") {
+                event.description = ""
+            }
+
+            const imageUrlEncoded = encodeURI(event.image_url);
+            let url = `https://www.google.com/maps`;
+            const card = new Card(
+                `${imageUrlEncoded}`,
+                `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - 
+                    ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`,
+                {
+                    subtitle: `${event.description}`
+                }, [
+                    new Button('Toon mij de weg', url, 'web_url'),
+                    new CardButton("Terug naar hoofdmenu", "menu", "postback")
+                ],
+                `https://www.google.com/maps`
+            );
+            cardList.push(card);
+        });
+
+        return res.json({
+            payload: {
+                facebook: {
+                    attachment: {
+                        type: 'template',
+                        payload: {
+                            template_type: 'generic',
+                            // get the json structure for the card
+                            elements: cardList.map(el => el.getResponse())
+                        }
+                    }
+                }
+            }
+        });
+    })
 };
 
 router.get('/debug', (req, res) => {
-  const {
-    events
-  } = eventMapper;
-  const ret = [];
-  events.forEach((ev) => {
-    const included = ret.findIndex(el => el.name.nl === ev.name.nl);
-    if (included === -1) {
-      return ret.push({
-        ...ev,
-        startDates: [ev.startDate]
-      });
-    }
-    if (!ret[included].startDates) {
-      ret[included].startDates = [];
-    }
-    return ret[included].startDates.push(ev.startDate);
-  });
-  res.json({
-    count: ret.length,
-    items: ret.map(el => ({
-      name: el.name.nl,
-      startDates: el.startDates,
-      location: el.location
-    }))
-  });
+    const {events} = eventMapper;
+    const ret = [];
+    events.forEach((ev) => {
+        const included = ret.findIndex(el => el.name.nl === ev.name.nl);
+        if (included === -1) {
+            return ret.push({...ev, startDates: [ev.startDate]});
+        }
+        if (!ret[included].startDates) {
+            ret[included].startDates = [];
+        }
+        return ret[included].startDates.push(ev.startDate);
+    });
+    res.json({
+        count: ret.length, items: ret.map(el => ({
+            name: el.name.nl,
+            startDates: el.startDates,
+            location: el.location
+        }))
+    });
 });
 
-const getSquareData = (squareName) =>{
-  return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() === squareName.toLowerCase());
+const getSquareData = (squareName) => {
+    return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() === squareName.toLowerCase());
 };
 
 const getEventsNow = () => {
+    // Use connect method to connect to the server
+    const query = cosmosDB.getAllEventsFromNow();
 
-  // Use connect method to connect to the server
-  const query = cosmosDB.getAllEventsFromNow();
-
-  let promise = query.exec();
-
-
-  return promise.then(function(events, err){
-    //console.log("test..");
-    if (err)
-      console.log(err);
-    return events;
-  })
-  //return promise;
+    return query.exec().then(function (events, err) {
+        if (err)
+            console.log(err);
+        return events;
+    })
 };
 
 const getEvents = (res, squareName, date = new Date()) => {
-  const square = getSquareData(squareName);
+    const square = getSquareData(squareName);
 
-  // Use connect method to connect to the server
-    const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName);
+    // Use connect method to connect to the server
+    cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName).exec(function (err, events) {
+        if (err)
+            return console.log("error", err);
 
-  query.exec(function (err, events) {
-    if (err)
-      return console.log("error", err);
+        if (events.length === 0) {
+            const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
+            const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
-    if (events.length === 0) {
-        const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
-      const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
-
-      const ret = {
-        payload: {
-          facebook: {
-            "text": quickReply.text,
-            "quick_replies": quickReply.quick_replies
-          }
+            return res.json({
+                payload: {
+                    facebook: {
+                        "text": quickReply.text,
+                        "quick_replies": quickReply.quick_replies
+                    }
+                }
+            });
         }
-      };
+        //list to store all cards of events
+        let cardList = [];
 
-      return res.json(ret);
-    }
-    //list to store all cards of events
-    let cardList = [];
-
-    //console.log("event 1:",events[0]);
-    events.forEach((event) => {
-      //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-      // construct a Card object for each event
-      if (event.image_url == null) {
-        event.image_url = images[util.getRandomInt(0, images.length - 1)];
-      }
-
-      const imageUrlEncoded = encodeURI(event.image_url);
-      let url = `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`;
-      const card = new Card(
-        `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
-          subtitle: `${event.description}`
-        }, [
-          new Button(
-            'Toon mij de weg',
-            url,
-            'web_url'
-          ),
-          new CardButton(
-            "Terug naar hoofdmenu",
-            "menu",
-            "postback"
-          )
-        ],
-          url
-      ) ;
-      cardList.push(card);
-    });
-
-    const payload = {
-      payload: {
-        facebook: {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'generic',
-              // get the json structure for the card
-              elements: cardList.map(el => el.getResponse())
+        //console.log("event 1:",events[0]);
+        events.forEach((event) => {
+            //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+            // construct a Card object for each event
+            if (event.image_url == null) {
+                event.image_url = images[util.getRandomInt(0, images.length - 1)];
             }
-          }
-        }
-      }
-    };
-      return res.json(payload);
-  });
+
+            const imageUrlEncoded = encodeURI(event.image_url);
+            const card = new Card(
+                `${imageUrlEncoded}`,
+                `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - 
+                ${moment(event.endDate).add(2, 'hours').format('H:mm')})`,
+                {
+                    subtitle: `${event.description}`
+                }, [
+                    generate_navigate_button(square),
+                    new CardButton("Terug naar hoofdmenu", "menu", "postback")
+                ],
+                `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`
+            );
+            cardList.push(card);
+        });
+
+        return res.json({
+            payload: {
+                facebook: {
+                    attachment: {
+                        type: 'template',
+                        payload: {
+                            template_type: 'generic',
+                            // get the json structure for the card
+                            elements: cardList.map(el => el.getResponse())
+                        }
+                    }
+                }
+            }
+        });
+    });
 };
 
 module.exports = router;
