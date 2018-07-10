@@ -528,6 +528,8 @@ const getEvents = (squareName, date = new Date()) => {
   // Use connect method to connect to the server
   const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName)
 
+  let responsePayload;
+
   query.exec(function (err, events) {
     if (err)
       return console.log("error", err);
@@ -597,8 +599,9 @@ const getEvents = (squareName, date = new Date()) => {
         }
       }
     };
-    return payload;
+    responsePayload = payload;
   });
+  return responsePayload;
 }
 
 module.exports = router;
