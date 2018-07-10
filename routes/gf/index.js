@@ -12,8 +12,6 @@ const generate_navigate_button = require('../../models/navigate_button');
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
 const location = require('../../util/location');
-const EventMapper = require('../../util/eventmapper');
-const eventMapper = new EventMapper();
 const locationMapper = new LocationMapper();
 
 //Utils
@@ -77,28 +75,6 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     return fn(req, res, next);
 });
 
-router.get('/debug', (req, res) => {
-    const {events} = eventMapper;
-    const ret = [];
-    events.forEach((ev) => {
-        const included = ret.findIndex(el => el.name.nl === ev.name.nl);
-        if (included === -1) {
-            return ret.push({...ev, startDates: [ev.startDate]});
-        }
-        if (!ret[included].startDates) {
-            ret[included].startDates = [];
-        }
-        return ret[included].startDates.push(ev.startDate);
-    });
-    res.json({
-        count: ret.length, items: ret.map(el => ({
-            name: el.name.nl,
-            startDates: el.startDates,
-            location: el.location
-        }))
-    });
-});
-
 function feedbackSatisfaction(req) {
     let improvementProposal = req.body.queryResult.parameters.improvement_proposal;
     switch (req.body.queryResult.parameters.satisfaction) {
@@ -150,14 +126,6 @@ function getClosestStage(req, res) {
             }
         }
     });
-}
-
-function getEventsSquareForDate(req, res) {
-    return getEvents(res, req.body.queryResult.parameters.square, req.body.queryResult.parameters.date);
-}
-
-function getEventsForToday(req, res) {
-    return getEvents(res, req.body.queryResult.parameters.plein);
 }
 
 function getClosestToilet(req, res) {
@@ -284,10 +252,6 @@ function getSquareCard(req, res) {
     })
 }
 
-function getCurrentEventFor(req, res) {
-    return getEvents(res, req.body.queryResult.parameters.plein);
-}
-
 function getDaysGF(req, res) {
     const today = new Date().getDate;
     const startGf = new Date("2018-07-13");
@@ -384,10 +348,6 @@ function getEventsGFNow(req, res) {
     })
 }
 
-function getSquareData(squareName) {
-    return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() === squareName.toLowerCase());
-}
-
 function getEventsNow() {
     // Use connect method to connect to the server
     return cosmosDB.getAllEventsFromNow().exec().then(function (events, err) {
@@ -460,6 +420,22 @@ function getEvents(res, squareName, date = new Date()) {
             }
         });
     });
+}
+
+function getEventsSquareForDate(req, res) {
+    return getEvents(res, req.body.queryResult.parameters.square, req.body.queryResult.parameters.date);
+}
+
+function getEventsForToday(req, res) {
+    return getEvents(res, req.body.queryResult.parameters.plein);
+}
+
+function getCurrentEventFor(req, res) {
+    return getEvents(res, req.body.queryResult.parameters.plein);
+}
+
+function getSquareData(squareName) {
+    return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() === squareName.toLowerCase());
 }
 
 module.exports = router;
