@@ -339,7 +339,7 @@ const getPleinCard = (req, res /* , next */ ) => {
             "postback"
           )
         ],
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`
+        //`https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`
       );
       const ret = {
         payload: {
