@@ -44,7 +44,7 @@ const getAllEventsFromNow = () => {
             $lt: endDate
         },
         endDate: {
-            $gte: now.toISOString()
+            $gt: now.toISOString()
         }
     }).sort({
         startDate: 1
