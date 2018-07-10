@@ -57,13 +57,13 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
             fn = feedbackSatisfaction;
             break;
         case 'plein_card':
-            fn = getPleinCard;
+            fn = getSquareCard;
             break;
         case 'get_days':
-            fn = getDaysGentseFeesten;
+            fn = getDaysGF;
             break;
         case 'get.events.now':
-            fn = getEventsGentseFeestenNow;
+            fn = getEventsGFNow;
             break;
         case 'get_events_today':
             fn = getEventsForToday;
@@ -77,10 +77,31 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
     return fn(req, res, next);
 });
 
-const feedbackSatisfaction = (req) => {
-    const satisfaction = req.body.queryResult.parameters.satisfaction;
+router.get('/debug', (req, res) => {
+    const {events} = eventMapper;
+    const ret = [];
+    events.forEach((ev) => {
+        const included = ret.findIndex(el => el.name.nl === ev.name.nl);
+        if (included === -1) {
+            return ret.push({...ev, startDates: [ev.startDate]});
+        }
+        if (!ret[included].startDates) {
+            ret[included].startDates = [];
+        }
+        return ret[included].startDates.push(ev.startDate);
+    });
+    res.json({
+        count: ret.length, items: ret.map(el => ({
+            name: el.name.nl,
+            startDates: el.startDates,
+            location: el.location
+        }))
+    });
+});
+
+function feedbackSatisfaction(req) {
     let improvementProposal = req.body.queryResult.parameters.improvement_proposal;
-    switch (satisfaction) {
+    switch (req.body.queryResult.parameters.satisfaction) {
         case "tevreden":
             cosmosDB.addFeedback(1, improvementProposal);
             break;
@@ -93,12 +114,10 @@ const feedbackSatisfaction = (req) => {
         default:
             break;
     }
+}
 
-};
-
-const getClosestStage = (req, res /* , next */) => {
-    const original = req.body.originalDetectIntentRequest;
-    const {payload} = original;
+function getClosestStage(req, res) {
+    const {payload} = req.body.originalDetectIntentRequest;
     const {lat, long} = payload.data.postback.data;
     const squares = locationMapper.getSquares();
     const nearest = location.closestLocation({lat, long}, squares);
@@ -131,27 +150,20 @@ const getClosestStage = (req, res /* , next */) => {
             }
         }
     });
-};
+}
 
-const getEventsSquareForDate = (req, res) => {
-    const date = req.body.queryResult.parameters.date;
-    const squareName = req.body.queryResult.parameters.square;
+function getEventsSquareForDate(req, res) {
+    return getEvents(res, req.body.queryResult.parameters.square, req.body.queryResult.parameters.date);
+}
 
-    return getEvents(res, squareName, date);
-};
+function getEventsForToday(req, res) {
+    return getEvents(res, req.body.queryResult.parameters.plein);
+}
 
-const getEventsForToday = (req, res) => {
-    const squareName = req.body.queryResult.parameters.plein;
-
-    return getEvents(res, squareName);
-};
-
-const getClosestToilet = (req, res) => {
-    const original = req.body.originalDetectIntentRequest;
-    const {payload} = original;
+function getClosestToilet(req, res) {
+    const {payload} = req.body.originalDetectIntentRequest;
     const {lat, long} = payload.data.postback.data;
-    const toiletten = locationMapper.getToilets();
-    const nearest = location.closestLocation({lat, long}, toiletten);
+    const nearest = location.closestLocation({lat, long}, locationMapper.getToilets());
     let url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},
                 ${nearest.long}&travelmode=walking`;
     const card = new Card(
@@ -159,7 +171,7 @@ const getClosestToilet = (req, res) => {
         'Dichtstbijzijnde toilet',
         {},
         [
-            new Button('Toon mij de weg', url, 'web_url'),
+            generate_navigate_button(url),
             new CardButton("Terug naar hoofdmenu", "menu", "postback")
         ],
         url
@@ -180,9 +192,9 @@ const getClosestToilet = (req, res) => {
             }
         }
     });
-};
+}
 
-const getAllSquares = (req, res) => {
+function getAllSquares(req, res) {
     // We cached the squares with their locations in the locationMapper before the server started.
     const squares = locationMapper.getSquares();
     const elements = [];
@@ -230,12 +242,11 @@ const getAllSquares = (req, res) => {
         }
     });
 
-};
+}
 
-const getPleinCard = (req, res /* , next */) => {
+function getSquareCard(req, res) {
     const square = getSquareData(req.body.queryResult.parameters.plein);
     getEventsNow().then(function (events) {
-
         const squareName = square.name.nl.split('/')[0].toLowerCase();
 
         const eventNow = events.find(function (event) {
@@ -244,18 +255,17 @@ const getPleinCard = (req, res /* , next */) => {
             }
         });
 
-        const sub = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
-
+        const url = `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`;
         //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
         const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
         const card = new Card(
             `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
             square.name.nl, {
-                subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+                subtitle: eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma",
             }, [
                 new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
                 new CardButton("Programma nu", "Programma nu", "postback"),
-                generate_navigate_button(square)
+                generate_navigate_button(url)
             ],
         );
         return res.json({
@@ -272,14 +282,13 @@ const getPleinCard = (req, res /* , next */) => {
             }
         });
     })
-};
+}
 
-const getCurrentEventFor = (req, res /* , next */) => {
+function getCurrentEventFor(req, res) {
     return getEvents(res, req.body.queryResult.parameters.plein);
-};
+}
 
-
-const getDaysGentseFeesten = (req, res /* , next */) => {
+function getDaysGF(req, res) {
     const today = new Date().getDate;
     const startGf = new Date("2018-07-13");
     const endGf = new Date("2018-07-22");
@@ -305,9 +314,9 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
             }
         }
     });
-};
+}
 
-const getEventsGentseFeestenNow = (req, res /* , next */) => {
+function getEventsGFNow(req, res) {
     getEventsNow().then(function (events) {
         if (events.length === 0) {
             const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
@@ -373,46 +382,22 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
             }
         });
     })
-};
+}
 
-router.get('/debug', (req, res) => {
-    const {events} = eventMapper;
-    const ret = [];
-    events.forEach((ev) => {
-        const included = ret.findIndex(el => el.name.nl === ev.name.nl);
-        if (included === -1) {
-            return ret.push({...ev, startDates: [ev.startDate]});
-        }
-        if (!ret[included].startDates) {
-            ret[included].startDates = [];
-        }
-        return ret[included].startDates.push(ev.startDate);
-    });
-    res.json({
-        count: ret.length, items: ret.map(el => ({
-            name: el.name.nl,
-            startDates: el.startDates,
-            location: el.location
-        }))
-    });
-});
-
-const getSquareData = (squareName) => {
+function getSquareData(squareName) {
     return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() === squareName.toLowerCase());
-};
+}
 
-const getEventsNow = () => {
+function getEventsNow() {
     // Use connect method to connect to the server
-    const query = cosmosDB.getAllEventsFromNow();
-
-    return query.exec().then(function (events, err) {
+    return cosmosDB.getAllEventsFromNow().exec().then(function (events, err) {
         if (err)
             console.log(err);
         return events;
     })
-};
+}
 
-const getEvents = (res, squareName, date = new Date()) => {
+function getEvents(res, squareName, date = new Date()) {
     const square = getSquareData(squareName);
 
     // Use connect method to connect to the server
@@ -443,7 +428,7 @@ const getEvents = (res, squareName, date = new Date()) => {
             if (event.image_url == null) {
                 event.image_url = images[util.getRandomInt(0, images.length - 1)];
             }
-
+            const url = `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`;
             const imageUrlEncoded = encodeURI(event.image_url);
             const card = new Card(
                 `${imageUrlEncoded}`,
@@ -452,10 +437,10 @@ const getEvents = (res, squareName, date = new Date()) => {
                 {
                     subtitle: `${event.description}`
                 }, [
-                    generate_navigate_button(square),
+                    generate_navigate_button(url),
                     new CardButton("Terug naar hoofdmenu", "menu", "postback")
                 ],
-                `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`
+                url
             );
             cardList.push(card);
         });
@@ -475,6 +460,6 @@ const getEvents = (res, squareName, date = new Date()) => {
             }
         });
     });
-};
+}
 
 module.exports = router;

@@ -1,9 +1,9 @@
 const Button = require('./button');
 
-module.exports = function generate_navigate_button(square) {
+module.exports = function generate_navigate_button(url) {
     return new Button(
         'Toon mij de weg',
-        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+        url,
         'web_url'
     )
 };
