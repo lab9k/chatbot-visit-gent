@@ -169,7 +169,82 @@ const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   const squareName = req.body.queryResult.parameters.square;
 
-  return res.json(getEvents(squareName, date));
+  const square = getSquareData(squareName);
+  
+  // Use connect method to connect to the server
+  const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName)
+
+  query.exec(function (err, events) {
+    if (err)
+      return console.log("error", err);
+
+    if (events.length == 0) {
+      const defaultMenu = ["Feestpleinen","Toilet","Feedback"]
+      const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
+
+      const ret = {
+        payload: {
+          facebook: {
+            "text": quickReply.text,
+            "quick_replies": quickReply.quick_replies
+          }
+        }
+      };
+
+      return res.json(ret);
+    }
+    //list to store all cards of events
+    let cardList = [];
+
+    //console.log("event 1:",events[0]);
+    events.forEach((event) => {
+      //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
+      // construct a Card object for each event
+      if (event.image_url == null) {
+        event.image_url = images[util.getRandomInt(0, images.length - 1)];
+      }
+
+      const imageUrlEncoded = encodeURI(event.image_url);
+
+      console.log("******\n",event.eventName)
+      console.log(event["eventName"])
+
+      const card = new Card(
+        `${imageUrlEncoded}`,
+        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
+          subtitle: `${event.description}`
+        }, [
+          new Button(
+            'Toon mij de weg',
+            `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
+            'web_url'
+          ),
+          new CardButton(
+            "Terug naar hoofdmenu",
+            "menu",
+            "postback"
+          )
+        ],
+      ) ;
+      cardList.push(card);
+    })
+
+    const payload = {
+      payload: {
+        facebook: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              // get the json structure for the card
+              elements: cardList.map(el => el.getResponse())
+            }
+          }
+        }
+      }
+    };
+    return payload;
+  });
   
 };
 
@@ -528,8 +603,6 @@ const getEvents = (squareName, date = new Date()) => {
   // Use connect method to connect to the server
   const query = cosmosDB.getEventsSelectedStageAndDate(new Date(date), squareName)
 
-  let responsePayload;
-
   query.exec(function (err, events) {
     if (err)
       return console.log("error", err);
@@ -599,9 +672,8 @@ const getEvents = (squareName, date = new Date()) => {
         }
       }
     };
-    responsePayload = payload;
+    return payload;
   });
-  return responsePayload;
 }
 
 module.exports = router;
