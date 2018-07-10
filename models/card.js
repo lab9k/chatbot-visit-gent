@@ -28,7 +28,7 @@ class Card {
       cardObj["defaultAction"] = {
         type: "web_url",
           url: this.defaultUrl,
-          messenger_extensions: FALSE,
+          messenger_extensions: "false",
         webview_height_ratio: "tall"
       }
     }
