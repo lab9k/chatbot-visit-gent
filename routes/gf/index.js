@@ -289,6 +289,7 @@ const getAllSquares = (req, res) => {
 const getPleinCard = (req, res /* , next */ ) => {
   const pleinName = req.body.queryResult.parameters.square;
 
+  console.log("square param:", pleinName);
   const square = getSquareData(pleinName);
 
   let promise = getEventsNow();
@@ -299,7 +300,7 @@ const getPleinCard = (req, res /* , next */ ) => {
 
       const eventNow = events.find(function(event){
           if (typeof event.address !== "undefined" && event.address.toLowerCase().includes(squareName)){
-              return event
+              return event;
           }
       });
 
@@ -491,6 +492,7 @@ router.get('/debug', (req, res) => {
 });
 
 const getSquareData = (squareName) =>{
+  console.log("squareName");
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
 };
 
