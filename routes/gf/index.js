@@ -346,7 +346,7 @@ const getPleinCard = (req, res /* , next */ ) => {
     })
 };
 
-const getCurrentEventFor = (req, res /* , next */) => {
+const getCurrentEventsFor = (req, res /* , next */) => {
     return getEvents(res, req.body.queryResult.parameters.plein);
 };
 
@@ -511,7 +511,7 @@ const getEventsNow = () => {
   //return promise;
 };
 
-const getEvents = (res, squareName, date = new Date()) => {
+const getEvents = (squareName, date = new Date()) => {
   const square = getSquareData(squareName);
 
   // Use connect method to connect to the server
@@ -586,7 +586,7 @@ const getEvents = (res, squareName, date = new Date()) => {
         }
       }
     };
-    return res.json(payload);
+    return payload;
   });
 };
 
