@@ -338,7 +338,8 @@ const getPleinCard = (req, res /* , next */ ) => {
             "menu",
             "postback"
           )
-        ]
+        ],
+        `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`
       );
       const ret = {
         payload: {
