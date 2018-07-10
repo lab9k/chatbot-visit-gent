@@ -431,7 +431,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `google.com`,
+            `https://www.google.com/maps`,
             'web_url'
           ),
           new CardButton(
