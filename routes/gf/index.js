@@ -169,14 +169,14 @@ const getEventsSquareForDate = (req, res) => {
   const date = req.body.queryResult.parameters.date;
   const squareName = req.body.queryResult.parameters.square;
 
-  return getEvents(squareName, date);
+  return getEvents(res, squareName, date);
 };
 
 
 const getEventsForToday = (req, res) => {
   const squareName = req.body.queryResult.parameters.square;
 
-  return res.json(getEvents(squareName));
+  return getEvents(res, squareName));
 }
 
 const getClosestToilet = (req, res) => {
@@ -522,7 +522,7 @@ const getEventsNow = () => {
   //return promise;
 }
 
-const getEvents = (squareName, date = new Date()) => {
+const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
 
   // Use connect method to connect to the server
