@@ -23,7 +23,7 @@ class Card {
       subtitle: this.subtitle,
       title: this.title,      
     };
-    if(defaultUrl){
+    if(defaultUrl != undefined){
       cardObj.defaultAction = {
         type: "web_url",
           url: defaultUrl,
