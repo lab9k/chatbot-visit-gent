@@ -48,7 +48,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       break;
     case 'get_events':
       fn = getEventsSquareForDate;
-      break;   
+        break;
     case 'all_squares':
       fn = getAllSquares;
       break;
@@ -70,6 +70,9 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
       case 'get_events_today':
       fn = getEventsForToday;
       break;
+      case 'get_now':
+          fn = getCurrentEventFor;
+          break;
     default:
       return next(new Error(`type not defined: ${req.type}, action: ${req.body.queryResult.action}`));
   }
@@ -171,7 +174,6 @@ const getEventsSquareForDate = (req, res) => {
 
   return getEvents(res, squareName, date);
 };
-
 
 const getEventsForToday = (req, res) => {
   const squareName = req.body.queryResult.parameters.square;
@@ -321,25 +323,10 @@ const getPleinCard = (req, res /* , next */ ) => {
         square.name.nl, {
           subtitle: sub, //`Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
         }, [
-          new CardButton(
-            `Programma`,
-            `Programma ${square.name.nl}`,
-            "postback"
-          ),navigeergButton,
-          /*
-                new ShareButton(
-                  square.name.nl,
-                  `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-                  `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`,
-                  [navigeergButton],
-                ),*/
-          new CardButton(
-            "Terug naar hoofdmenu",
-            "menu",
-            "postback"
-          )
+              new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
+              new CardButton("Programma nu", `Programma nu   ${square.name.nl}`, "postback"),
+              navigeergButton
         ],
-        //`https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`
       );
       const ret = {
         payload: {
@@ -359,37 +346,40 @@ const getPleinCard = (req, res /* , next */ ) => {
     })
 };
 
-
-const getDaysGentseFeesten = (req, res /* , next */ ) => {
-  const today = new Date().getDate;
-  const startGf = new Date("2018-07-13");
-  const endGf = new Date("2018-07-22");
-
-  const gentseFeestenDays = [];
-
-  // If today is during Gentsefeesten then return the remaining days else show all days
-  let tmpDate = startGf < today && today <= endGf ? today : startGf;
-
-  while (tmpDate <= endGf) {
-    const date = new Date(tmpDate).getDate().toString() + " Juli";
-    gentseFeestenDays.push(date);
-    tmpDate.setDate(tmpDate.getDate() + 1);
-  }
-
-  const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays).getResponse();
-
-  const ret = {
-    payload: {
-      facebook: {
-        "text": quickReply.text,
-        "quick_replies": quickReply.quick_replies
-      }
-    }
-  };
-
-  return res.json(ret);
+const getCurrentEventFor = (req, res /* , next */) => {
+    return getEvents(res, req.body.queryResult.parameters.plein);
 };
 
+
+const getDaysGentseFeesten = (req, res /* , next */) => {
+    const today = new Date().getDate;
+    const startGf = new Date("2018-07-13");
+    const endGf = new Date("2018-07-22");
+
+    const gentseFeestenDays = [];
+
+    // If today is during Gentsefeesten then return the remaining days else show all days
+    let tmpDate = startGf < today && today <= endGf ? today : startGf;
+
+    while (tmpDate <= endGf) {
+        const date = new Date(tmpDate).getDate().toString() + " Juli";
+        gentseFeestenDays.push(date);
+        tmpDate.setDate(tmpDate.getDate() + 1);
+    }
+
+    const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays).getResponse();
+
+    const ret = {
+        payload: {
+            facebook: {
+                "text": quickReply.text,
+                "quick_replies": quickReply.quick_replies
+            }
+        }
+    };
+
+    return res.json(ret);
+};
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   let promise = getEventsNow();
@@ -415,9 +405,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
     let cardList = [];
     //console.log("list", events);
 
-    
-    
-    events.forEach((event) => {
+
+      events.forEach((event) => {
       console.log("date orig:", event.startDate);
       console.log("moment offset:", moment(event.startDate).utcOffset(120).format('H:mm'));
 
