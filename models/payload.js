@@ -5,9 +5,7 @@ class Payload {
      */
     constructor(attachment) {
         this.payload = {
-            facebook: {
-                attachment
-            }
+            facebook: attachment
         }
     }
 }
