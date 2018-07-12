@@ -563,7 +563,7 @@ const getEvents = (res, squareName, date = new Date()) => {
 
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name.value} (${moment(event.startDate.value).format('H:mm')} - ${moment(event.endDate.value).format('H:mm')})`, {
+        `${event.name.value} (${moment.parseZone(event.startDate.value).format('H:mm')} - ${moment.parseZone(event.endDate.value).format('H:mm')})`, {
           subtitle: `${event.description.value}`
         }, [
           new Button(
