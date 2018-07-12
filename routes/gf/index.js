@@ -347,6 +347,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       return res.json(ret);
     
 });
+}
 
 const getCurrentEventFor = (req, res /* , next */) => {
     return getEvents(res, req.body.queryResult.parameters.square);
