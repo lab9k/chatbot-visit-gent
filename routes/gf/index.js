@@ -391,6 +391,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   query.then(function(results){
 
+    console.log("resultsB", results);
+
     const events = results.bindings;
 
     if (events.length === 0) {

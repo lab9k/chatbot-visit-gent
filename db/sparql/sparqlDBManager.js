@@ -49,7 +49,7 @@ const getAllEventsFromNow = (square) => {
     `)
     .execute()
     .catch((error) => {
-      console.log('error', error);
+      console.log('sparql error', error);
     });
 };
 
@@ -91,7 +91,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
     .query(q)
     .execute()
     .catch((error) => {
-      console.log('error', JSON.stringify(error));
+      console.log('sparQL error', JSON.stringify(error));
     });
 };
 
