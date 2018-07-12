@@ -312,11 +312,11 @@ function getEventsSquareForDate(req, res) {
 }
 
 function getEventsForToday(req, res) {
-  return getEvents(res, req.body.queryResult.parameters.plein);
+  return getEvents(res, req.body.queryResult.parameters.square);
 }
 
 function getCurrentEventFor(req, res) {
-  return getEvents(res, req.body.queryResult.parameters.plein);
+  return getEvents(res, req.body.queryResult.parameters.square);
 }
 
 function getSquareData(squareName) {
