@@ -280,7 +280,7 @@ function getEvents(res, squareName, date = new Date()) {
     if (events.length === 0) {
       const defaultMenu = ['Feestpleinen', 'Toilet', 'Feedback'];
       const quickReply = new QuickReply('Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?', defaultMenu);
-      return res.json(new Payload({ quickReply }));
+      return res.json(new Payload(quickReply));
     }
     // list to store all cards of events
     const cards = [];
