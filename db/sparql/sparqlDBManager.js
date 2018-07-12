@@ -13,13 +13,13 @@ const client = new SparqlClient('https://stad.gent/sparql').register({
 const getAllEventsFromNow = (square) => {
   console.log('test events now');
   const date = moment.parseZone(new Date('2018-07-18'))
-  .format('YYYY-MM-DD[T]HH:mm')
+  .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
   const endDate = moment.parseZone(date)
     .add(1, 'day')
     .set('hour', 6)
     .set('minute', 0)
-    .format('YYYY-MM-DD[T]HH:mm')
+    .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
 
   console.log('date:', date);
