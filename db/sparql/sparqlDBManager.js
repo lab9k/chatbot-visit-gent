@@ -33,7 +33,7 @@ const getAllEventsFromNow = (square) => {
         ?sub <http://schema.org/startDate> ?startDate.
         ?sub <http://schema.org/endDate> ?endDate.
         optional { ?sub schema:image/schema:url ?image. }
-        ?sub <http://schema.org/description> ?description.
+        optional { ?sub <http://schema.org/description> ?description. }
         {
             ?sub schema:location/schema:name ?location
         }
@@ -56,7 +56,7 @@ const getAllEventsFromNow = (square) => {
 const getEventsSelectedStageAndDate = (square, date) => {
   console.log('converted date issue', date);
   date = new Date(date);
-  const convertedDate = moment(date)
+  const convertedDate = moment.parseZone(date)
     .format('YYYY-MM-DD')
     .toString();
   const startDay = date.getDate();
@@ -71,7 +71,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
     ?sub <http://schema.org/startDate> ?startDate.
     ?sub <http://schema.org/endDate> ?endDate.
     optional { ?sub schema:image/schema:url ?image. }
-    ?sub <http://schema.org/description> ?description.
+    optional { ?sub <http://schema.org/description> ?description. }
     {
         ?sub schema:location/schema:name ?location
     }

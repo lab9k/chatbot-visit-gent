@@ -505,7 +505,7 @@ router.get('/debug', (req, res) => {
 });
 
 const getSquareData = (squareName) =>{
-  console.log("squareName");
+  console.log("squareName:", squareName);
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
 };
 
@@ -564,6 +564,11 @@ const getEvents = (res, squareName, date = new Date()) => {
           value: images[util.getRandomInt(0, images.length - 1)]
         }
       }
+      if (typeof event.description === "undefined") {
+        event.description = {
+          value: ""
+      }
+    }
 
       const imageUrlEncoded = encodeURI(event.image.value);
 
