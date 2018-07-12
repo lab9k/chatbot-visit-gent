@@ -9,6 +9,7 @@ const CardButton = require('../../models/cardButton');
 const QuickReply = require('../../models/quickReply');
 const generate_navigate_button = require('../../models/navigateButton');
 const Payload = require("../../models/payload");
+const Attachment = require("../../models/attachtment");
 
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
@@ -112,19 +113,7 @@ function getClosestStage(req, res) {
         ],
         url
     );
-    return res.json({
-        payload: {
-            facebook: {
-                attachment: {
-                    type: 'template',
-                    payload: {
-                        template_type: 'generic',
-                        elements: card
-                    }
-                }
-            }
-        }
-    });
+    return res.json(new Payload(new Attachment([card])));
 }
 
 function getClosestToilet(req, res) {
@@ -143,20 +132,7 @@ function getClosestToilet(req, res) {
         ],
         url
     );
-
-    return res.json({
-        payload: {
-            facebook: {
-                attachment: {
-                    type: 'template',
-                    payload: {
-                        template_type: 'generic',
-                        elements: [card]
-                    }
-                }
-            }
-        }
-    });
+    return res.json(new Payload(new Attachment([card])));
 }
 
 function getAllSquares(req, res) {
@@ -184,20 +160,7 @@ function getAllSquares(req, res) {
         count += 3;
         imageCount++
     }
-    const payload = new Payload({
-        attachment: {
-            type: 'template',
-            payload: {
-                //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
-                template_type: 'generic',
-                // get the json structure for the card
-                elements: cards
-            }
-        }
-    });
-    console.log(JSON.stringify(payload));
-    return res.json(payload);
-
+    return res.json(new Payload(new Attachment(cards)));
 }
 
 function getSquareCard(req, res) {
@@ -224,21 +187,8 @@ function getSquareCard(req, res) {
                 new CardButton("Programma nu", "Programma nu", "postback"),
                 generate_navigate_button(url)
             ],
-            )
-        ;
-        return res.json({
-            payload: {
-                facebook: {
-                    attachment: {
-                        type: 'template',
-                        payload: {
-                            template_type: 'generic',
-                            elements: [card]
-                        }
-                    }
-                }
-            }
-        });
+        );
+        return res.json(new Payload(new Attachment([card])));
     })
 }
 
@@ -259,6 +209,7 @@ function getDaysGF(req, res) {
     }
     console.log("I got here");
     const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays);
+    console.log(JSON.stringify(new Payload({quickReply})));
     return res.json(new Payload({quickReply}));
 }
 
@@ -268,15 +219,7 @@ function getEventsGFNow(req, res) {
             const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
             const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten" +
                 ", Hoe kan ik je verder helpen?", defaultMenu);
-
-            return res.json({
-                payload: {
-                    facebook: {
-                        "text": quickReply.text,
-                        "quick_replies": quickReply.quick_replies
-                    }
-                }
-            });
+            return res.json(new Payload({quickReply}));
         }
 
         //list to store all cards of events
@@ -311,21 +254,7 @@ function getEventsGFNow(req, res) {
             );
             cards.push(card);
         });
-
-        return res.json({
-            payload: {
-                facebook: {
-                    attachment: {
-                        type: 'template',
-                        payload: {
-                            template_type: 'generic',
-                            // get the json structure for the card
-                            elements: cards
-                        }
-                    }
-                }
-            }
-        });
+        return res.json(new Payload(new Attachment(cards)));
     })
 }
 
@@ -349,13 +278,7 @@ function getEvents(res, squareName, date = new Date()) {
         if (events.length === 0) {
             const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
             const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu);
-            return res.json({
-                payload: {
-                    facebook: {
-                        quickReply
-                    }
-                }
-            });
+            return res.json(new Payload({quickReply}));
         }
         //list to store all cards of events
         let cards = [];
@@ -381,21 +304,7 @@ function getEvents(res, squareName, date = new Date()) {
             );
             cards.push(card);
         });
-
-        return res.json({
-            payload: {
-                facebook: {
-                    attachment: {
-                        type: 'template',
-                        payload: {
-                            template_type: 'generic',
-                            // get the json structure for the card
-                            elements: cards
-                        }
-                    }
-                }
-            }
-        });
+        return res.json(new Payload(new Attachment(cards)));
     });
 }
 
