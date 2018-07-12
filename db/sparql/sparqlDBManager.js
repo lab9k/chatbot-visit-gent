@@ -39,10 +39,8 @@ const getAllEventsFromNow = (square) => {
     UNION {
         ?sub schema:location/schema:containedInPlace/schema:name ?location
     }
-    FILTER (?startDate > "${date}"^^xsd:dateTime )
-    FILTER (?endDate < "${endDate}"^^xsd:dateTime )
-    ${squareFilter}
-  }
+    FILTER (?startDate > "${date}"^^xsd:dateTime ).
+    FILTER (?endDate < "${endDate}"^^xsd:dateTime ).
   order by ?startDate
   limit 7
 `;
