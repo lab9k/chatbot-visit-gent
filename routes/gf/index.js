@@ -305,7 +305,9 @@ const getPleinCard = (req, res /* , next */ ) => {
           }
       });
     }*/
-      const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
+      //const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
+
+      const sub = "Momenteel is er niets, voor meer info druk op programma.";
 
 
       //const lat = square.lat;
