@@ -347,7 +347,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       };
       //console.log("share button", card.getResponse().buttons);
       return res.json(ret);
-    
+
 //});
 }
 
@@ -464,7 +464,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-  
+
 };
 
 router.get('/debug', (req, res) => {
@@ -522,9 +522,10 @@ const getEvents = (res, squareName, date = new Date()) => {
   // Use connect method to connect to the server
     const query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
 
-  query.then(function (err, events) {
-    if (err)
-      return console.log("error", err);
+  query.then(function ({results}) {
+
+    let events = results.bindings;
+
 
     console.log("all events", events);
     if (events) {
