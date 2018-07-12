@@ -520,7 +520,7 @@ const getEventsNow = () => {
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
   // Use connect method to connect to the server
-    const query = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
+    const query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
 
   query.then(function (err, events) {
     if (err)
