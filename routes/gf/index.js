@@ -5,9 +5,10 @@ const mw = require('../../util/middleware');
 //Models for messenger
 const Card = require('../../models/card');
 const Button = require('../../models/button');
-const CardButton = require('../../models/card_button');
+const CardButton = require('../../models/cardButton');
 const QuickReply = require('../../models/quickReply');
-const generate_navigate_button = require('../../models/navigate_button');
+const generate_navigate_button = require('../../models/navigateButton');
+const Payload = require("../../models/payload");
 
 //Location mappers
 const LocationMapper = require('../../util/locationmapper');
@@ -103,9 +104,7 @@ function getClosestStage(req, res) {
     const card = new Card(
         `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
         `${nearest.name.nl}`,
-        {
-            subtitle: "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken."
-        },
+        "Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.",
         [
             new CardButton(`Programma`, `Programma ${nearest.name.nl}`, "postback"),
             new Button('Toon mij de weg', url, 'web_url'),
@@ -120,7 +119,7 @@ function getClosestStage(req, res) {
                     type: 'template',
                     payload: {
                         template_type: 'generic',
-                        elements: [card.getResponse()]
+                        elements: card
                     }
                 }
             }
@@ -137,7 +136,7 @@ function getClosestToilet(req, res) {
     const card = new Card(
         'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
         'Dichtstbijzijnde toilet',
-        {},
+        "",
         [
             generate_navigate_button(url),
             new CardButton("Terug naar hoofdmenu", "menu", "postback")
@@ -152,9 +151,7 @@ function getClosestToilet(req, res) {
                     type: 'template',
                     payload: {
                         template_type: 'generic',
-                        elements: [
-                            card.getResponse()
-                        ]
+                        elements: [card]
                     }
                 }
             }
@@ -165,7 +162,7 @@ function getClosestToilet(req, res) {
 function getAllSquares(req, res) {
     // We cached the squares with their locations in the locationMapper before the server started.
     const squares = locationMapper.getSquares();
-    const elements = [];
+    const cards = [];
 
     const shuffledImagesArray = util.shuffleArray(images);
 
@@ -173,24 +170,17 @@ function getAllSquares(req, res) {
     let imageCount = 0;
     while (squares.length > 0) {
         // take 3 square objects
-        const three = squares.splice(0, 3);
+        let buttons = squares.splice(0, 3).forEach(square => new CardButton(square.name.nl, square.name.nl, "postback"));
         // construct a Card object with the 3 squares we just sampled
         const card = new Card(
             // sample a random image from the list.
             shuffledImagesArray[imageCount],
-            `Pleinen ${count} - ${count + (three.length - 1)}`,
-            {
-                subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
-            },
+            `Pleinen ${count} - ${count + (threeSquares.length - 1)}`,
+            'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan',
             // create buttons from the 3 square objects, with a google maps link to their location.
-            three.map(el =>
-                new CardButton(
-                    el.name.nl,
-                    el.name.nl,
-                    "postback"
-                ))
+            buttons
         );
-        elements.push(card);
+        cards.push(card);
         count += 3;
         imageCount++
     }
@@ -203,7 +193,7 @@ function getAllSquares(req, res) {
                         //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
                         template_type: 'generic',
                         // get the json structure for the card
-                        elements: elements.map(el => el.getResponse())
+                        elements: cards
                     }
                 }
             }
@@ -226,16 +216,18 @@ function getSquareCard(req, res) {
         const url = `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`;
         //Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
         const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
+        const subtitle = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
         const card = new Card(
             `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
-            square.name.nl, {
-                subtitle: eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma",
-            }, [
+            square.name.nl,
+            subtitle
+            , [
                 new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
                 new CardButton("Programma nu", "Programma nu", "postback"),
                 generate_navigate_button(url)
             ],
-        );
+            )
+        ;
         return res.json({
             payload: {
                 facebook: {
@@ -243,7 +235,7 @@ function getSquareCard(req, res) {
                         type: 'template',
                         payload: {
                             template_type: 'generic',
-                            elements: [card.getResponse()]
+                            elements: [card]
                         }
                     }
                 }
@@ -268,16 +260,10 @@ function getDaysGF(req, res) {
         tmpDate.setDate(tmpDate.getDate() + 1);
     }
 
-    const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays).getResponse();
-
-    return res.json({
-        payload: {
-            facebook: {
-                "text": quickReply.text,
-                "quick_replies": quickReply.quick_replies
-            }
-        }
-    });
+    const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays);
+    const log = new Payload({quickReply});
+    console.log(log);
+    return res.json(new Payload({quickReply}));
 }
 
 function getEventsGFNow(req, res) {
@@ -285,7 +271,7 @@ function getEventsGFNow(req, res) {
         if (events.length === 0) {
             const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
             const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten" +
-                ", Hoe kan ik je verder helpen?", defaultMenu).getResponse();
+                ", Hoe kan ik je verder helpen?", defaultMenu);
 
             return res.json({
                 payload: {
@@ -298,7 +284,7 @@ function getEventsGFNow(req, res) {
         }
 
         //list to store all cards of events
-        let cardList = [];
+        let cards = [];
         //console.log("list", events);
 
         events.forEach((event) => {
@@ -320,15 +306,14 @@ function getEventsGFNow(req, res) {
                 `${imageUrlEncoded}`,
                 `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - 
                     ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`,
-                {
-                    subtitle: `${event.description}`
-                }, [
+                `${event.description}`
+                , [
                     new Button('Toon mij de weg', url, 'web_url'),
                     new CardButton("Terug naar hoofdmenu", "menu", "postback")
                 ],
                 `https://www.google.com/maps`
             );
-            cardList.push(card);
+            cards.push(card);
         });
 
         return res.json({
@@ -339,7 +324,7 @@ function getEventsGFNow(req, res) {
                         payload: {
                             template_type: 'generic',
                             // get the json structure for the card
-                            elements: cardList.map(el => el.getResponse())
+                            elements: cards
                         }
                     }
                 }
@@ -367,19 +352,17 @@ function getEvents(res, squareName, date = new Date()) {
 
         if (events.length === 0) {
             const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
-            const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
-
+            const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu);
             return res.json({
                 payload: {
                     facebook: {
-                        "text": quickReply.text,
-                        "quick_replies": quickReply.quick_replies
+                        quickReply
                     }
                 }
             });
         }
         //list to store all cards of events
-        let cardList = [];
+        let cards = [];
 
         //console.log("event 1:",events[0]);
         events.forEach((event) => {
@@ -394,15 +377,13 @@ function getEvents(res, squareName, date = new Date()) {
                 `${imageUrlEncoded}`,
                 `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - 
                 ${moment(event.endDate).add(2, 'hours').format('H:mm')})`,
-                {
-                    subtitle: `${event.description}`
-                }, [
+                `${event.description}`, [
                     generate_navigate_button(url),
                     new CardButton("Terug naar hoofdmenu", "menu", "postback")
                 ],
                 url
             );
-            cardList.push(card);
+            cards.push(card);
         });
 
         return res.json({
@@ -413,7 +394,7 @@ function getEvents(res, squareName, date = new Date()) {
                         payload: {
                             template_type: 'generic',
                             // get the json structure for the card
-                            elements: cardList.map(el => el.getResponse())
+                            elements: cards
                         }
                     }
                 }
