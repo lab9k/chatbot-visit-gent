@@ -1,4 +1,4 @@
-const { SparqlClient /* , SPARQL */ } = require('sparql-client-2');
+const { SparqlClient, SPARQL } = require('sparql-client-2');
 
 const moment = require('moment');
 
@@ -30,7 +30,7 @@ const getAllEventsFromNow = () => {
   console.log('date:', date);
 
   return new SparqlClient(endpoint)
-    .query(`
+    .query(SPARQL`
     SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
             ?sub a <http://schema.org/Event> .
             ?sub <http://schema.org/name> ?name.
@@ -57,7 +57,7 @@ const getAllEventsFromNow = () => {
 };
 
 const getEventsSelectedStageAndDate = (stageName, date) => {
-  console.log("converted date issue", date);
+  console.log('converted date issue', date);
   date = new Date(date);
   const convertedDate = moment(date)
     .format('YYYY-MM-DD')
@@ -65,7 +65,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
   console.log('converted date', convertedDate);
 
   return new SparqlClient(endpoint)
-    .query(`
+    .query(SPARQL`
         SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
             ?sub a <http://schema.org/Event> .
             ?sub <http://schema.org/name> ?name.
