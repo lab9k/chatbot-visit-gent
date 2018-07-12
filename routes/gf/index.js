@@ -170,15 +170,15 @@ function getAllSquares(req, res) {
     let imageCount = 0;
     while (squares.length > 0) {
         // take 3 square objects
-        let buttons = squares.splice(0, 3).forEach(square => new CardButton(square.name.nl, square.name.nl, "postback"));
+        let tripleSquares = squares.splice(0, 3);
         // construct a Card object with the 3 squares we just sampled
         const card = new Card(
             // sample a random image from the list.
             shuffledImagesArray[imageCount],
-            `Pleinen ${count} - ${count + (buttons.length - 1)}`,
+            `Pleinen ${count} - ${count + (tripleSquares.length - 1)}`,
             'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan',
             // create buttons from the 3 square objects, with a google maps link to their location.
-            buttons
+            tripleSquares.map(square => new CardButton(square.name.nl, square.name.nl, "postback"))
         );
         cards.push(card);
         count += 3;
