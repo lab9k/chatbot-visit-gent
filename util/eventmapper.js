@@ -11,14 +11,11 @@ class EventMapper {
         try {
           this.events = json.filter(el => el.location !== null && el.isAccessibleForFree);
           eb.multiDispatch('data_ready');
-        }
-        catch(error) {
+        } catch (error) {
           console.error(error);
         }
       })
-      .catch(error => 
-        console.log(error)
-      )
+      .catch(error => console.log(error));
   }
 
   get events() {
