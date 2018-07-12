@@ -72,8 +72,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
             FILTER contains(?location, ${stageName})
         }
     `)
-        .execute()
-        .then(response => Promise.resolve(response));
+        .execute();
 }
 
 

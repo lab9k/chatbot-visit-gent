@@ -516,11 +516,11 @@ const getEventsNow = () => {
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
   // Use connect method to connect to the server
-    const events = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
+    const query = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
 
-  /*query.exec(function (err, events) {
+  query.exec(function (err, events) {
     if (err)
-      return console.log("error", err);*/
+      return console.log("error", err);
 
     if (events.length == 0) {
         const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
@@ -588,7 +588,7 @@ const getEvents = (res, squareName, date = new Date()) => {
       }
     };
       return res.json(payload);
-  
+  });
 };
 
 module.exports = router;
