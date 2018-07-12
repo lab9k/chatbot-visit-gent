@@ -184,21 +184,19 @@ function getAllSquares(req, res) {
         count += 3;
         imageCount++
     }
-    return res.json({
-        payload: {
-            facebook: {
-                attachment: {
-                    type: 'template',
-                    payload: {
-                        //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
-                        template_type: 'generic',
-                        // get the json structure for the card
-                        elements: cards
-                    }
-                }
+    const payload = new Payload({
+        attachment: {
+            type: 'template',
+            payload: {
+                //"text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
+                template_type: 'generic',
+                // get the json structure for the card
+                elements: cards
             }
         }
     });
+    console.log(payload);
+    return res.json(payload);
 
 }
 
@@ -261,8 +259,6 @@ function getDaysGF(req, res) {
     }
     console.log("I got here");
     const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays);
-    const log = new Payload({quickReply});
-    console.log(log);
     return res.json(new Payload({quickReply}));
 }
 
