@@ -11,8 +11,8 @@ class LocationMapper {
       .then((json) => {
         this.squares.push(...json
           .filter(el => _.isSquare(el))
-          // filter out walter de buckplein because It's a duplicate
-          .filter(el => el.name.nl !== 'Walter De Buckplein/Beverhoutplein'))
+        // filter out walter de buckplein because It's a duplicate
+          .filter(el => el.name.nl !== 'Walter De Buckplein/Beverhoutplein'));
 
         return this.squares;
       })

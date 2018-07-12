@@ -31,7 +31,7 @@ const langMiddleWare = (req, res, next) => {
   return next();
 };
 
-//req.body.queryResult.action
+// req.body.queryResult.action
 
 const typeMiddleware = (req, res, next) => {
   const qResult = req.body.queryResult;
@@ -64,7 +64,7 @@ const typeMiddleware = (req, res, next) => {
       case 'get.events.now':
         req.type = 'get.events.now';
         break;
-        case 'get_events_today':
+      case 'get_events_today':
         req.type = 'get_events_today';
         break;
       default:
@@ -79,5 +79,5 @@ const typeMiddleware = (req, res, next) => {
 module.exports = {
   idMiddleWare,
   langMiddleWare,
-  typeMiddleware,
+  typeMiddleware
 };
