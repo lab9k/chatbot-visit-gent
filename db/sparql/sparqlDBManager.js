@@ -57,6 +57,7 @@ const getAllEventsFromNow = () => {
 };
 
 const getEventsSelectedStageAndDate = (stageName, date) => {
+  date = new Date(date);
   const convertedDate = moment(date)
     .format('YYYY-MM-DD')
     .toString();
