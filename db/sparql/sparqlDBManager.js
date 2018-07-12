@@ -25,28 +25,32 @@ const getAllEventsFromNow = (square) => {
   console.log('date:', date);
   const squareFilter = square ? `FILTER contains(?location, "${square}").`: "" ;
 
+  const q = `
+  SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+    ?sub a <http://schema.org/Event> .
+    ?sub <http://schema.org/name> ?name.
+    ?sub <http://schema.org/startDate> ?startDate.
+    ?sub <http://schema.org/endDate> ?endDate.
+    optional { ?sub schema:image/schema:url ?image. }
+    optional { ?sub <http://schema.org/description> ?description. }
+    {
+        ?sub schema:location/schema:name ?location
+    }
+    UNION {
+        ?sub schema:location/schema:containedInPlace/schema:name ?location
+    }
+    FILTER (?startDate > "${date}"^^xsd:dateTime )
+    FILTER (?endDate < "${endDate}"^^xsd:dateTime )
+    ${squareFilter}
+  }
+  order by ?startDate
+  limit 7
+`;
+
+  console.log("query events now", q);
+
   return new SparqlClient(endpoint)
-    .query(`
-      SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
-        ?sub a <http://schema.org/Event> .
-        ?sub <http://schema.org/name> ?name.
-        ?sub <http://schema.org/startDate> ?startDate.
-        ?sub <http://schema.org/endDate> ?endDate.
-        optional { ?sub schema:image/schema:url ?image. }
-        optional { ?sub <http://schema.org/description> ?description. }
-        {
-            ?sub schema:location/schema:name ?location
-        }
-        UNION {
-            ?sub schema:location/schema:containedInPlace/schema:name ?location
-        }
-        FILTER (?startDate > "${date}"^^xsd:dateTime )
-        FILTER (?endDate < "${endDate}"^^xsd:dateTime )
-        ${squareFilter}
-      }
-      order by ?startDate
-      limit 7
-    `)
+    .query(q)
     .execute()
     .catch((error) => {
       console.log('sparql error', error);
