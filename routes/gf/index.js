@@ -165,7 +165,7 @@ function getAllSquares(req, res) {
 }
 
 function getSquareCard(req, res) {
-  const square = getSquareData(req.body.queryResult.parameters.plein);
+  const square = getSquareData(req.body.queryResult.parameters.square);
   getEventsNow().then((events) => {
     const squareName = square.name.nl.split('/')[0].toLowerCase();
 
