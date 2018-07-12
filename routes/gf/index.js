@@ -259,7 +259,7 @@ function getDaysGF(req, res) {
         gentseFeestenDays.push(date);
         tmpDate.setDate(tmpDate.getDate() + 1);
     }
-
+    console.log("I got here");
     const quickReply = new QuickReply("Voor welke datum wil je het programma zien?", gentseFeestenDays);
     const log = new Payload({quickReply});
     console.log(log);
