@@ -34,6 +34,7 @@ const langMiddleWare = (req, res, next) => {
 //req.body.queryResult.action
 
 const typeMiddleware = (req, res, next) => {
+  console.log(req.body);
   const qResult = req.body.queryResult;
   if (qResult) {
     switch (qResult.action) {
