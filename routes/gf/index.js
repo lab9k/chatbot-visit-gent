@@ -101,8 +101,7 @@ function getClosestStage(req, res) {
   const squares = locationMapper.getSquares();
   const nearest = location.closestLocation({ lat, long }, squares);
   const urlName = nearest.name.nl.split(' ').join('_');
-  const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},
-                ${nearest.long}&travelmode=walking`;
+  const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},${nearest.long}&travelmode=walking`;
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
     `${nearest.name.nl}`,
@@ -243,8 +242,8 @@ function getEventsGFNow(req, res) {
       const url = 'https://www.google.com/maps';
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - 
-                    ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`,
+        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ` +
+          `${moment(event.endDate).add(2, 'hours').format('HH:mm')})`,
         `${event.description}`
         , [
           new Button('Toon mij de weg', url, 'web_url'),
@@ -293,8 +292,8 @@ function getEvents(res, squareName, date = new Date()) {
       const imageUrlEncoded = encodeURI(event.image_url == null ? images[util.getRandomInt(0, images.length - 1)] : event.image_url);
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - 
-                ${moment(event.endDate).add(2, 'hours').format('H:mm')})`,
+        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ` +
+          `${moment(event.endDate).add(2, 'hours').format('H:mm')})`,
         `${event.description}`, [
           generate_navigate_button(url),
           new CardButton('Terug naar hoofdmenu', 'menu', 'postback')
