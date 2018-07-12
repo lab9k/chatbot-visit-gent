@@ -66,7 +66,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
   const endDay = date.getDate()+1;
   console.log('converted date', convertedDate);
 
-  console.log("day", day);
+  console.log("day", startDay);
 
   const q = `PREFIX schema: <http://schema.org/>
   PREFIX dct:<http://purl.org/dc/terms/>
