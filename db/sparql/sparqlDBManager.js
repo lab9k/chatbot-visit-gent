@@ -19,25 +19,27 @@ const endpoint = "https://stad.gent/sparql";
 
 const getAllEventsFromNow = () => {
     console.log("test events now");
-    const date = moment(new Date("2018-07-18")).format('YYYY-MM-DD').toString();
-    const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
+    const date = moment(new Date("2018-07-18")).set("hour", 9).set("minute", 0).format('YYYY-MM-DDTHH:mm').toString();
+    const endDate = moment(date).add(1, 'day').set("hour", 5).set("minute", 0).format('YYYY-MM-DDTHH:mm').toString();
 
-    console.log("date", date);
+    console.log("date:", date);
 
 
     return new SparqlClient(endpoint).query(`
-    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
-        ?sub a <http://schema.org/Event> .
-        ?sub <http://schema.org/name> ?eventName.
-        ?sub <http://schema.org/description> ?description.
-        ?sub <http://schema.org/startDate> ?startDate.
-        ?sub <http://schema.org/endDate> ?endDate.
-        ?sub <http://schema.org/location> ?location.
-        ?location <http://schema.org/address> ?address. 
-        ?address <http://schema.org/streetAddress> ?streetAddress.
-        ?location <http://schema.org/address> ?name. 
-        FILTER ((?startDate >= "${date}"^^xsd:dateTime && ?endDate < "${endDate}"^^xsd:dateTime))
-    }
+    SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {        
+            ?sub a <http://schema.org/Event> .
+            ?sub <http://schema.org/name> ?name.
+            ?sub <http://schema.org/startDate> ?startDate.
+            ?sub <http://schema.org/endDate> ?endDate.
+            {
+                ?sub schema:location/schema:name ?location
+            }
+            UNION {
+                ?sub schema:location/schema:containedInPlace/schema:name ?location
+            }	
+            FILTER (?startDate > "${date}"^^xsd:dateTime )
+            FILTER (?endDate < "${endDate}"^^xsd:dateTime )
+        }
     `)
         .execute()
         .then(response => {
@@ -54,18 +56,21 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
     console.log("converted date", convertedDate);
 
     return new SparqlClient(endpoint).query(`
-    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
-        ?sub a <http://schema.org/Event> .
-        ?sub <http://schema.org/name> ?eventName.
-        ?sub <http://schema.org/description> ?description.
-        ?sub <http://schema.org/startDate> ?startDate.
-        ?sub <http://schema.org/endDate> ?endDate.
-        ?sub <http://schema.org/location> ?location.
-        ?location <http://schema.org/address> ?address. 
-        ?address <http://schema.org/streetAddress> ?streetAddress.
-        ?location <http://schema.org/address> ?name. 
-        FILTER ((contains(lcase(STR(?streetAddress)), ${stageName}) || contains(lcase(STR(?name)), ${stageName})) && (?startDate >= ${convertedDate}^^xsd:dateTime && ?endDate < ${convertedDate}^^xsd:dateTime))
-    }
+        SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {        
+            ?sub a <http://schema.org/Event> .
+            ?sub <http://schema.org/name> ?name.
+            ?sub <http://schema.org/startDate> ?startDate.
+            ?sub <http://schema.org/endDate> ?endDate.
+            {
+                ?sub schema:location/schema:name ?location
+            }
+            UNION {
+                ?sub schema:location/schema:containedInPlace/schema:name ?location
+            }	
+            FILTER (?startDate > "2018-07-${date.getDate()}T09:00+02:00"^^xsd:dateTime )
+            FILTER (?endDate < "2018-07-${date.getDate()+1}T05:00+02:00"^^xsd:dateTime )
+            FILTER contains(?location, "Baudelohof")
+        }
     `)
         .execute()
         .then(response => Promise.resolve(response));

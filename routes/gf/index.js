@@ -499,7 +499,7 @@ const getSquareData = (squareName) =>{
 const getEventsNow = () => {
 
   // Use connect method to connect to the server
-  const query = cosmosDB.getEventsByDateAndSquareName(new Date());
+  const query = sparqlDB.getAllEventsFromNow();
 
   let promise = query.exec();
 
@@ -515,9 +515,8 @@ const getEventsNow = () => {
 
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
-
   // Use connect method to connect to the server
-    const query = cosmosDB.getEventsByDateAndSquareName(new Date(date), squareName);
+    const query = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
 
   query.exec(function (err, events) {
     if (err)
