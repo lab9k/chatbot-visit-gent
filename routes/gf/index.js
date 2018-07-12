@@ -292,9 +292,9 @@ const getPleinCard = (req, res /* , next */ ) => {
   console.log("square param:", pleinName);
   const square = getSquareData(pleinName);
 
-  let promise = getEventsNow();
+  const events = getEventsNow();
 
-  promise.then(function(events){
+  //promise.then(function(events){
 
       const squareName = square.name.nl.split('/')[0].toLowerCase();
 
@@ -344,7 +344,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       };
       //console.log("share button", card.getResponse().buttons);
       return res.json(ret);
-    })
+    
 };
 
 const getCurrentEventFor = (req, res /* , next */) => {
