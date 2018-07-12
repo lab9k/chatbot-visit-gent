@@ -25,8 +25,7 @@ const getAllEventsFromNow = (square) => {
   console.log('date:', date);
   const squareFilter = square ? `FILTER contains(?location, "${square}").`: "" ;
 
-  const q = `
-  SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+  const q = `SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
     ?sub a <http://schema.org/Event> .
     ?sub <http://schema.org/name> ?name.
     ?sub <http://schema.org/startDate> ?startDate.
@@ -41,13 +40,14 @@ const getAllEventsFromNow = (square) => {
     }
     FILTER (?startDate > "${date}"^^xsd:dateTime ).
     FILTER (?endDate < "${endDate}"^^xsd:dateTime ).
+    ${squareFilter}
+  }
   order by ?startDate
-  limit 7
 `;
 
   console.log("query events now", q);
 
-  return new SparqlClient(endpoint)
+  return client
     .query(q)
     .execute()
     .catch((error) => {
@@ -87,7 +87,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
   order by ?startDate
   `;
 
-  console.log(q);
+  //console.log(q);
 
   return client
     .query(q)
