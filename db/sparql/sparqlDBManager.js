@@ -10,50 +10,50 @@ const client = new SparqlClient('https://stad.gent/sparql').register({
   startdate: 'http://schema.org/startDate'
 });
 
-const getAllEventsFromNow = () => {
+const getAllEventsFromNow = (square) => {
   console.log('test events now');
-  const date = moment(new Date('2018-07-18'))
-    .set('hour', 9)
-    .set('minute', 0)
-    .format('YYYY-MM-DD[T]HH:mm')
+  const date = moment.parseZone(new Date('2018-07-18'))
+  .format('YYYY-MM-DD[T]HH:mm')
     .toString();
-  const endDate = moment(date)
+  const endDate = moment.parseZone(date)
     .add(1, 'day')
-    .set('hour', 5)
+    .set('hour', 6)
     .set('minute', 0)
     .format('YYYY-MM-DD[T]HH:mm')
     .toString();
 
   console.log('date:', date);
+  const squareFilter = square ? `FILTER contains(?location, "${square}").`: "" ;
 
   return new SparqlClient(endpoint)
-    .query(SPARQL`
-    SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
-            ?sub a <http://schema.org/Event> .
-            ?sub <http://schema.org/name> ?name.
-            ?sub <http://schema.org/startDate> ?startDate.
-            ?sub <http://schema.org/endDate> ?endDate.
-            {
-                ?sub schema:location/schema:name ?location
-            }
-            UNION {
-                ?sub schema:location/schema:containedInPlace/schema:name ?location
-            }
-            FILTER (?startDate > "${date}"^^xsd:dateTime )
-            FILTER (?endDate < "${endDate}"^^xsd:dateTime )
+    .query(`
+      SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+        ?sub a <http://schema.org/Event> .
+        ?sub <http://schema.org/name> ?name.
+        ?sub <http://schema.org/startDate> ?startDate.
+        ?sub <http://schema.org/endDate> ?endDate.
+        optional { ?sub schema:image/schema:url ?image. }
+        ?sub <http://schema.org/description> ?description.
+        {
+            ?sub schema:location/schema:name ?location
         }
+        UNION {
+            ?sub schema:location/schema:containedInPlace/schema:name ?location
+        }
+        FILTER (?startDate > "${date}"^^xsd:dateTime )
+        FILTER (?endDate < "${endDate}"^^xsd:dateTime )
+        ${squareFilter}
+      }
+      order by ?startDate
+      limit 7
     `)
     .execute()
-    .then((response) => {
-      console.log('response', response);
-      Promise.resolve(response);
-    })
     .catch((error) => {
       console.log('error', error);
     });
 };
 
-const getEventsSelectedStageAndDate = (stageName, date) => {
+const getEventsSelectedStageAndDate = (square, date) => {
   console.log('converted date issue', date);
   date = new Date(date);
   const convertedDate = moment(date)
@@ -80,7 +80,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
     }
     FILTER (?startDate > "2018-07-${startDay}T09:00+02:00"^^xsd:dateTime ).
     FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
-    FILTER contains(?location, "${stageName}").
+    FILTER contains(?location, "${square}").
   }
   order by ?startDate
   `;

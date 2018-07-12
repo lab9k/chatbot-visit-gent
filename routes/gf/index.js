@@ -387,11 +387,14 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
 };
 
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
-  const events = getEventsNow();
+  const query = sparqlDB.getAllEventsFromNow();
 
-  //promise.then(function(events){
+  query.then(function(results){
+
+    const events = results.bindings;
+
     if (events.length === 0) {
-        const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
+      const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
       const ret = {
@@ -412,31 +415,37 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
 
       events.forEach((event) => {
-      console.log("date orig:", event.startDate);
-      console.log("moment offset:", moment(event.startDate).utcOffset(120).format('H:mm'));
+      //console.log("date orig:", event.startDate.value);
+      //console.log("moment offset:", moment.parseZone(event.startDate.value).format('H:mm'));
 
 
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
-      if (event.image_url == null) {
-        event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
+      if (event.image == null) {
+       event.image  = { 
+          value: images[util.getRandomInt(0, images.length - 1)]
+        }
       }
-      if (event.name.length > 64) {
-          event.name = event.name.substr(0, 61) + "..."
+      if (event.name.value.length > 64) {
+          event.name.value = event.name.value.substr(0, 61) + "..."
       }
       if (typeof event.description === "undefined") {
-          event.description = ""
+          event.description = {
+            value: ""
+        }
       }
 
-      const imageUrlEncoded = encodeURI(event.image);
+      const square = getSquareData(event.location.value);
+
+      const imageUrlEncoded = encodeURI(event.image.value);
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
-          subtitle: `${event.description}`
+        `${event.name.value} (${moment.parseZone(event.startDate.value).format('HH:mm')} - ${moment.parseZone(event.endDate.value).format('HH:mm')})`, {
+          subtitle: `${event.description.value}`
         }, [
           new Button(
             'Toon mij de weg',
-            `https://www.google.com/maps`,
+            `https://www.google.be/maps/dir/?api=1&destination=${square.lat},${square.long}&travelmode=walking`,
             'web_url'
           ),
           new CardButton(
@@ -464,7 +473,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-
+  });
 };
 
 router.get('/debug', (req, res) => {
@@ -524,10 +533,10 @@ const getEvents = (res, squareName, date = new Date()) => {
 
   query.then(function ({results}) {
 
-    let events = results.bindings;
+    const events = results.bindings;
 
 
-    console.log("all events", events);
+    //console.log("all events", events);
     if (!events || events.length == 0) {
       const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
