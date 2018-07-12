@@ -175,7 +175,7 @@ function getAllSquares(req, res) {
         const card = new Card(
             // sample a random image from the list.
             shuffledImagesArray[imageCount],
-            `Pleinen ${count} - ${count + (threeSquares.length - 1)}`,
+            `Pleinen ${count} - ${count + (buttons.length - 1)}`,
             'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan',
             // create buttons from the 3 square objects, with a google maps link to their location.
             buttons
