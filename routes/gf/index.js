@@ -393,7 +393,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
     console.log("resultsB", results);
 
-    const events = results.bindings;
+    const events = getSquareEvents(results.bindings).slice(0, 7);
 
     if (events.length === 0) {
       const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
@@ -616,5 +616,16 @@ const getEvents = (res, squareName, date = new Date()) => {
       return res.json(payload);
   });
 };
+
+const getSquareEvents = (events) => {
+  const squares = locationMapper.getSquares();
+  const squareEvents = [];
+  events.forEach(event => {
+    if(squares.find(square => event.location.value.includes(square.name.nl))){
+      squareEvents.push(event);
+    }
+  })
+  return squareEvents;
+}
 
 module.exports = router;
