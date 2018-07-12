@@ -551,7 +551,9 @@ const getEvents = (res, squareName, date = new Date()) => {
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
       if (event.image == null) {
-        event.image.value = images[util.getRandomInt(0, images.length - 1)];
+        event.image = { 
+          value: images[util.getRandomInt(0, images.length - 1)]
+        }
       }
 
       const imageUrlEncoded = encodeURI(event.image.value);
