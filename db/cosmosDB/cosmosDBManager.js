@@ -74,6 +74,6 @@ function addFeedback(satisfaction, feedbackImprovement) {
 }
 
 module.exports = {
-    getEventsByDateAndSquareName,
+    //getEventsByDateAndSquareName,
     addFeedback
 };
