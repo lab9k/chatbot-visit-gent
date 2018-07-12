@@ -82,7 +82,10 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
             FILTER contains(?location, ${stageName})
         }
     `)
-    .execute();
+    .execute()
+    .catch((error) => {
+      console.log('error', error);
+    });
 };
 
 module.exports = {
