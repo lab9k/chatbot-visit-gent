@@ -16,18 +16,16 @@ class CardButton {
     return {
       title: this.text,
       payload: this.payload,
-      type: this.type,
+      type: this.type
     };
   }
-  
+
   getResponseQuickReply() {
     return {
       content_type: this.type,
       title: this.text,
       payload: this.payload
     };
-  };
-  
-
+  }
 }
 module.exports = CardButton;
