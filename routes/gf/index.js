@@ -174,7 +174,6 @@ function getSquareCard(req, res) {
         return event;
       }
     });
-
     const url = `https://www.google.com/maps/search/?api=1&query=${square.lat},${square.long}`;
     // Om input van gebruker af te schermen wordt square.name.nl gebruikt ipv pleinName
     const imageName = square.name.nl.split('/')[0].trim().split(' ').join('_');
