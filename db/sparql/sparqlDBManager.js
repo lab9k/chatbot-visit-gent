@@ -5,8 +5,8 @@ const moment = require('moment');
 const endpoint = 'https://stad.gent/sparql';
 const client = new SparqlClient('https://stad.gent/sparql').register({
   db: 'http://stad.gent/gentse-feesten-2018/',
-  event: 'http://schema.org/Event',
-  name: 'http://schema.org/name',
+  dct: 'http://purl.org/dc/terms/',
+  schema: 'http://schema.org/',
   startdate: 'http://schema.org/startDate'
 });
 
@@ -65,9 +65,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
 
   console.log('day', startDay);
 
-  const q = `PREFIX schema: <http://schema.org/>
-  PREFIX dct:<http://purl.org/dc/terms/>
-  SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
+  const q = `SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
       ?sub a <http://schema.org/Event> .
       ?sub <http://schema.org/name> ?name.
       ?sub <http://schema.org/startDate> ?startDate.
@@ -85,7 +83,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
 
   console.log(q);
 
-  return new SparqlClient(endpoint)
+  return client
     .query(SPARQL(q))
     .execute()
     .catch((error) => {
