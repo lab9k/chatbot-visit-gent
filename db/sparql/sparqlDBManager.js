@@ -81,7 +81,9 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
     FILTER (?startDate > "2018-07-${startDay}T09:00+02:00"^^xsd:dateTime ).
     FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
     FILTER contains(?location, "${stageName}").
-  }`;
+  }
+  order by ?startDate
+  `;
 
   console.log(q);
 
