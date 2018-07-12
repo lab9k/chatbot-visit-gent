@@ -475,9 +475,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       }
     };
     return res.json(payload);
-  }).catch(err){
+  }).catch((err) => {
     console.log("error events now", err);
-  };
+  });
 };
 
 router.get('/debug', (req, res) => {
