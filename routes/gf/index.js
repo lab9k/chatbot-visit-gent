@@ -121,8 +121,8 @@ function getClosestToilet(req, res) {
   const { payload } = req.body.originalDetectIntentRequest;
   const { lat, long } = payload.data.postback.data;
   const nearest = location.closestLocation({ lat, long }, locationMapper.getToilets());
-  const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},
-                ${nearest.long}&travelmode=walking`;
+  const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${long}&destination=${nearest.lat},`
+              + `${nearest.long}&travelmode=walking`;
   const card = new Card(
     'https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/toilet/toilet.jpg',
     'Dichtstbijzijnde toilet',
