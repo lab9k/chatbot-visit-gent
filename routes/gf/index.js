@@ -211,7 +211,7 @@ const getClosestToilet = (req, res) => {
         "menu",
         "postback"
       )
-    ],
+    ]
 
   );
 
@@ -327,7 +327,7 @@ const getPleinCard = (req, res /* , next */ ) => {
               new CardButton(`Programma`, `Programma ${square.name.nl}`, "postback"),
               new CardButton("Programma nu", "Programma nu", "postback"),
               navigeergButton
-        ],
+        ]
       );
       const ret = {
         payload: {
@@ -440,7 +440,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
             "menu",
             "postback"
           )
-        ],
+        ]
       );
       cardList.push(card);
     });
@@ -561,7 +561,7 @@ const getEvents = (res, squareName, date = new Date()) => {
         }, [
           new Button(
             'Toon mij de weg',
-            `https://www.google.be/maps/dir/?api=1&destination=${square.lat},${square.long}&travelmode=walking`,            
+            `https://www.google.be/maps/dir/?api=1&destination=${square.lat},${square.long}&travelmode=walking`,
             'web_url'
           ),
           new CardButton(
