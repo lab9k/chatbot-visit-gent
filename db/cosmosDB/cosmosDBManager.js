@@ -11,7 +11,7 @@ const password = process.env.COSMOSDB_PASSWORD;
 const Events = require('./models/eventModel');
 const Feedback = require('./models/feedbackModel');
 
-function getEventsByDateAndSquareName(date, squareName) {
+/*function getEventsByDateAndSquareName(date, squareName) {
     mongoose.connect(connectionString, {
         user: username,
         pass: password,
@@ -53,7 +53,7 @@ function getEventsByDateAndSquareName(date, squareName) {
     }).sort({
         startDate: 1
     }).limit(7);
-}
+}*/
 
 function addFeedback(satisfaction, feedbackImprovement) {
     mongoose.connect(connectionString, {
