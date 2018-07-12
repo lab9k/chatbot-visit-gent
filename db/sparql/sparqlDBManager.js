@@ -3,7 +3,7 @@ const { SparqlClient, SPARQL } = require('sparql-client-2');
 const moment = require('moment');
 
 const endpoint = 'https://stad.gent/sparql';
-/* const client =
+const client =
   new SparqlClient('https://stad.gent/sparql')
     .register({
       db: 'http://stad.gent/gentse-feesten-2018/',
@@ -11,7 +11,7 @@ const endpoint = 'https://stad.gent/sparql';
       name: "http://schema.org/name",
       startdate: "http://schema.org/startDate",
     });
- */
+ 
 
 const getAllEventsFromNow = () => {
   console.log('test events now');
@@ -64,24 +64,28 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
     .toString();
   console.log('converted date', convertedDate);
 
+  const q = SPARQL`PREFIX schema: <http://schema.org/>
+  PREFIX dct:<http://purl.org/dc/terms/>
+  SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
+      ?sub a <http://schema.org/Event> .
+      ?sub <http://schema.org/name> ?name.
+      ?sub <http://schema.org/startDate> ?startDate.
+      ?sub <http://schema.org/endDate> ?endDate.
+      {
+          ?sub schema:location/schema:name ?location
+      }
+      UNION {
+          ?sub schema:location/schema:containedInPlace/schema:name ?location
+      }
+      FILTER (?startDate > "2018-07-${date.getDate()}T09:00+02:00"^^xsd:dateTime )
+      FILTER (?endDate < "2018-07-${date.getDate() + 1}T05:00+02:00"^^xsd:dateTime )
+      FILTER contains(?location, ${stageName})
+  }`;
+
+  console.log(q);
+
   return new SparqlClient(endpoint)
-    .query(SPARQL`
-        SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
-            ?sub a <http://schema.org/Event> .
-            ?sub <http://schema.org/name> ?name.
-            ?sub <http://schema.org/startDate> ?startDate.
-            ?sub <http://schema.org/endDate> ?endDate.
-            {
-                ?sub schema:location/schema:name ?location
-            }
-            UNION {
-                ?sub schema:location/schema:containedInPlace/schema:name ?location
-            }
-            FILTER (?startDate > "2018-07-${date.getDate()}T09:00+02:00"^^xsd:dateTime )
-            FILTER (?endDate < "2018-07-${date.getDate() + 1}T05:00+02:00"^^xsd:dateTime )
-            FILTER contains(?location, ${stageName})
-        }
-    `)
+    .query(q)
     .execute()
     .catch((error) => {
       console.log('error', error);
