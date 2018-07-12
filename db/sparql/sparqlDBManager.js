@@ -1,31 +1,30 @@
 const {
-    SparqlClient,
-    SPARQL
+  SparqlClient
 } = require('sparql-client-2');
 
 const moment = require('moment');
 
 
-const endpoint = "https://stad.gent/sparql";
+const endpoint = 'https://stad.gent/sparql';
 /* const client =
   new SparqlClient('https://stad.gent/sparql')
     .register({
       db: 'http://stad.gent/gentse-feesten-2018/',
       event: "http://schema.org/Event",
       name: "http://schema.org/name",
-      startdate: "http://schema.org/startDate",           
+      startdate: "http://schema.org/startDate",
     });
  */
 
 const getAllEventsFromNow = () => {
-    console.log("test events now");
-    const date = moment(new Date("2018-07-18")).format('YYYY-MM-DD').toString();
-    const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
+  console.log('test events now');
+  const date = moment(new Date('2018-07-18')).format('YYYY-MM-DD').toString();
+  const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
 
-    console.log("date", date);
+  console.log('date', date);
 
 
-    return new SparqlClient(endpoint).query(`
+  return new SparqlClient(endpoint).query(`
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
         ?sub a <http://schema.org/Event> .
         ?sub <http://schema.org/name> ?eventName.
@@ -39,21 +38,21 @@ const getAllEventsFromNow = () => {
         FILTER ((?startDate >= "${date}"^^xsd:dateTime && ?endDate < "${endDate}"^^xsd:dateTime))
     }
     `)
-        .execute()
-        .then(response => {
-            console.log("response", response);
-            Promise.resolve(response);
-            
-        }).catch((error) => {
-            console.log("error", error);
-        })
-}
+    .execute()
+    .then((response) => {
+      console.log('response', response);
+      Promise.resolve(response);
+    })
+    .catch((error) => {
+      console.log('error', error);
+    });
+};
 
 const getEventsSelectedStageAndDate = (stageName, date) => {
-    const convertedDate = moment(date).format('YYYY-MM-DD').toString();
-    console.log("converted date", convertedDate);
+  const convertedDate = moment(date).format('YYYY-MM-DD').toString();
+  console.log('converted date', convertedDate);
 
-    return new SparqlClient(endpoint).query(`
+  return new SparqlClient(endpoint).query(`
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
         ?sub a <http://schema.org/Event> .
         ?sub <http://schema.org/name> ?eventName.
@@ -67,13 +66,12 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
         FILTER ((contains(lcase(STR(?streetAddress)), ${stageName}) || contains(lcase(STR(?name)), ${stageName})) && (?startDate >= ${convertedDate}^^xsd:dateTime && ?endDate < ${convertedDate}^^xsd:dateTime))
     }
     `)
-        .execute()
-        .then(response => Promise.resolve(response));
-}
-
+    .execute()
+    .then(response => Promise.resolve(response));
+};
 
 
 module.exports = {
-    getAllEventsFromNow,
-    getEventsSelectedStageAndDate
-}
+  getAllEventsFromNow,
+  getEventsSelectedStageAndDate
+};
