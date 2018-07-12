@@ -69,7 +69,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
             }	
             FILTER (?startDate > "2018-07-${date.getDate()}T09:00+02:00"^^xsd:dateTime )
             FILTER (?endDate < "2018-07-${date.getDate()+1}T05:00+02:00"^^xsd:dateTime )
-            FILTER contains(?location, "Baudelohof")
+            FILTER contains(?location, ${stageName})
         }
     `)
         .execute()

@@ -304,7 +304,7 @@ const getPleinCard = (req, res /* , next */ ) => {
           }
       });
 
-      const sub = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
+      const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
 
 
       //const lat = square.lat;
@@ -417,17 +417,17 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       if (event.image_url == null) {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
       }
-      if (event.eventName.length > 64) {
-          event.eventName = event.eventName.substr(0, 61) + "..."
+      if (event.name.length > 64) {
+          event.name = event.name.substr(0, 61) + "..."
       }
       if (typeof event.description === "undefined") {
           event.description = ""
       }
 
-      const imageUrlEncoded = encodeURI(event.image_url);
+      const imageUrlEncoded = encodeURI(event.image);
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
+        `${event.name} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
@@ -499,28 +499,28 @@ const getSquareData = (squareName) =>{
 const getEventsNow = () => {
 
   // Use connect method to connect to the server
-  const query = sparqlDB.getAllEventsFromNow();
+  return sparqlDB.getAllEventsFromNow();
 
-  let promise = query.exec();
+  //let promise = query.exec();
 
 
-  return promise.then(function(events, err){
+ /* return promise.then(function(events, err){
     //console.log("test..");
     if (err)
       console.log(err);
     return events;
-  })
+  })*/
   //return promise;
 };
 
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
   // Use connect method to connect to the server
-    const query = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
+    const events = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
 
-  query.exec(function (err, events) {
+  /*query.exec(function (err, events) {
     if (err)
-      return console.log("error", err);
+      return console.log("error", err);*/
 
     if (events.length == 0) {
         const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
@@ -544,18 +544,18 @@ const getEvents = (res, squareName, date = new Date()) => {
     events.forEach((event) => {
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
-      if (event.image_url == null) {
-        event.image_url = images[util.getRandomInt(0, images.length - 1)];
+      if (event.image == null) {
+        event.image = images[util.getRandomInt(0, images.length - 1)];
       }
 
-      const imageUrlEncoded = encodeURI(event.image_url);
+      const imageUrlEncoded = encodeURI(event.image);
 
-        console.log("******\n", event.eventName);
-        console.log(event["eventName"]);
+        console.log("******\n", event.name);
+        console.log(event["name"]);
 
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
+        `${event.name} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
@@ -588,7 +588,7 @@ const getEvents = (res, squareName, date = new Date()) => {
       }
     };
       return res.json(payload);
-  });
+  
 };
 
 module.exports = router;
