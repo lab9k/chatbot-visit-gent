@@ -11,6 +11,7 @@
     "comma-dangle": "off",
     "camelcase": "off",
     "no-mixed-operators": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "max-len": "off"
   }
 }
