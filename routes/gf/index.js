@@ -527,7 +527,7 @@ const getEvents = (res, squareName, date = new Date()) => {
       return console.log("error", err);
 
     console.log("all events", events);
-    if (events) {
+    if (!events || events.length == 0) {
         const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
