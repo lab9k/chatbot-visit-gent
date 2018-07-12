@@ -522,7 +522,7 @@ const getEvents = (res, squareName, date = new Date()) => {
   // Use connect method to connect to the server
     const query = sparqlDB.getEventsSelectedStageAndDate(new Date(date), squareName);
 
-  query.exec(function (err, events) {
+  query.then(function (err, events) {
     if (err)
       return console.log("error", err);
 
