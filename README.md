@@ -9,7 +9,7 @@ This chatbot has the following functionalities:
 
 ## Get started
 
-### 1.Dialogflow
+### 1. Dialogflow
 
 Dialogflow is a platform from google that regulates the flow of your conversation which 
 gives users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices."
@@ -21,7 +21,7 @@ Dialogflow concepts:
 2. [Entities: Identify things your users mention](https://www.youtube.com/watch?v=kzdL6GxJ_WY)
 3. [Dialog Control: Shape the flow of your conversation](https://www.youtube.com/watch?v=-tOamKtmxdY)
 
-#### 1.1.Connect with Facebook Messenger
+#### 1.1. Connect with Facebook Messenger
 
 Step 1:
 [Tutorial on how to connect dialogflow with messenger](https://www.youtube.com/watch?v=-2hE3YHsuBQ)
@@ -36,12 +36,12 @@ Step 2:
 IMPORTANT SIDENOTE: During development only the admin and testers can use the chatbot, to add testers go to "Roles",
 To make the chatbot public, go to "App Review" and submit your chatbot.
 
-### 2.CosmosDB
+### 2. CosmosDB
 
 this non-relational database from Microsoft is used to store the feedback of the chatbot.
 We use the NPM 'Mongoose' package to connect with the database.
 
-1.Connect with database
+1. Connect with database
 ```
 mongoose.connect(connectionString, {
         user: username,
@@ -57,7 +57,7 @@ mongoose.connect(connectionString, {
 );
 ```
 
-2.Add feedback to database
+2. Add feedback to database
 ```
 Feedback.create({ _id: new mongoose.Types.ObjectId() , satisfaction: satisfaction, feedbackImprovement: feedbackImprovement }, function (err, result) {
         if (err) {
@@ -74,7 +74,7 @@ Sparql is an RDF query language, that is, a semantic query language for database
 
 We used the following 2 Sparql queries to get the events of "Gentse Feesten":
 
-1.Get all events from Gentse Feesten now
+1. Get all events from Gentse Feesten now
 ```
     SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
         ?sub a <http://schema.org/Event> .
@@ -90,7 +90,7 @@ We used the following 2 Sparql queries to get the events of "Gentse Feesten":
     }
 ```
 
-2.Get events from Gentse Feesten specific date and square
+2. Get events from Gentse Feesten specific date and square
 
 ```
 SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
@@ -106,5 +106,3 @@ SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse
         FILTER ((contains(lcase(STR(?streetAddress)), ${stageName}) || contains(lcase(STR(?name)), ${stageName})) && (?startDate >= ${convertedDate}^^xsd:dateTime && ?endDate < ${convertedDate}^^xsd:dateTime))
     }
 ```
-
-
