@@ -529,7 +529,7 @@ const getEvents = (res, squareName, date = new Date()) => {
 
     console.log("all events", events);
     if (!events || events.length == 0) {
-        const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
+      const defaultMenu = ["Feestpleinen", "Toilet", "Feedback"];
       const quickReply = new QuickReply("Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?", defaultMenu).getResponse();
 
       const ret = {
@@ -550,19 +550,19 @@ const getEvents = (res, squareName, date = new Date()) => {
     events.forEach((event) => {
       //const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
       // construct a Card object for each event
-      if (event.image == null) {
-        event.image = images[util.getRandomInt(0, images.length - 1)];
+      if (event.image.value == null) {
+        event.image.value = images[util.getRandomInt(0, images.length - 1)];
       }
 
-      const imageUrlEncoded = encodeURI(event.image);
+      const imageUrlEncoded = encodeURI(event.image.value);
 
-        console.log("******\n", event.name);
-        console.log(event["name"]);
+        console.log("******\n", event.name.value);
+        console.log(event["name"]["value"]);
 
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
-          subtitle: `${event.description}`
+        `${event.name.value} (${moment(event.startDate.value).format('H:mm')} - ${moment(event.endDate.value).format('H:mm')})`, {
+          subtitle: `${event.description.value}`
         }, [
           new Button(
             'Toon mij de weg',

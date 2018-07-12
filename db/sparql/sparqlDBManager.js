@@ -65,20 +65,22 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
 
   console.log('day', startDay);
 
-  const q = `SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
-      ?sub a <http://schema.org/Event> .
-      ?sub <http://schema.org/name> ?name.
-      ?sub <http://schema.org/startDate> ?startDate.
-      ?sub <http://schema.org/endDate> ?endDate.
-      {
-          ?sub schema:location/schema:name ?location
-      }
-      UNION {
-          ?sub schema:location/schema:containedInPlace/schema:name ?location
-      }
-      FILTER (?startDate > "2018-07-${startDay}T09:00+02:00"^^xsd:dateTime ).
-      FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
-      FILTER contains(?location, "${stageName}").
+  const q = `SELECT ?name ?startDate ?endDate ?image ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+    ?sub a <http://schema.org/Event> .
+    ?sub <http://schema.org/name> ?name.
+    ?sub <http://schema.org/startDate> ?startDate.
+    ?sub <http://schema.org/endDate> ?endDate.
+    optional { ?sub schema:image/schema:url ?image. }
+    ?sub <http://schema.org/description> ?description.
+    {
+        ?sub schema:location/schema:name ?location
+    }
+    UNION {
+        ?sub schema:location/schema:containedInPlace/schema:name ?location
+    }
+    FILTER (?startDate > "2018-07-${startDay}T09:00+02:00"^^xsd:dateTime ).
+    FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
+    FILTER contains(?location, "${stageName}").
   }`;
 
   console.log(q);
