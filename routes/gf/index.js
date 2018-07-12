@@ -304,7 +304,7 @@ const getPleinCard = (req, res /* , next */ ) => {
           }
       });
 
-      const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
+      const sub = eventNow ? "Nu: " + eventNow.eventName : "Momenteel is er niets, voor meer info druk op programma";
 
 
       //const lat = square.lat;
@@ -417,8 +417,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       if (event.image_url == null) {
         event.image_url = "https://www.uitinvlaanderen.be/sites/default/files/styles/large/public/beeld_gf_nieuwsbericht.jpg"
       }
-      if (event.name.length > 64) {
-          event.name = event.name.substr(0, 61) + "..."
+      if (event.eventName.length > 64) {
+          event.eventName = event.eventName.substr(0, 61) + "..."
       }
       if (typeof event.description === "undefined") {
           event.description = ""
@@ -427,7 +427,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       const imageUrlEncoded = encodeURI(event.image_url);
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
+        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('HH:mm')} - ${moment(event.endDate).add(2, 'hours').format('HH:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
@@ -550,12 +550,12 @@ const getEvents = (res, squareName, date = new Date()) => {
 
       const imageUrlEncoded = encodeURI(event.image_url);
 
-        console.log("******\n", event.name);
-        console.log(event["name"]);
+        console.log("******\n", event.eventName);
+        console.log(event["eventName"]);
 
       const card = new Card(
         `${imageUrlEncoded}`,
-        `${event.name} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
+        `${event.eventName} (${moment(event.startDate).add(2, 'hours').format('H:mm')} - ${moment(event.endDate).add(2, 'hours').format('H:mm')})`, {
           subtitle: `${event.description}`
         }, [
           new Button(
