@@ -89,7 +89,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
     .query(SPARQL(q))
     .execute()
     .catch((error) => {
-      console.log('error', error);
+      console.log('error', JSON.stringify(error));
     });
 };
 
