@@ -9,7 +9,10 @@ class QuickReply {
      */
   constructor(text, buttons) {
     this.text = text;
-    this.quick_replies = buttons.forEach(button => new QuickReplyButton(button, button, 'text'));
+    this.quick_replies = [];
+    for (const button of buttons) {
+      this.quick_replies.push(new QuickReplyButton(button, button, 'text'));
+    }
   }
 }
 
