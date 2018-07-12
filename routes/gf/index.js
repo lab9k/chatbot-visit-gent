@@ -391,6 +391,8 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   query.then(function(results){
 
+    console.log("results", results);
+
     console.log("resultsB", results.bindings);
 
     const events = getSquareEvents(results.bindings).slice(0, 7);
