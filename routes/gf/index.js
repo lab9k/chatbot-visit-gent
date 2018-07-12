@@ -411,7 +411,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
     //list to store all cards of events
     let cardList = [];
-    //console.log("list", events);
+    console.log("list", events);
 
 
       events.forEach((event) => {
