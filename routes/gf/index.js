@@ -196,7 +196,7 @@ function getAllSquares(req, res) {
         }
     });
     console.log(JSON.stringify(payload));
-    return res.json(JSON.stringify(payload));
+    return res.json(payload);
 
 }
 
