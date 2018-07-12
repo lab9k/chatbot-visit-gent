@@ -68,7 +68,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
 
   console.log("day", startDay);
 
-  const q = `PREFIX schema: <http://schema.org/>
+  const q = SPARQL`PREFIX schema: <http://schema.org/>
   PREFIX dct:<http://purl.org/dc/terms/>
   SELECT ?name ?startDate ?location from <http://stad.gent/gentse-feesten-2018/> WHERE {
       ?sub a <http://schema.org/Event> .
