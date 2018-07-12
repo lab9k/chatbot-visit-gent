@@ -62,7 +62,10 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
   const convertedDate = moment(date)
     .format('YYYY-MM-DD')
     .toString();
+    const day = date.getDate();
   console.log('converted date', convertedDate);
+
+  console.log("day", day);
 
   const q = SPARQL`PREFIX schema: <http://schema.org/>
   PREFIX dct:<http://purl.org/dc/terms/>
@@ -77,9 +80,9 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
       UNION {
           ?sub schema:location/schema:containedInPlace/schema:name ?location
       }
-      FILTER (?startDate > "2018-07-${date.getDate()}T09:00+02:00"^^xsd:dateTime )
-      FILTER (?endDate < "2018-07-${date.getDate() + 1}T05:00+02:00"^^xsd:dateTime )
-      FILTER contains(?location, ${stageName})
+      FILTER (?startDate > "2018-07-${date.getDate()}T09:00+02:00"^^xsd:dateTime ).
+      FILTER (?endDate < "2018-07-${date.getDate() + 1}T05:00+02:00"^^xsd:dateTime ).
+      FILTER contains(?location, ${stageName}).
   }`;
 
   console.log(q);
