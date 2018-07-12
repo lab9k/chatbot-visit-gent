@@ -86,7 +86,7 @@ const getEventsSelectedStageAndDate = (stageName, date) => {
   console.log(q);
 
   return new SparqlClient(endpoint)
-    .query(q)
+    .query(SPARQL(q))
     .execute()
     .catch((error) => {
       console.log('error', error);
