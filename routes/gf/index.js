@@ -253,7 +253,7 @@ const getAllSquares = (req, res) => {
         // sample a random image from the list.
         shuffledImagesArray[imageCount],
         `Pleinen ${count} - ${count + (three.length - 1)}`, {
-          subtitle: 'Druk één van de pleinen om het programma te bekijken of om er naartoe te gaan'
+          subtitle: 'Druk op één van de pleinen om het programma te bekijken of om er naartoe te gaan'
         },
         // create buttons from the 3 square objects, with a google maps link to their location.
         three.map(el =>
@@ -520,7 +520,7 @@ const getSquareData = (squareName) =>{
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
   // Use connect method to connect to the server
-    const query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
+    const query = sparqlDB.getAllEventsFromNow(squareName, new Date(date));
 
   query.then(function ({results}) {
 
