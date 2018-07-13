@@ -18,13 +18,15 @@ const getAllEventsFromNow = (square) => {
     .toString();
   let endDate = moment.parseZone(date)
     .set('hour', 6)
-    .set('minute', 0)
-    .format('YYYY-MM-DD[T]HH:mm[+02:00]')
-    .toString();
+    .set('minute', 0);
 
   if(endDate < date){
     endDate.add(1, 'day');    
   }
+  
+  endDate = endDate
+    .format('YYYY-MM-DD[T]HH:mm[+02:00]')
+    .toString();
 
   //console.log('date:', date);
   const squareFilter = square ? `FILTER contains(?location, "${square}").`: "" ;
