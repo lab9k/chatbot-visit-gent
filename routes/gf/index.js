@@ -300,8 +300,9 @@ const getPleinCard = (req, res /* , next */ ) => {
 
       const squareName = square.name.nl.split('/')[0].toLowerCase();
 
+      let eventNow;
       if(events && events.length > 0){
-        const eventNow = events.find(event => event.location.value.toLowerCase().includes(squareName));
+        eventNow = events.find(event => event.location.value.toLowerCase().includes(squareName));
       };
     
       const sub = eventNow ? "Nu: " + eventNow.name.value : "Momenteel is er niets, voor meer info druk op programma";
