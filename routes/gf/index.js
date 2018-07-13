@@ -410,10 +410,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
       // console.log("list", events);
 
       events.forEach((event) => {
-        const image =
-          event.image || {
-              value: images[util.getRandomInt(0, images.length - 1)]
-            };
+        const image = event.image || {
+          value: images[util.getRandomInt(0, images.length - 1)]
+        };
         let name = event.name.value;
         if (name.length > 64) {
           name = `${name.substr(0, 61)}...`;
