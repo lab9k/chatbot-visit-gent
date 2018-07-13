@@ -32,8 +32,6 @@ const getAllEventsFromNow = (square, dateInput) => {
 
   endDate = endDate.format('YYYY-MM-DD[T]HH:mm[+02:00]').toString();
 
-   console.log('date now:', date);
-   console.log("current", current)
   const squareFilter = square ? `FILTER contains(?location, "${square}").` : '';
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
@@ -57,7 +55,6 @@ const getAllEventsFromNow = (square, dateInput) => {
   order by ?startDate
 `;
 
-  console.log('query events now', q);
 
   return client
     .query(q)
@@ -77,9 +74,6 @@ const getEventsSelectedStageAndDate = (square, date) => {
     .toString();
   const startDay = nDate.getDate();
   const endDay = nDate.getDate() + 1;
-  console.log('db date', nDate);
-
-  console.log('day', startDay);
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
     ?sub a <http://schema.org/Event> .

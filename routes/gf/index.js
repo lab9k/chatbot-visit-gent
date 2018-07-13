@@ -166,7 +166,6 @@ const getEventsSquareForDate = (req, res) => {
   const { date } = req.body.queryResult.parameters;
   const squareName = req.body.queryResult.parameters.square;
 
-  console.log('square date:', date);
   return getEvents(res, squareName, date);
 };
 
@@ -275,7 +274,6 @@ const getAllSquares = (req, res) => {
 const getPleinCard = (req, res /* , next */) => {
   const pleinName = req.body.queryResult.parameters.square;
 
-  console.log('square param:', pleinName);
   const square = getSquareData(pleinName);
 
   const query = sparqlDB.getAllEventsFromNow();
@@ -339,7 +337,6 @@ const getPleinCard = (req, res /* , next */) => {
         }
       }
     };
-    // console.log("share button", card.getResponse().buttons);
     return res.json(ret);
   });
 };
@@ -385,9 +382,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
 
   query
     .then(({ results }) => {
-      // console.log("results", results);
 
-      console.log('resultsB', results.bindings);
 
       const events = getSquareEvents(results.bindings).slice(0, 7);
 
@@ -412,7 +407,6 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
 
       // list to store all cards of events
       const cardList = [];
-      // console.log("list", events);
 
       events.forEach((event) => {
         const image = event.image || {
@@ -497,7 +491,6 @@ router.get('/debug', (req, res) => {
 });
 
 const getSquareData = (squareName) => {
-  console.log('squareName:', squareName);
   return locationMapper.getSquares().find(square =>
     square.name.nl
       .split('/')[0]
@@ -518,11 +511,9 @@ const getEvents = (res, squareName, date) => {
   } else {
     query = sparqlDB.getAllEventsFromNow(squareName, new Date());
   }
-  console.log('param date:', date);
   query.then(({ results }) => {
     const events = results.bindings;
 
-    // console.log("all events", events);
     if (!events || events.length === 0) {
       const defaultMenu = ['Feestpleinen', 'Toilet', 'Feedback'];
       const quickReply = new QuickReply(
@@ -544,7 +535,6 @@ const getEvents = (res, squareName, date) => {
     // list to store all cards of events
     const cardList = [];
 
-    // console.log("event 1:",events[0]);
     events.forEach((event) => {
       const image =
         event.image != null
@@ -555,9 +545,6 @@ const getEvents = (res, squareName, date) => {
       const description = event.description || { value: '' };
 
       const imageUrlEncoded = encodeURI(image.value);
-
-      // console.log("******\n", event.name.value);
-      // console.log(event["name"]["value"]);
 
       const card = new Card(
         `${imageUrlEncoded}`,
