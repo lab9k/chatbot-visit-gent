@@ -7,7 +7,7 @@ const Card = require('../../models/card');
 const Button = require('../../models/button');
 const CardButton = require('../../models/card_button');
 const QuickReply = require('../../models/quickReply');
-const ShareButton = require('../../models/share_button');
+// const ShareButton = require('../../models/share_button');
 
 // Location mappers
 const LocationMapper = require('../../util/locationmapper');
@@ -19,7 +19,7 @@ const locationMapper = new LocationMapper();
 
 // Utils
 const util = require('../../util/util');
-const fs = require('fs');
+// const fs = require('fs');
 
 // Database managers
 const cosmosDB = require('../../db/cosmosDB/cosmosDBManager');
@@ -82,7 +82,7 @@ router.all('/', mw.typeMiddleware, (req, res, next) => {
 
 const feedbackSatisfaction = (req, res /* , next */) => {
   console.log('feedback satisfaction triggered');
-  const satisfaction = req.body.queryResult.parameters.satisfaction;
+  const { satisfaction } = req.body.queryResult.parameters;
   let improvementProposal = '';
 
   if (improvementProposal !== undefined) {
@@ -124,7 +124,7 @@ const getClosestStage = (req, res /* , next */) => {
     squares
   );
 
-  urlName = nearest.name.nl.split(' ').join('_');
+  const urlName = nearest.name.nl.split(' ').join('_');
 
   const card = new Card(
     `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${urlName}.jpg`,
@@ -162,7 +162,7 @@ const getClosestStage = (req, res /* , next */) => {
 };
 
 const getEventsSquareForDate = (req, res) => {
-  const date = req.body.queryResult.parameters.date;
+  const { date } = req.body.queryResult.parameters;
   const squareName = req.body.queryResult.parameters.square;
 
   return getEvents(res, squareName, date);
@@ -245,7 +245,7 @@ const getAllSquares = (req, res) => {
     );
     elements.push(card);
     count += 3;
-    imageCount++;
+    imageCount += 1;
   }
   const payload = {
     payload: {
@@ -311,7 +311,7 @@ const getPleinCard = (req, res /* , next */) => {
       `https://raw.githubusercontent.com/lab9k/chatbot-visit-gent/master/img/pleinen/${imageName}.jpg`,
       square.name.nl,
       {
-        subtitle: sub // `Klik op één van de volgende knoppen om te navigeren of het programma te bekijken.`
+        subtitle: sub
       },
       [
         new CardButton('Programma', `Programma ${square.name.nl}`, 'postback'),
@@ -337,7 +337,8 @@ const getPleinCard = (req, res /* , next */) => {
   });
 };
 
-const getCurrentEventFor = (req, res /* , next */) => getEvents(res, req.body.queryResult.parameters.square);
+const getCurrentEventFor = (req, res /* , next */) =>
+  getEvents(res, req.body.queryResult.parameters.square);
 
 const getDaysGentseFeesten = (req, res /* , next */) => {
   const today = new Date().getDate;
@@ -407,35 +408,28 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
       // console.log("list", events);
 
       events.forEach((event) => {
-        // console.log("date orig:", event.startDate.value);
-        // console.log("moment offset:", moment.parseZone(event.startDate.value).format('H:mm'));
-
-        // const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-        // construct a Card object for each event
-        if (event.image == null) {
-          event.image = {
-            value: images[util.getRandomInt(0, images.length - 1)]
-          };
+        const image =
+          event.image !== null
+            ? event.image
+            : {
+              value: images[util.getRandomInt(0, images.length - 1)]
+            };
+        let name = event.name.value;
+        if (name.length > 64) {
+          name = `${name.substr(0, 61)}...`;
         }
-        if (event.name.value.length > 64) {
-          event.name.value = `${event.name.value.substr(0, 61)}...`;
-        }
-        if (typeof event.description === 'undefined') {
-          event.description = {
-            value: ''
-          };
-        }
+        const description = event.description || { value: '' };
 
         const square = getSquareData(event.location.value);
 
-        const imageUrlEncoded = encodeURI(event.image.value);
+        const imageUrlEncoded = encodeURI(image.value);
         const card = new Card(
           `${imageUrlEncoded}`,
-          `${event.name.value} (${moment
-            .parseZone(event.startDate.value)
-            .format('HH:mm')} - ${moment.parseZone(event.endDate.value).format('HH:mm')})`,
+          `${name} (${moment.parseZone(event.startDate.value).format('HH:mm')} - ${moment
+            .parseZone(event.endDate.value)
+            .format('HH:mm')})`,
           {
-            subtitle: `${event.location.value} - ${event.description.value}`
+            subtitle: `${event.location.value} - ${description.value}`
           },
           [
             new Button(
@@ -504,7 +498,7 @@ const getSquareData = (squareName) => {
     square.name.nl
       .split('/')[0]
       .trim()
-      .toLowerCase() == squareName.toLowerCase());
+      .toLowerCase() === squareName.toLowerCase());
 };
 
 const getEvents = (res, squareName, date = new Date()) => {
@@ -516,7 +510,7 @@ const getEvents = (res, squareName, date = new Date()) => {
     const events = results.bindings;
 
     // console.log("all events", events);
-    if (!events || events.length == 0) {
+    if (!events || events.length === 0) {
       const defaultMenu = ['Feestpleinen', 'Toilet', 'Feedback'];
       const quickReply = new QuickReply(
         'Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?',
@@ -539,20 +533,15 @@ const getEvents = (res, squareName, date = new Date()) => {
 
     // console.log("event 1:",events[0]);
     events.forEach((event) => {
-      // const square = locationMapper.getSquares().find(square => square.name.nl.toLowerCase() == event.address.toLowerCase());
-      // construct a Card object for each event
-      if (event.image == null) {
-        event.image = {
-          value: images[util.getRandomInt(0, images.length - 1)]
-        };
-      }
-      if (typeof event.description === 'undefined') {
-        event.description = {
-          value: ''
-        };
-      }
+      const image =
+        event.image != null
+          ? event.image
+          : {
+            value: images[util.getRandomInt(0, images.length - 1)]
+          };
+      const description = event.description || { value: '' };
 
-      const imageUrlEncoded = encodeURI(event.image.value);
+      const imageUrlEncoded = encodeURI(image.value);
 
       // console.log("******\n", event.name.value);
       // console.log(event["name"]["value"]);
@@ -563,7 +552,7 @@ const getEvents = (res, squareName, date = new Date()) => {
           .parseZone(event.startDate.value)
           .format('H:mm')} - ${moment.parseZone(event.endDate.value).format('H:mm')})`,
         {
-          subtitle: `${event.description.value}`
+          subtitle: `${description}`
         },
         [
           new Button(
