@@ -28,7 +28,6 @@ const getAllEventsFromNow = square => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     endDate = moment
     .parseZone(currentDate)
-    .set("days", date.date()+1)
     .set("hours", 6)
     .set("minutes", 0);
   }
