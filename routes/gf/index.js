@@ -507,7 +507,7 @@ const getEvents = (res, squareName, date) => {
   const square = getSquareData(squareName);
   // Use connect method to connect to the server
   let query;
-  
+
   if(date){
     query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
   }else{
@@ -547,7 +547,7 @@ const getEvents = (res, squareName, date) => {
           : {
             value: images[util.getRandomInt(0, images.length - 1)]
           };
-      const description = event.description || { value: '' };
+      const description = event.description.value || { value: '' };
 
       const imageUrlEncoded = encodeURI(image.value);
 
@@ -560,7 +560,7 @@ const getEvents = (res, squareName, date) => {
           .parseZone(event.startDate.value)
           .format('H:mm')} - ${moment.parseZone(event.endDate.value).format('H:mm')})`,
         {
-          subtitle: `${description}`
+          subtitle: `${description.value}`
         },
         [
           new Button(
