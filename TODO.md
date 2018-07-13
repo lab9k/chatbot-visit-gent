@@ -44,5 +44,5 @@ const functienaam = (req, res, next) => {};
 
 6.  Event en Locatie data zijn beschikbaar voor het opstarten van de server. (in gf/index.js: eventMapper.events en locationMapper.getSquares())
 7.  filter en map je data tot je hebt wat je moet hebben.
-8.  Gebruik de Card en Button models om je responseData op te bouwen, vergeet niet card.getResponse() of button.getResponse() te gebruiken.
+8.  Gebruik de Card en Button models om je responseData op te bouwen.
 9.  De structuur van de responseData is heel specifiek, bekijk de voorbeelden in de functies die al af zijn.
