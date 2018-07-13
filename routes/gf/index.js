@@ -163,7 +163,7 @@ const getClosestStage = (req, res /* , next */) => {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [card.getResponse()]
+            elements: [card]
           }
         }
       }
@@ -226,7 +226,7 @@ const getClosestToilet = (req, res) => {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: [card.getResponse()]
+            elements: [card]
           }
         }
       }
@@ -703,7 +703,7 @@ function getEvents(res, squareName, date = new Date()) {
       const quickReply = new QuickReply(
         'Er zijn geen evenementen voor dit plein voor deze datum, Hoe kan ik je verder helpen?',
         defaultMenu
-      ).getResponse();
+      );
 
       const ret = {
         payload: {
