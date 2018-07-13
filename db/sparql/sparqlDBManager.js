@@ -21,7 +21,7 @@ const getAllEventsFromNow = (square) => {
     .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
 
-  if(endDate < startDate){
+  if(endDate < date){
     endDate.add(1, 'day');    
   }
 
