@@ -391,9 +391,9 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
   query.then(function({results}){
 
-    console.log("results", results);
+    //console.log("results", results);
 
-    console.log("resultsB", results.bindings);
+    //console.log("resultsB", results.bindings);
 
     const events = getSquareEvents(results.bindings).slice(0, 7);
 
@@ -415,7 +415,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
 
     //list to store all cards of events
     let cardList = [];
-    console.log("list", events);
+    //console.log("list", events);
 
 
       events.forEach((event) => {
@@ -445,7 +445,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
       const card = new Card(
         `${imageUrlEncoded}`,
         `${event.name.value} (${moment.parseZone(event.startDate.value).format('HH:mm')} - ${moment.parseZone(event.endDate.value).format('HH:mm')})`, {
-          subtitle: `${event.description.value}`
+          subtitle: `${event.location.value} - ${event.description.value}`
         }, [
           new Button(
             'Toon mij de weg',
@@ -578,8 +578,8 @@ const getEvents = (res, squareName, date = new Date()) => {
 
       const imageUrlEncoded = encodeURI(event.image.value);
 
-        console.log("******\n", event.name.value);
-        console.log(event["name"]["value"]);
+        //console.log("******\n", event.name.value);
+        //console.log(event["name"]["value"]);
 
       const card = new Card(
         `${imageUrlEncoded}`,
