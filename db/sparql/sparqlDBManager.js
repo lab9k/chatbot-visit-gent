@@ -23,7 +23,7 @@ const getAllEventsFromNow = (square) => {
     .set('hours', 6)
     .set('minutes', 0);
 
-  const shortDate = moment.parseZone(current).format("'YYYY-MM-DD");
+  const shortDate = moment.parseZone(date).format("YYYY-MM-DD");
 
   // als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
   if (endDate.isBefore(date)) {
