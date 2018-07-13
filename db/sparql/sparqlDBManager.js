@@ -46,7 +46,7 @@ const getAllEventsFromNow = (square) => {
         ?sub schema:location/schema:containedInPlace/schema:name ?location.
         ?sub schema:location/schema:additionalType ?additionalType .
     }
-    FILTER (?startDate > "${date}"^^xsd:dateTime ).
+    FILTER (?startDate > "${date}"^^xsd:dateTime || (?startDate < "${date}"^^xsd:dateTime && ?endDate > "${date}"^^xsd:dateTime ).
     FILTER (?endDate < "${endDate}"^^xsd:dateTime ).
     filter (?additionalType = "https://gentsefeesten.stad.gent/api/v1/ns/location-type/square"^^xsd:string).
     ${squareFilter}
