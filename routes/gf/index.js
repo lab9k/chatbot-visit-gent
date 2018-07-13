@@ -547,7 +547,7 @@ const getEvents = (res, squareName, date) => {
           : {
             value: images[util.getRandomInt(0, images.length - 1)]
           };
-      const description = event.description.value || { value: '' };
+      const description = event.description || { value: '' };
 
       const imageUrlEncoded = encodeURI(image.value);
 
