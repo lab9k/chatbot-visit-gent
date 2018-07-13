@@ -21,14 +21,12 @@ const getAllEventsFromNow = (square) => {
     .parseZone(date)
     .set('hours', 6)
     .set('minutes', 0);
-  let tomorrow;
+
   // als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
-  if (endDate < date) {
+  if (endDate.isBefore(date)) {
     endDate.add(1, "days")
   }
-  console.log('tomorrow', tomorrow);
-  //endDate.add(1, 'days');
-  console.log('endDate problem', endDate);
+  
   endDate = endDate.format('YYYY-MM-DD[T]HH:mm[+02:00]').toString();
 
   // console.log('date:', date);
