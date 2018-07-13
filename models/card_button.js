@@ -16,7 +16,7 @@ class CardButton {
     return {
       title: this.text,
       payload: this.payload,
-      type: this.type
+      type: this.type,
     };
   }
 
