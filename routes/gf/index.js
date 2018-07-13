@@ -332,6 +332,7 @@ function getAllSquares(req, res) {
             elements
           }
         }
+
       }
     }
   };
