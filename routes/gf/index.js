@@ -411,9 +411,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
 
       events.forEach((event) => {
         const image =
-          event.image !== null
-            ? event.image
-            : {
+          event.image || {
               value: images[util.getRandomInt(0, images.length - 1)]
             };
         let name = event.name.value;
