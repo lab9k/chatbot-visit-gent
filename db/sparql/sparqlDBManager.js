@@ -24,8 +24,10 @@ const getAllEventsFromNow = square => {
 
     //als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
   if (endDate < date) {
+    var tomorrow = new Date(shortDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     endDate = moment
-    .parseZone(shortDate)
+    .parseZone(currentDate)
     .set("days", date.date()+1)
     .set("hours", 6)
     .set("minutes", 0);
