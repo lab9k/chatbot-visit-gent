@@ -507,6 +507,7 @@ const getEvents = (res, squareName, date = new Date()) => {
   // Use connect method to connect to the server
   const query = sparqlDB.getAllEventsFromNow(squareName, new Date(date));
 
+  console.log("param date:", date);
   query.then(({ results }) => {
     const events = results.bindings;
 
