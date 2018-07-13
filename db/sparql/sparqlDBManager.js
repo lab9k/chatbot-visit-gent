@@ -12,15 +12,17 @@ const client = new SparqlClient(endpoint).register({
 
 const getAllEventsFromNow = (square) => {
   // console.log('test events now');
-  const shortDate = new Date('2018-07-13T17:00+02:00');
+  const dummyDate = new Date('2018-07-13T17:00+02:00');
   const date = moment
-    .parseZone(shortDate)
+    .parseZone(dummyDate)
     .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
   let endDate = moment
     .parseZone(date)
     .set('hours', 6)
     .set('minutes', 0);
+
+  const shortDate = moment.parseZone(dummyDate).format("'YYYY-MM-DD");
 
   // als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
   if (endDate.isBefore(date)) {
@@ -46,8 +48,7 @@ const getAllEventsFromNow = (square) => {
         ?sub schema:location/schema:containedInPlace/schema:name ?location.
         ?sub schema:location/schema:additionalType ?additionalType .
     }
-    FILTER (?startDate > "${date}"^^xsd:dateTime || (?startDate < "${date}"^^xsd:dateTime && ?endDate > "${date}"^^xsd:dateTime ).
-    FILTER (?endDate < "${endDate}"^^xsd:dateTime ).
+    FILTER (?startDate > "${date}"^^xsd:dateTime && contains(str(?startDate), str("${shortDate}")) || (?startDate <= "${date}"^^xsd:dateTime && ?endDate > "${date}"^^xsd:dateTime )).
     filter (?additionalType = "https://gentsefeesten.stad.gent/api/v1/ns/location-type/square"^^xsd:string).
     ${squareFilter}
   }
