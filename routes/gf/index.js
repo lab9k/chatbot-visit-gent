@@ -109,6 +109,7 @@ const feedbackSatisfaction = (req, res /* , next */) => {
       console.log('feedback must be tevreden,neutraal of niet tevreden');
       break;
   }
+  res.json({ improvementProposal });
 };
 
 const getClosestStage = (req, res /* , next */) => {
