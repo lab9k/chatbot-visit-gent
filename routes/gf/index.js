@@ -503,11 +503,14 @@ const getSquareData = (squareName) => {
       .toLowerCase() === squareName.toLowerCase());
 };
 
-const getEvents = (res, squareName, date = new Date()) => {
+const getEvents = (res, squareName, date) => {
   const square = getSquareData(squareName);
   // Use connect method to connect to the server
-  const query = sparqlDB.getAllEventsFromNow(squareName, new Date(date));
-
+  if(date){
+    const query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
+  }else{
+    const query = sparqlDB.getAllEventsFromNow(squareName, new Date());
+  }
   console.log("param date:", date);
   query.then(({ results }) => {
     const events = results.bindings;
