@@ -31,7 +31,7 @@ const getAllEventsFromNow = (square) => {
 
   endDate = endDate.format('YYYY-MM-DD[T]HH:mm[+02:00]').toString();
 
-  // console.log('date:', date);
+   console.log('date now:', date);
   const squareFilter = square ? `FILTER contains(?location, "${square}").` : '';
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
