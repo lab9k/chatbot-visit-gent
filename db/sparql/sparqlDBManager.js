@@ -12,9 +12,9 @@ const client = new SparqlClient(endpoint).register({
 
 const getAllEventsFromNow = (square) => {
   // console.log('test events now');
-  const dummyDate = new Date();
+  const current = new Date();
   const date = moment
-    .parseZone(dummyDate)
+    .parseZone(current)
     .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
   let endDate = moment
@@ -22,7 +22,7 @@ const getAllEventsFromNow = (square) => {
     .set('hours', 6)
     .set('minutes', 0);
 
-  const shortDate = moment.parseZone(dummyDate).format("'YYYY-MM-DD");
+  const shortDate = moment.parseZone(current).format("'YYYY-MM-DD");
 
   // als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
   if (endDate.isBefore(date)) {
@@ -32,6 +32,7 @@ const getAllEventsFromNow = (square) => {
   endDate = endDate.format('YYYY-MM-DD[T]HH:mm[+02:00]').toString();
 
    console.log('date now:', date);
+   console.log("current", current)
   const squareFilter = square ? `FILTER contains(?location, "${square}").` : '';
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
