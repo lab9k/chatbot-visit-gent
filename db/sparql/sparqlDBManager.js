@@ -27,7 +27,7 @@ const getAllEventsFromNow = (square) => {
     endDate.add(1, "days")
   }
   console.log('tomorrow', tomorrow);
-  endDate.add(1, 'days');
+  //endDate.add(1, 'days');
   console.log('endDate problem', endDate);
   endDate = endDate.format('YYYY-MM-DD[T]HH:mm[+02:00]').toString();
 
