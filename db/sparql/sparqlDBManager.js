@@ -15,6 +15,7 @@ const getAllEventsFromNow = (square) => {
   const current = new Date();
   const date = moment
     .parseZone(current)
+    .add(2, 'hours')
     .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
   let endDate = moment
