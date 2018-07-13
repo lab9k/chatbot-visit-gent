@@ -329,7 +329,7 @@ function getAllSquares(req, res) {
             // "text": "Hier is een lijst van feestpleinen van de Gentse Feesten",
             template_type: 'generic',
             // get the json structure for the card
-            elements: elements.map(el => el.getResponse())
+            elements
           }
         }
       }
@@ -399,7 +399,7 @@ const getPleinCard = (req, res /* , next */) => {
             type: 'template',
             payload: {
               template_type: 'generic',
-              elements: [card.getResponse()]
+              elements: [card]
             }
           }
         }
@@ -431,7 +431,7 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
   const quickReply = new QuickReply(
     'Voor welke datum wil je het programma zien?',
     gentseFeestenDays
-  ).getResponse();
+  );
 
   const ret = {
     payload: {
@@ -457,7 +457,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
         const quickReply = new QuickReply(
           'Er zijn op dit moment geen evenementen op de Gentse Feesten, Hoe kan ik je verder helpen?',
           defaultMenu
-        ).getResponse();
+        );
 
         const ret = {
           payload: {
@@ -519,7 +519,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
               payload: {
                 template_type: 'generic',
                 // get the json structure for the card
-                elements: cardList.map(el => el.getResponse())
+                elements: cardList
               }
             }
           }
@@ -762,7 +762,7 @@ function getEvents(res, squareName, date = new Date()) {
             payload: {
               template_type: 'generic',
               // get the json structure for the card
-              elements: cardList.map(el => el.getResponse())
+              elements: cardList
             }
           }
         }
