@@ -163,9 +163,10 @@ const getClosestStage = (req, res /* , next */) => {
 };
 
 const getEventsSquareForDate = (req, res) => {
-  const { date } = req.body.queryResult.parameters;
+  const  {date}  = req.body.queryResult.parameters;
   const squareName = req.body.queryResult.parameters.square;
 
+  console.log("square date:", date);
   return getEvents(res, squareName, date);
 };
 
