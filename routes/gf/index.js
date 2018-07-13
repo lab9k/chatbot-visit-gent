@@ -163,10 +163,10 @@ const getClosestStage = (req, res /* , next */) => {
 };
 
 const getEventsSquareForDate = (req, res) => {
-  const  {date}  = req.body.queryResult.parameters;
+  const { date } = req.body.queryResult.parameters;
   const squareName = req.body.queryResult.parameters.square;
 
-  console.log("square date:", date);
+  console.log('square date:', date);
   return getEvents(res, squareName, date);
 };
 
@@ -382,7 +382,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
     .then(({ results }) => {
       // console.log("results", results);
 
-       console.log("resultsB", results.bindings);
+      console.log('resultsB', results.bindings);
 
       const events = getSquareEvents(results.bindings).slice(0, 7);
 
@@ -506,12 +506,12 @@ const getEvents = (res, squareName, date) => {
   // Use connect method to connect to the server
   let query;
 
-  if(date){
+  if (date) {
     query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
-  }else{
+  } else {
     query = sparqlDB.getAllEventsFromNow(squareName, new Date());
   }
-  console.log("param date:", date);
+  console.log('param date:', date);
   query.then(({ results }) => {
     const events = results.bindings;
 
