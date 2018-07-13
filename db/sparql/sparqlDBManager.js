@@ -12,7 +12,7 @@ const client = new SparqlClient("https://stad.gent/sparql").register({
 
 const getAllEventsFromNow = square => {
   //console.log('test events now');
-  const shortDate = new Date("2018-07-13T17:00+02:00");
+  let shortDate = new Date("2018-07-13T17:00+02:00");
   const date = moment
     .parseZone(shortDate)
     .format("YYYY-MM-DD[T]HH:mm[+02:00]")
@@ -24,10 +24,9 @@ const getAllEventsFromNow = square => {
 
     //als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
   if (endDate < date) {
-    let newDate = new Date(shortDate);
-    newDate.setDate(shortDate.getDate()+1);
     endDate = moment
-    .parseZone(newDate)
+    .parseZone(shortDate)
+    .set("days", date.date()+1)
     .set("hours", 6)
     .set("minutes", 0);
   }
