@@ -382,7 +382,7 @@ const getEventsGentseFeestenNow = (req, res /* , next */) => {
     .then(({ results }) => {
       // console.log("results", results);
 
-      // console.log("resultsB", results.bindings);
+       console.log("resultsB", results.bindings);
 
       const events = getSquareEvents(results.bindings).slice(0, 7);
 
