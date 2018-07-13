@@ -292,22 +292,21 @@ const getPleinCard = (req, res /* , next */ ) => {
   console.log("square param:", pleinName);
   const square = getSquareData(pleinName);
 
-  //let promise = getEventsNow();
+  let query = sparqlDB.getAllEventsFromNow();
 
-  //promise.then(function(events){
+  query.then(function({results}){
+
+    const events = results.bindings;
 
       const squareName = square.name.nl.split('/')[0].toLowerCase();
 
-      /*if(events){
-      const eventNow = events.find(function(event){
-          if (typeof event.address !== "undefined" && event.address.toLowerCase().includes(squareName)){
-              return event;
-          }
-      });
-    }*/
-      //const sub = eventNow ? "Nu: " + eventNow.name : "Momenteel is er niets, voor meer info druk op programma";
+      if(events && events.length > 0){
+        const eventNow = events.find(event => event.location.value.toLowerCase().includes(squareName));
+      };
+    
+      const sub = eventNow ? "Nu: " + eventNow.name.value : "Momenteel is er niets, voor meer info druk op programma";
 
-      const sub = "Momenteel is er niets, voor meer info druk op programma.";
+      //const sub = "Momenteel is er niets, voor meer info druk op programma.";
 
 
       //const lat = square.lat;
@@ -348,7 +347,7 @@ const getPleinCard = (req, res /* , next */ ) => {
       //console.log("share button", card.getResponse().buttons);
       return res.json(ret);
 
-//});
+});
 }
 
 const getCurrentEventFor = (req, res /* , next */) => {
@@ -515,22 +514,7 @@ const getSquareData = (squareName) =>{
   return locationMapper.getSquares().find(square => square.name.nl.split('/')[0].trim().toLowerCase() == squareName.toLowerCase());
 };
 
-const getEventsNow = () => {
 
-  // Use connect method to connect to the server
-  return sparqlDB.getAllEventsFromNow();
-
-  //let promise = query.exec();
-
-
- /* return promise.then(function(events, err){
-    //console.log("test..");
-    if (err)
-      console.log(err);
-    return events;
-  })*/
-  //return promise;
-};
 
 const getEvents = (res, squareName, date = new Date()) => {
   const square = getSquareData(squareName);
