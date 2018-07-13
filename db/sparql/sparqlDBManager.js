@@ -75,7 +75,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
   const endDay = date.getDate() + 1;
   console.log('db date', date);
 
-  //console.log('day', startDay);
+  console.log('day', startDay);
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
     ?sub a <http://schema.org/Event> .
