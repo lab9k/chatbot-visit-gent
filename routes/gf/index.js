@@ -176,6 +176,11 @@ const getEventsForToday = (req, res) => {
   return getEvents(res, squareName);
 };
 
+const getEventsFromGivenTime = (req, res) => {
+  const squareName = req.body.queryResult.parameters.date;
+
+  return getEvents(res, squareName, date);
+};
 const getClosestToilet = (req, res) => {
   const original = req.body.originalDetectIntentRequest;
   const { payload } = original;
@@ -505,8 +510,11 @@ const getEvents = (res, squareName, date) => {
   // Use connect method to connect to the server
   let query;
 
-  if (date) {
+  //todo check if works
+  if(squareName && date){
     query = sparqlDB.getEventsSelectedStageAndDate(squareName, new Date(date));
+  } else if (date) {
+    query = sparqlDB.getAllEventsFromNow(squareName, new Date(date));
   } else {
     query = sparqlDB.getAllEventsFromNow(squareName, new Date());
   }

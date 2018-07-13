@@ -10,9 +10,9 @@ const client = new SparqlClient(endpoint).register({
   startdate: 'http://schema.org/startDate'
 });
 
-const getAllEventsFromNow = (square) => {
+const getAllEventsFromNow = (square, date) => {
   // console.log('test events now');
-  const current = new Date();
+  const current = date ? date : new Date();
   const date = moment
     .parseZone(current)
     .add(2, 'hours')
