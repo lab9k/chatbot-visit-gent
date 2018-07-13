@@ -11,7 +11,7 @@ const client = new SparqlClient('https://stad.gent/sparql').register({
 });
 
 const getAllEventsFromNow = (square) => {
-  console.log('test events now');
+  //console.log('test events now');
   const date = moment.parseZone(new Date('2018-07-18'))
   .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
@@ -25,7 +25,7 @@ const getAllEventsFromNow = (square) => {
     endDate.add(1, 'day');    
   }
 
-  console.log('date:', date);
+  //console.log('date:', date);
   const squareFilter = square ? `FILTER contains(?location, "${square}").`: "" ;
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
@@ -48,7 +48,7 @@ const getAllEventsFromNow = (square) => {
   order by ?startDate
 `;
 
-  console.log("query events now", q);
+  //console.log("query events now", q);
 
   return client
     .query(q)
@@ -59,16 +59,16 @@ const getAllEventsFromNow = (square) => {
 };
 
 const getEventsSelectedStageAndDate = (square, date) => {
-  console.log('converted date issue', date);
+  //console.log('converted date issue', date);
   date = new Date(date);
   const convertedDate = moment.parseZone(date)
     .format('YYYY-MM-DD')
     .toString();
   const startDay = date.getDate();
   const endDay = date.getDate() + 1;
-  console.log('converted date', convertedDate);
+  //console.log('converted date', convertedDate);
 
-  console.log('day', startDay);
+  //console.log('day', startDay);
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
     ?sub a <http://schema.org/Event> .
