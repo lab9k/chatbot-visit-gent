@@ -12,7 +12,8 @@ const client = new SparqlClient('https://stad.gent/sparql').register({
 
 const getAllEventsFromNow = (square) => {
   //console.log('test events now');
-  const date = moment.parseZone(new Date('2018-07-18'))
+  const shortDate = new Date();
+  const date = moment.parseZone(shortDate)
   .format('YYYY-MM-DD[T]HH:mm[+02:00]')
     .toString();
   let endDate = moment.parseZone(date)
@@ -39,10 +40,12 @@ const getAllEventsFromNow = (square) => {
         ?sub schema:location/schema:name ?location
     }
     UNION {
-        ?sub schema:location/schema:containedInPlace/schema:name ?location
+        ?sub schema:location/schema:containedInPlace/schema:name ?location.   
+    		?sub schema:location/schema:additionalType ?additionalType .
     }
     FILTER (?startDate > "${date}"^^xsd:dateTime ).
     FILTER (?endDate < "${endDate}"^^xsd:dateTime ).
+    filter (?additionalType = "https://gentsefeesten.stad.gent/api/v1/ns/location-type/square"^^xsd:string).
     ${squareFilter}
   }
   order by ?startDate
@@ -81,7 +84,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
         ?sub schema:location/schema:name ?location
     }
     UNION {
-        ?sub schema:location/schema:containedInPlace/schema:name ?location
+        ?sub schema:location/schema:containedInPlace/schema:name ?location .     
     }
     FILTER (?startDate > "2018-07-${startDay}T09:00+02:00"^^xsd:dateTime ).
     FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
@@ -99,6 +102,8 @@ const getEventsSelectedStageAndDate = (square, date) => {
       console.log('sparQL error', JSON.stringify(error));
     });
 };
+
+
 
 module.exports = {
   getAllEventsFromNow,
