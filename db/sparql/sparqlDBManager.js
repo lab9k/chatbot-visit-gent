@@ -12,7 +12,7 @@ const client = new SparqlClient(endpoint).register({
 
 const getAllEventsFromNow = (square) => {
   // console.log('test events now');
-  const dummyDate = new Date('2018-07-13T17:00+02:00');
+  const dummyDate = new Date();
   const date = moment
     .parseZone(dummyDate)
     .format('YYYY-MM-DD[T]HH:mm[+02:00]')
