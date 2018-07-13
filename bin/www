@@ -1,36 +1,51 @@
 #!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
 const app = require('../app');
+// const debug = require('debug')('chatbot-gentse-feesten:server');
 const http = require('http');
+const eb = require('../util/eventBus');
 
 /**
  * Get port from environment and store in Express.
  */
+
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
 
 const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+eb.multi('data_ready', () => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}, 2);
 
 /**
  * Normalize a port into a number, string, or false.
  */
-function normalizePort(val) {
-  const portNumber = parseInt(val, 10);
 
-  if (Number.isNaN(portNumber)) {
+function normalizePort(val) {
+  const port1 = parseInt(val, 10);
+
+  if (isNaN(port1)) { // eslint-disable-line no-restricted-globals
     // named pipe
     return val;
   }
 
-  if (portNumber >= 0) {
+  if (port1 >= 0) {
     // port number
-    return portNumber;
+    return port1;
   }
 
   return false;
@@ -39,6 +54,7 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
+
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -48,7 +64,7 @@ function onError(error) {
     ? `Pipe ${port}`
     : `Port ${port}`;
 
-    // handle specific listen errors with friendly messages
+  // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
@@ -66,10 +82,11 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
+
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`
     : `port ${addr.port}`;
-  console.log(`Listening on ${bind}`);
+  console.debug(`Listening on ${bind}`);
 }
