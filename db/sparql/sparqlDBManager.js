@@ -54,7 +54,7 @@ const getAllEventsFromNow = square => {
   order by ?startDate
 `;
 
-  //console.log("query events now", q);
+  console.log("query events now", q);
 
   return client
     .query(q)
