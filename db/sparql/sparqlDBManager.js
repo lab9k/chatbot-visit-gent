@@ -73,7 +73,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
     .toString();
   const startDay = date.getDate();
   const endDay = date.getDate() + 1;
-  //console.log('converted date', convertedDate);
+  console.log('db date', date);
 
   //console.log('day', startDay);
 
