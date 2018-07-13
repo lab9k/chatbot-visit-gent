@@ -1,109 +1,75 @@
-const { SparqlClient } = require('sparql-client-2');
+const {
+  SparqlClient
+} = require('sparql-client-2');
 
 const moment = require('moment');
 
+
 const endpoint = 'https://stad.gent/sparql';
-const client = new SparqlClient(endpoint).register({
-  db: 'http://stad.gent/gentse-feesten-2018/',
-  dct: 'http://purl.org/dc/terms/',
-  schema: 'http://schema.org/',
-  startdate: 'http://schema.org/startDate'
-});
+/* const client =
+  new SparqlClient('https://stad.gent/sparql')
+    .register({
+      db: 'http://stad.gent/gentse-feesten-2018/',
+      event: "http://schema.org/Event",
+      name: "http://schema.org/name",
+      startdate: "http://schema.org/startDate",
+    });
+ */
 
-const getAllEventsFromNow = (square, dateInput) => {
-  // console.log('test events now');
-  const current = dateInput ? dateInput : new Date();
-  const date = moment
-    .parseZone(current)
-    .add(2, 'hours')
-    .format('YYYY-MM-DD[T]HH:mm[+02:00]')
-    .toString();
-  let endDate = moment
-    .parseZone(date)
-    .set('hours', 6)
-    .set('minutes', 0);
+const getAllEventsFromNow = () => {
+  console.log('test events now');
+  const date = moment(new Date('2018-07-18')).format('YYYY-MM-DD').toString();
+  const endDate = moment(date).add(1, 'day').format('YYYY-MM-DD').toString();
 
-  const shortDate = moment.parseZone(date).format("YYYY-MM-DD");
+  console.log('date', date);
 
-  // als het nog voor middernacht is, moeten events van na middernacht ook getoond worden
-  if (endDate.isBefore(date)) {
-    endDate.add(1, 'days');
-  }
 
-  endDate = endDate.format('YYYY-MM-DD[T]HH:mm[+02:00]').toString();
-
-  const squareFilter = square ? `FILTER contains(?location, "${square}").` : '';
-
-  const q = `SELECT ?name ?startDate ?endDate ?image ?location ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
-    ?sub a <http://schema.org/Event> .
-    ?sub <http://schema.org/name> ?name.
-    ?sub <http://schema.org/startDate> ?startDate.
-    ?sub <http://schema.org/endDate> ?endDate.
-    optional { ?sub schema:image/schema:url ?image. }
-    optional { ?sub <http://schema.org/description> ?description. }
-    {
-        ?sub schema:location/schema:name ?location
+  return new SparqlClient(endpoint).query(`
+    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+        ?sub a <http://schema.org/Event> .
+        ?sub <http://schema.org/name> ?eventName.
+        ?sub <http://schema.org/description> ?description.
+        ?sub <http://schema.org/startDate> ?startDate.
+        ?sub <http://schema.org/endDate> ?endDate.
+        ?sub <http://schema.org/location> ?location.
+        ?location <http://schema.org/address> ?address. 
+        ?address <http://schema.org/streetAddress> ?streetAddress.
+        ?location <http://schema.org/address> ?name. 
+        FILTER ((?startDate >= "${date}"^^xsd:dateTime && ?endDate < "${endDate}"^^xsd:dateTime))
     }
-    UNION {
-        ?sub schema:location/schema:containedInPlace/schema:name ?location.
-        ?sub schema:location/schema:additionalType ?additionalType .
-    }
-    FILTER (?startDate > "${date}"^^xsd:dateTime && contains(str(?startDate), str("${shortDate}")) || (?startDate <= "${date}"^^xsd:dateTime && ?endDate > "${date}"^^xsd:dateTime )).
-    filter (?additionalType = "https://gentsefeesten.stad.gent/api/v1/ns/location-type/square"^^xsd:string).
-    ${squareFilter}
-  }
-  order by ?startDate
-`;
-
-
-  return client
-    .query(q)
+    `)
     .execute()
+    .then((response) => {
+      console.log('response', response);
+      Promise.resolve(response);
+    })
     .catch((error) => {
-      console.log('sparql error', error);
+      console.log('error', error);
     });
 };
 
-const getEventsSelectedStageAndDate = (square, date) => {
-  // console.log('converted date issue', date);
-  // date = new Date(date);
-  const nDate = new Date(date);
-  const convertedDate = moment
-    .parseZone(nDate)
-    .format('YYYY-MM-DD')
-    .toString();
-  const startDay = nDate.getDate();
-  const endDay = nDate.getDate() + 1;
+const getEventsSelectedStageAndDate = (stageName, date) => {
+  const convertedDate = moment(date).format('YYYY-MM-DD').toString();
+  console.log('converted date', convertedDate);
 
-  const q = `SELECT ?name ?startDate ?endDate ?image ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
-    ?sub a <http://schema.org/Event> .
-    ?sub <http://schema.org/name> ?name.
-    ?sub <http://schema.org/startDate> ?startDate.
-    ?sub <http://schema.org/endDate> ?endDate.
-    optional { ?sub schema:image/schema:url ?image. }
-    optional { ?sub <http://schema.org/description> ?description. }
-    {
-        ?sub schema:location/schema:name ?location
+  return new SparqlClient(endpoint).query(`
+    SELECT ?eventName ?startDate ?endDate ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
+        ?sub a <http://schema.org/Event> .
+        ?sub <http://schema.org/name> ?eventName.
+        ?sub <http://schema.org/description> ?description.
+        ?sub <http://schema.org/startDate> ?startDate.
+        ?sub <http://schema.org/endDate> ?endDate.
+        ?sub <http://schema.org/location> ?location.
+        ?location <http://schema.org/address> ?address. 
+        ?address <http://schema.org/streetAddress> ?streetAddress.
+        ?location <http://schema.org/address> ?name. 
+        FILTER ((contains(lcase(STR(?streetAddress)), ${stageName}) || contains(lcase(STR(?name)), ${stageName})) && (?startDate >= ${convertedDate}^^xsd:dateTime && ?endDate < ${convertedDate}^^xsd:dateTime))
     }
-    UNION {
-        ?sub schema:location/schema:containedInPlace/schema:name ?location .
-    }
-    FILTER (?startDate > "${convertedDate}T09:00+02:00"^^xsd:dateTime ).
-    FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
-    FILTER contains(?location, "${square}").
-  }
-  order by ?startDate
-  `;
-
-  // console.log(q);
-
-  return client
-    .query(q)
+    `)
     .execute()
-    .catch((error) => {
-      console.log('sparQL error', JSON.stringify(error));
-    });
+    .then(response => Promise.resolve(response));
 };
+
 
 module.exports = {
   getAllEventsFromNow,
