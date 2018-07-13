@@ -1,31 +1,31 @@
 const CardButton = require('./card_button');
 
 class QuickReply {
-    /**
-     *Creates an instance of QuickReply.
-     * @param {String} title title of the quickreply (The bold text)
-     * @param {Array.<Button>} buttons Array of Button objects you want included in this quickreply.
-     * @memberof QuickReply
-     */
-    constructor(title, buttonsTitles) {
-      this.title = title;
-      this.buttons = [];
-      buttonsTitles.forEach(buttonTitle => this.buttons.push(new CardButton(buttonTitle, buttonTitle, "text")));
-    }
-  
-    getResponse() {
-      const quickReplyObj = {
-        text: this.title,
-        quick_replies: []
-      };
-      quickReplyObj.quick_replies.push(...this.buttons.map((el) => el.getResponseQuickReply()));
-      // use JSON.parse(JSON.stringify(object)) to remove all undefined properties.
-      return JSON.parse(JSON.stringify(quickReplyObj));
-    }
+  /**
+   *Creates an instance of QuickReply.
+   * @param {String} title title of the quickreply (The bold text)
+   * @param {Array.<Button>} buttons Array of Button objects you want included in this quickreply.
+   * @memberof QuickReply
+   */
+  constructor(title, buttonsTitles) {
+    this.title = title;
+    this.buttons = [];
+    buttonsTitles.forEach(buttonTitle =>
+      this.buttons.push(new CardButton(buttonTitle, buttonTitle, 'text')));
   }
-  
 
-  /*
+  getResponse() {
+    const quickReplyObj = {
+      text: this.title,
+      quick_replies: []
+    };
+    quickReplyObj.quick_replies.push(...this.buttons.map(el => el.getResponseQuickReply()));
+    // use JSON.parse(JSON.stringify(object)) to remove all undefined properties.
+    return JSON.parse(JSON.stringify(quickReplyObj));
+  }
+}
+
+/*
   "facebook": {
          "text": "Pick a color:",
          "quick_replies": [
@@ -44,4 +44,4 @@ class QuickReply {
 
 
   */
-  module.exports = QuickReply;
+module.exports = QuickReply;

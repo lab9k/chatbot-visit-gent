@@ -1,4 +1,3 @@
-
 class Card {
   /**
    *Creates an instance of Card.
@@ -9,12 +8,13 @@ class Card {
    * @param {Array.<Button>} buttons Array of Button objects you want included in this card.
    * @memberof Card
    */
-  constructor(imgUrl, title, options, buttons){//, defaultUrl) {
+  constructor(imgUrl, title, options, buttons) {
+    // , defaultUrl) {
     this.imgUrl = imgUrl;
     this.title = title;
     this.subtitle = options.subtitle;
     this.buttons = [...buttons];
-    //this.defaultUrl = defaultUrl;
+    // this.defaultUrl = defaultUrl;
   }
 
   getResponse() {
@@ -22,17 +22,17 @@ class Card {
       buttons: [],
       image_url: this.imgUrl,
       subtitle: this.subtitle,
-      title: this.title,      
+      title: this.title
     };
-    /*if(this.defaultUrl){
+    /* if(this.defaultUrl){
       cardObj["defaultAction"] = {
         type: "web_url",
           url: this.defaultUrl,
           messenger_extensions: "false",
         webview_height_ratio: "tall"
       }
-    }*/
-    cardObj.buttons.push(...this.buttons.map((el) => el.getResponse()));
+    } */
+    cardObj.buttons.push(...this.buttons.map(el => el.getResponse()));
     // use JSON.parse(JSON.stringify(object)) to remove all undefined properties.
     return JSON.parse(JSON.stringify(cardObj));
   }
