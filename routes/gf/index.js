@@ -389,7 +389,7 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
 const getEventsGentseFeestenNow = (req, res /* , next */ ) => {
   const query = sparqlDB.getAllEventsFromNow();
 
-  query.then(function(results){
+  query.then(function({results}){
 
     console.log("results", results);
 
