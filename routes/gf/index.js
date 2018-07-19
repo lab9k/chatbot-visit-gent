@@ -343,8 +343,9 @@ const getPleinCard = (req, res /* , next */) => {
   });
 };
 
-const getCurrentEventFor = (req, res /* , next */) =>
+const getCurrentEventFor = (req, res /* , next */) => {
   getEvents(res, req.body.queryResult.parameters.square);
+}
 
 const getDaysGentseFeesten = (req, res /* , next */) => {
   const today = new Date();
@@ -355,7 +356,7 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
   // If today is during Gentse feesten then return the remaining days else show all days
   let currentDate;
   const gentseFeestenDays = [];
-
+  
   if(startGf <= today && today <= endGf){
     currentDate =  today;
     gentseFeestenDays.push('Vandaag');

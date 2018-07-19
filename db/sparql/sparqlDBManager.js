@@ -4,10 +4,9 @@ const moment = require('moment');
 
 const endpoint = 'https://stad.gent/sparql';
 const client = new SparqlClient(endpoint).register({
-  db: 'http://stad.gent/gentse-feesten-2018/',
-  dct: 'http://purl.org/dc/terms/',
   schema: 'http://schema.org/',
-  startdate: 'http://schema.org/startDate'
+  rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+  rdfs: 'http://www.w3.org/2000/01/rdf-schema#'
 });
 
 const getAllEventsFromNow = (square, dateInput) => {
@@ -67,11 +66,16 @@ const getEventsSelectedStageAndDate = (square, date) => {
   // console.log('converted date issue', date);
   // date = new Date(date);
   const nDate = new Date(date);
-  const convertedDate = moment
+  const startDay = moment
     .parseZone(nDate)
     .format('YYYY-MM-DD')
     .toString();
-  const endDay = nDate.getDate() + 1;
+    nDate.setDate(nDate.getDate()+1);
+  const endDay = moment
+    .parseZone(nDate)
+    .format('YYYY-MM-DD')
+    .toString();
+  //const endDay = nDate.getDate() + 1;
 
   const q = `SELECT ?name ?startDate ?endDate ?image ?description from <http://stad.gent/gentse-feesten-2018/> WHERE {
     ?sub a <http://schema.org/Event> .
@@ -86,8 +90,8 @@ const getEventsSelectedStageAndDate = (square, date) => {
     UNION {
         ?sub schema:location/schema:containedInPlace/schema:name ?location .
     }
-    FILTER (?startDate > "${convertedDate}T09:00+02:00"^^xsd:dateTime ).
-    FILTER (?endDate < "2018-07-${endDay}T06:00+02:00"^^xsd:dateTime ).
+    FILTER (?startDate > "${startDay}T09:00+02:00"^^xsd:dateTime ).
+    FILTER (?endDate < "${endDay}T06:00+02:00"^^xsd:dateTime ).
     FILTER contains(?location, "${square}").
   }
   order by ?startDate
