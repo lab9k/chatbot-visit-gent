@@ -345,14 +345,21 @@ const getCurrentEventFor = (req, res /* , next */) =>
   getEvents(res, req.body.queryResult.parameters.square);
 
 const getDaysGentseFeesten = (req, res /* , next */) => {
-  const today = new Date().getDate;
+  const today = new Date();
   const startGf = new Date('2018-07-13');
   const endGf = new Date('2018-07-22');
 
-  const gentseFeestenDays = ['Vandaag'];
+  // If today is during Gentse feesten then return the remaining days else show all days
+  let currentDate;
+  const gentseFeestenDays = [];
 
-  // If today is during Gentsefeesten then return the remaining days else show all days
-  const currentDate = startGf < today && today <= endGf ? today : startGf;
+  if(startGf <= today && today <= endGf){
+    currentDate =  today;
+    gentseFeestenDays.push('Vandaag');
+    currentDate.setDate(currentDate.getDate()+1);
+  }else{
+    currentDate = startGf;
+  }
 
   while (currentDate <= endGf) {
     const date = `${new Date(currentDate).getDate().toString()} Juli`;

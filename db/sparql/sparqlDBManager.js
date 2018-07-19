@@ -87,7 +87,7 @@ const getEventsSelectedStageAndDate = (square, date) => {
         ?sub schema:location/schema:containedInPlace/schema:name ?location .
     }
     FILTER (?startDate > "${convertedDate}T09:00+02:00"^^xsd:dateTime ).
-    FILTER (?endDate < "2018-07-${endDay}T05:00+02:00"^^xsd:dateTime ).
+    FILTER (?endDate < "2018-07-${endDay}T06:00+02:00"^^xsd:dateTime ).
     FILTER contains(?location, "${square}").
   }
   order by ?startDate
