@@ -288,7 +288,9 @@ const getPleinCard = (req, res /* , next */) => {
       eventNow = events.find(event => event.location.value.toLowerCase().includes(squareName));
     }
 
-    const sub = eventNow
+    const now = new Date();
+
+    const sub = (eventNow && event.startDate.value <= now && now <= event.endDate.value)
       ? `Nu: ${eventNow.name.value}`
       : 'Momenteel is er niets, voor meer info druk op programma';
 
@@ -346,6 +348,7 @@ const getCurrentEventFor = (req, res /* , next */) =>
 
 const getDaysGentseFeesten = (req, res /* , next */) => {
   const today = new Date();
+  today.setHours(0);
   const startGf = new Date('2018-07-13');
   const endGf = new Date('2018-07-22');
 
