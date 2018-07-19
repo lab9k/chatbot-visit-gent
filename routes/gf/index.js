@@ -290,7 +290,7 @@ const getPleinCard = (req, res /* , next */) => {
 
     const now = new Date();
 
-    const sub = (eventNow && event.startDate.value <= now && now <= event.endDate.value)
+    const sub = (eventNow && eventNow.startDate.value <= now && now <= eventNow.endDate.value)
       ? `Nu: ${eventNow.name.value}`
       : 'Momenteel is er niets, voor meer info druk op programma';
 
