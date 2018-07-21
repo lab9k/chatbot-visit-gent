@@ -365,7 +365,7 @@ const getDaysGentseFeesten = (req, res /* , next */) => {
     currentDate = startGf;
   }
 
-  while (currentDate <= endGf) {
+  while (currentDate.getDate() <= endGf.getDate()) {
     const date = `${new Date(currentDate).getDate().toString()} Juli`;
     gentseFeestenDays.push(date);
     currentDate.setDate(currentDate.getDate() + 1);
