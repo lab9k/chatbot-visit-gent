@@ -9,3 +9,8 @@ docker-compose.debug.yml
 .idea
 
 test.json
+
+*.aux
+*.log
+*.out
+*.gz
