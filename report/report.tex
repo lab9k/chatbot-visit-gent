@@ -1,0 +1,94 @@
+\documentclass[11pt, letterpaper, oneside]{article}
+
+% This document is a simple latex template for reports. It follows the official Lab9K Styleguide, https://github.com/lab9k/Styleguide.
+
+% Packages
+
+\usepackage[dutch]{babel}
+
+\usepackage{fontspec}               % Use own font
+
+\usepackage{geometry}               % Interface to change page dimensions
+\usepackage{parskip}                % For better spacing and indenting of paragraphs
+
+\usepackage{graphicx}               % Images
+\usepackage[export]{adjustbox}				% Wrap text around figures
+\usepackage{fancyhdr}               % Headers and footers
+\usepackage{caption}                % Caption
+
+\usepackage{sectsty}                % Manipulate fonts of various sectional headings
+\usepackage{enumitem}               % Manipulate enumerate, mdwlist and paralist
+\usepackage{makecell}               % Improved tabular layout
+
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{anyfontsize}            % Specify font sizes
+\usepackage{xcolor}                 % Define own colours
+
+\usepackage{lipsum}                 % Lorem ipsum
+
+%\usepackage{minted}				% For code snippets
+
+% Configure content of title page
+
+\title{Rapport Chatbot Gentse Feesten 2018}
+\author{}
+\newcommand{\organisation}{Lab9K}
+\newcommand{\promotor}{Hans Fraiponts}
+\newcommand{\subject}{Rapport Chatbot Gentse Feesten 2018}
+\date{23 juli 2018}
+
+% Colour scheme (based on logo)
+
+\definecolor{priColour}{HTML}{026495}              % primary colour
+\definecolor{secColour}{HTML}{4a92b8}              % secondary colour
+
+% General configuration and package setup
+
+\geometry{}
+\graphicspath{ {figuren/} }    % Map containing all images
+\setlength{\headheight}{15pt}
+
+\makeatletter \hypersetup{
+	pdfauthor = {\@author},
+	pdftitle = {\@title},
+	pdfsubject = {\subject},
+	colorlinks=true,
+	linkcolor=priColour,
+	filecolor=priColour,  
+	urlcolor=priColour
+}
+
+% Fonts
+
+\setmainfont{Ubuntu}
+\setmonofont{Ubuntu}
+
+% General styling
+
+% Use the primary colour for all titles
+\sectionfont{\color{priColour}}
+\subsectionfont{\color{priColour}}
+\subsubsectionfont{\color{priColour}}
+
+% Header
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\rhead{\@date}
+
+\begin{document}
+	% TITEL %
+	\begin{figure}
+			\includegraphics[width=0.27\textwidth,keepaspectratio]{figuren/logo} % Logo of Lab9K
+	\end{figure}
+	\vspace*{0.35cm}
+	
+	\noindent
+	\fontsize{30pt}{28pt}\selectfont\textcolor{priColour}{\textbf{\@title}}\newline
+	
+	\fontsize{11pt}{15pt}\selectfont
+	
+	% BODY %
+	
+\end{document}
