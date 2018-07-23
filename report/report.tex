@@ -132,6 +132,23 @@
 	
 	Eén van de commentaren was "Krijg geen antwoord op mijn vraag waar Willy Bart  op treedt tijdens de Gentse feesten". Als mensen dus vragen naar een bepaalde groep of een bepaald evenement kon de chatbot hier niet op antwoorden. Dit zou opgelost kunnen worden door namen van zangers of namen van evenementen te herkennen in vragen (aan de hand van entities in Dialogflow).
 	
-	Een ander commentaar was "Ik wil praten tegen een echt persoon". Vaak kon de chatbot niet antwoorden op een bepaalde vraag. De chatbot geeft dan een \textit{default fallback}. Sommige mensen beëindigden dan gewoon de chat. Andere mensen probeerden dan hun vraag anders te formuleren. Soms kon de bot dan wel succesvol antwoorden, maar vaak lukte dit niet. Op zulke momenten zou het misschien handig zijn om een verantwoordelijke voor de Gentse Feesten manueel te laten antwoorden. Dit zou kunnen gebeuren door rechtstreeks via Facebook een bericht te sturen vanuit de pagina van de Gentse Feesten. Een andere mogelijkheid is om de chatbot te laten vragen voor het e-mailadres van de gebruiker. Er kan dan via de backend een mail verstuurd worden naar een verantwoordelijke en deze kan dan via mail de vraag beantwoorden.
+	Een ander commentaar was "Ik wil praten tegen een echt persoon". Vaak kon de chatbot niet antwoorden op een bepaalde vraag. De chatbot geeft dan een \textit{default fallback}. Sommige mensen beëindigden dan de conversatie. Andere mensen probeerden dan hun vraag anders te formuleren. Soms kon de bot dan wel succesvol antwoorden, maar vaak lukte dit niet. Op zulke momenten zou het misschien handig zijn om een verantwoordelijke voor de Gentse Feesten manueel te laten antwoorden. Dit zou kunnen gebeuren door rechtstreeks via Facebook een bericht te sturen vanuit de pagina van de Gentse Feesten. Een andere mogelijkheid is om de chatbot te laten vragen voor het e-mailadres van de gebruiker. Er kan dan via de backend een mail verstuurd worden naar een verantwoordelijke en deze kan dan via mail de vraag beantwoorden.
+	
+	\clearpage
+	
+	\section{Verdere Observaties}
+	
+	Facebook laat toe om alle conversaties met de bot rechtstreeks te bekijken. We hebben de meeste conversaties overlopen en hebben hierbij enkele dingen vastgesteld.
+	
+	Heel veel mensen sturen een bericht in verband met verloren voorwerpen naar de chatbot. De chatbot kon hier meestal correct op antwoorden met een doorverwijzing naar de politie. Dit zou misschien verbeterd kunnen worden door een specifieker antwoord te geven. De chatbot zou bijvoorbeeld rechtstreeks kunnen doorverwijzen naar een verantwoordelijke voor een bepaald feestplein.
+	
+	Er waren heel wat vragen in verband met foto's. Enerzijds waren er een aantal fotografen die vroegen of ze ergens hun foto's konden publiceren. Anderzijds vroegen sommige mensen waar ze foto's konden vinden van een bepaald plein op een bepaalde dag. Iets anders wat we opmerkten is dat veel mensen spontaan foto's sturen naar de chatbot.
+	
+	De chatbot kreeg vaak zeer lange berichten binnen. Een aantal mensen stuurden een soort van formele e-mail, een bericht met begroeting en vaak ook in verschillende talen. \\ Hier reageerde de chatbot nooit op, zelf niet met een \textit{default fallback}. Het was precies alsof de chatbot deze lange berichten gewoon negeerde. Na wat verder te testen blijkt dat Dialogflow geen berichten langer dan 256 karakters verwerkt. Er wordt geen enkele foutboodschap opgegooid, berichten langer dan 256 karakters worden gewoonweg genegeerd door Dialogflow.
+	
+	Er waren een aantal mensen die aan de chatbot vroegen om een bepaalde persoon te vinden die ze waren tegengekomen op de Gentse Feesten.
+	
+	Heel wat muziekgroepen stuurden de vraag naar de chatbot om op te treden op de Gentse Feesten. De chatbot kon hier een op antwoorden met een doorverwijzing naar de website van de Gentse Feesten waar er men meer info hierover kon vinden. Een verbetering zou misschien zijn om hierbij een verantwoordelijke te laten antwoorden die hun direct beter zou kunnen helpen. Dit zou kunnen op de manieren die hierboven beschreven werden.
+	
 
 \end{document}
