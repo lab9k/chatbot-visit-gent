@@ -7,5 +7,4 @@ class Text {
     return this.text;
   }
 }
-
 module.exports = Text;

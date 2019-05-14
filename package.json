@@ -15,6 +15,7 @@
     "documentdb": "^1.14.4",
     "dotenv": "^5.0.1",
     "express": "~4.16.0",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "mongoose": "^5.1.7",
     "morgan": "~1.9.0",

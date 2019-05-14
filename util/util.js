@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { shuffle } = require('lodash');
 
 const findLang = (url) => {
   const pattern = /visit.gent.be\/([a-z]{2})\//g;
@@ -52,13 +53,7 @@ const isSquare = (element) => {
   return ret;
 };
 
-// Fisher-Yates shuffle, no side effects
-const shuffleArray = (a) => { 
-  let i = a.length, t, j;
-  a = a.slice();
-  while (--i) t = a[i], a[i] = a[j = ~~(Math.random() * (i+1))], a[j] = t;
-  return a;
-}
+const shuffleArray = a => shuffle(a);
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive)

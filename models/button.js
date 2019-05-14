@@ -16,7 +16,7 @@ class Button {
     return {
       url: this.postback,
       title: this.text,
-      type: this.type,
+      type: this.type
     };
   }
 }
