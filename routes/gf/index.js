@@ -42,6 +42,7 @@ const images = [
 
 // Intent actions
 router.all('/', mw.typeMiddleware, (req, res, next) => {
+  console.log(req.type);
   let fn;
   switch (req.type) {
     case 'get_plein_location':
